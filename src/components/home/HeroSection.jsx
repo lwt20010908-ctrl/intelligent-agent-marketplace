@@ -66,25 +66,6 @@ export default function HeroSection() {
                                 观看演示
                             </button>
                         </div>
-
-                        {/* Stats */}
-                        <div className="mt-16 grid grid-cols-3 gap-8">
-                            {[
-                                { value: '¥2800万', label: '华为月增收' },
-                                { value: '+45%', label: '淘宝GMV增长' },
-                                { value: '+220%', label: '小米销量增长' },
-                            ].map((stat, i) => (
-                                <motion.div
-                                    key={i}
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ delay: 0.5 + i * 0.1 }}
-                                >
-                                    <div className="text-3xl font-bold text-white mb-1">{stat.value}</div>
-                                    <div className="text-sm text-gray-500">{stat.label}</div>
-                                </motion.div>
-                            ))}
-                        </div>
                     </motion.div>
 
                     {/* Right Visual */}
