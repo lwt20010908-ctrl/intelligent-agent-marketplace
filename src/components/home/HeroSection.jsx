@@ -1,10 +1,17 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../../utils';
 import { motion } from 'framer-motion';
 import { ArrowRight, Play, Sparkles, Bot, TrendingUp, Zap, Sparkle } from 'lucide-react';
+import { base44 } from '@/api/base44Client';
 
 export default function HeroSection() {
+    const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        base44.auth.me().then(setUser).catch(() => {});
+    }, []);
+
     return (
         <section className="relative min-h-screen bg-[#0A1628] overflow-hidden flex items-center">
             {/* Background Effects */}
@@ -57,18 +64,34 @@ export default function HeroSection() {
                         </div>
 
                         <div className="flex flex-wrap gap-4">
+                            {user ? (
+                                <Link
+                                    to={createPageUrl('Dashboard')}
+                                    className="group relative inline-flex items-center gap-3 px-10 py-5 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white text-lg font-semibold rounded-2xl overflow-hidden hover:shadow-2xl hover:shadow-indigo-500/40 transition-all duration-300 hover:scale-105"
+                                >
+                                    <span className="relative z-10">进入控制台</span>
+                                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform relative z-10" />
+                                    <div className="absolute inset-0 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                </Link>
+                            ) : (
+                                <>
+                                    <Link
+                                        to={createPageUrl('Dashboard')}
+                                        className="group relative inline-flex items-center gap-3 px-10 py-5 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white text-lg font-semibold rounded-2xl overflow-hidden hover:shadow-2xl hover:shadow-indigo-500/40 transition-all duration-300 hover:scale-105"
+                                    >
+                                        <span className="relative z-10">登录 / 注册</span>
+                                        <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform relative z-10" />
+                                        <div className="absolute inset-0 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                    </Link>
+                                </>
+                            )}
                             <Link
                                 to={createPageUrl('Marketplace')}
-                                className="group relative inline-flex items-center gap-3 px-10 py-5 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white text-lg font-semibold rounded-2xl overflow-hidden hover:shadow-2xl hover:shadow-indigo-500/40 transition-all duration-300 hover:scale-105"
+                                className="inline-flex items-center gap-3 px-10 py-5 bg-white/10 backdrop-blur-sm border border-white/20 text-white text-lg font-semibold rounded-2xl hover:bg-white/15 transition-all duration-300"
                             >
-                                <span className="relative z-10">立即体验</span>
-                                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform relative z-10" />
-                                <div className="absolute inset-0 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                <Sparkles className="w-5 h-5" />
+                                浏览市场
                             </Link>
-                            <button className="inline-flex items-center gap-3 px-10 py-5 bg-white/10 backdrop-blur-sm border border-white/20 text-white text-lg font-semibold rounded-2xl hover:bg-white/15 transition-all duration-300">
-                                <Play className="w-5 h-5" />
-                                观看演示
-                            </button>
                         </div>
                     </motion.div>
 
