@@ -48,10 +48,7 @@ export default function HeroSection() {
                             <span className="gradient-text">让数字员工交付确定的商业增长</span>
                         </h1>
 
-                        <p className="text-xl text-gray-400 leading-relaxed mb-10 max-w-lg">
-                            服务华为、淘宝、小米等头部平台，通过AI智能体实现可量化的收入增长。
-                            真实案例：华为Push月增收¥2800万，淘宝大促GMV提升45%
-                        </p>
+
 
                         <div className="flex flex-wrap gap-4">
                             <Link
@@ -67,24 +64,7 @@ export default function HeroSection() {
                             </button>
                         </div>
 
-                        {/* Stats */}
-                        <div className="mt-16 grid grid-cols-3 gap-8">
-                            {[
-                                { value: '¥2800万', label: '华为月增收' },
-                                { value: '+45%', label: '淘宝GMV增长' },
-                                { value: '+220%', label: '小米销量增长' },
-                            ].map((stat, i) => (
-                                <motion.div
-                                    key={i}
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ delay: 0.5 + i * 0.1 }}
-                                >
-                                    <div className="text-3xl font-bold text-white mb-1">{stat.value}</div>
-                                    <div className="text-sm text-gray-500">{stat.label}</div>
-                                </motion.div>
-                            ))}
-                        </div>
+
                     </motion.div>
 
                     {/* Right Visual */}
