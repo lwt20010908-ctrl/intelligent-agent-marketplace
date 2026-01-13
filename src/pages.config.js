@@ -1,20 +1,20 @@
+import About from './pages/About';
+import AgentDetail from './pages/AgentDetail';
+import Dashboard from './pages/Dashboard';
+import Developer from './pages/Developer';
 import Home from './pages/Home';
 import Marketplace from './pages/Marketplace';
-import AgentDetail from './pages/AgentDetail';
-import Developer from './pages/Developer';
-import About from './pages/About';
-import Dashboard from './pages/Dashboard';
 import MerchantWorkspace from './pages/MerchantWorkspace';
 import __Layout from './Layout.jsx';
 
 
 export const PAGES = {
+    "About": About,
+    "AgentDetail": AgentDetail,
+    "Dashboard": Dashboard,
+    "Developer": Developer,
     "Home": Home,
     "Marketplace": Marketplace,
-    "AgentDetail": AgentDetail,
-    "Developer": Developer,
-    "About": About,
-    "Dashboard": Dashboard,
     "MerchantWorkspace": MerchantWorkspace,
 }
 
