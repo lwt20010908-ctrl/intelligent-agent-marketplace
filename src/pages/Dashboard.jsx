@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
-import { Bell, Search, User, Calendar } from 'lucide-react';
+import { Bell, Search, User, Calendar, ArrowLeft, Lock } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { createPageUrl } from '../utils';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -14,6 +16,8 @@ export default function Dashboard() {
     const [collapsed, setCollapsed] = useState(false);
     const [currentTab, setCurrentTab] = useState('overview');
     const [user, setUser] = useState(null);
+    const [kaPassword, setKaPassword] = useState('');
+    const [isKaAuthenticated, setIsKaAuthenticated] = useState(false);
 
     useEffect(() => {
         base44.auth.me().then(setUser).catch(() => {});
@@ -36,6 +40,69 @@ export default function Dashboard() {
 
     const isKA = clientInfo?.type === 'ka';
 
+    // KA authentication check
+    if (isKA && !isKaAuthenticated) {
+        return (
+            <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center p-6">
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="bg-white rounded-3xl shadow-2xl p-8 md:p-12 max-w-md w-full"
+                >
+                    <div className="flex justify-center mb-6">
+                        <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
+                            <Lock className="w-8 h-8 text-white" />
+                        </div>
+                    </div>
+                    <h2 className="text-2xl font-bold text-gray-900 text-center mb-2">
+                        KA客户验证
+                    </h2>
+                    <p className="text-gray-500 text-center mb-8">
+                        请输入访问密码以继续
+                    </p>
+                    <div className="space-y-4">
+                        <Input
+                            type="password"
+                            placeholder="请输入密码"
+                            value={kaPassword}
+                            onChange={(e) => setKaPassword(e.target.value)}
+                            className="h-12"
+                            onKeyPress={(e) => {
+                                if (e.key === 'Enter' && kaPassword === 'KAdemo') {
+                                    setIsKaAuthenticated(true);
+                                }
+                            }}
+                        />
+                        <Button
+                            onClick={() => {
+                                if (kaPassword === 'KAdemo') {
+                                    setIsKaAuthenticated(true);
+                                } else {
+                                    alert('密码错误，请重试 (提示: KAdemo)');
+                                }
+                            }}
+                            className="w-full h-12 bg-gradient-to-r from-indigo-500 to-purple-600"
+                        >
+                            验证并进入
+                        </Button>
+                        <p className="text-xs text-gray-400 text-center mt-4">
+                            Demo密码: KAdemo
+                        </p>
+                    </div>
+                    <div className="mt-8 pt-6 border-t border-gray-100">
+                        <Link
+                            to={createPageUrl('Home')}
+                            className="flex items-center justify-center gap-2 text-gray-500 hover:text-gray-900 transition-colors"
+                        >
+                            <ArrowLeft className="w-4 h-4" />
+                            返回首页
+                        </Link>
+                    </div>
+                </motion.div>
+            </div>
+        );
+    }
+
     return (
         <div className="min-h-screen bg-gray-50 flex">
             {/* Sidebar */}
@@ -52,16 +119,24 @@ export default function Dashboard() {
                 {/* Top Bar */}
                 <header className="bg-white border-b border-gray-100 p-4 lg:p-6">
                     <div className="flex items-center justify-between">
-                        <div>
-                            <h1 className="text-2xl font-bold text-gray-900">
-                                {isKA ? '运营看板' : '控制台'}
-                            </h1>
-                            <p className="text-gray-500 text-sm mt-1">
-                                {isKA 
-                                    ? '查看所有工作台的运营数据和AI工作成果' 
-                                    : '管理您的智能体和工作台'
-                                }
-                            </p>
+                        <div className="flex items-center gap-4">
+                            <Link
+                                to={createPageUrl('Home')}
+                                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                            >
+                                <ArrowLeft className="w-5 h-5 text-gray-600" />
+                            </Link>
+                            <div>
+                                <h1 className="text-2xl font-bold text-gray-900">
+                                    {isKA ? '运营看板' : '控制台'}
+                                </h1>
+                                <p className="text-gray-500 text-sm mt-1">
+                                    {isKA 
+                                        ? '查看所有工作台的运营数据和AI工作成果' 
+                                        : '管理您的智能体和工作台'
+                                    }
+                                </p>
+                            </div>
                         </div>
                         <div className="flex items-center gap-4">
                             <div className="hidden sm:block relative">
