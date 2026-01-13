@@ -6,6 +6,7 @@ import Home from './pages/Home';
 import Marketplace from './pages/Marketplace';
 import MerchantWorkspace from './pages/MerchantWorkspace';
 import WorkspaceAgents from './pages/WorkspaceAgents';
+import AgentManagement from './pages/AgentManagement';
 import __Layout from './Layout.jsx';
 
 
@@ -18,6 +19,7 @@ export const PAGES = {
     "Marketplace": Marketplace,
     "MerchantWorkspace": MerchantWorkspace,
     "WorkspaceAgents": WorkspaceAgents,
+    "AgentManagement": AgentManagement,
 }
 
 export const pagesConfig = {
