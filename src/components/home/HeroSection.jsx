@@ -42,15 +42,12 @@ export default function HeroSection() {
                             <span className="text-sm text-gray-300">新一代企业智能化解决方案</span>
                         </motion.div>
 
-                        <h1 className="text-5xl lg:text-7xl font-bold text-white leading-tight mb-8">
+                        <h1 className="text-5xl lg:text-7xl font-bold text-white leading-tight mb-4">
                             构建智能体经济新生态
-                            <br />
-                            <span className="gradient-text">让数字员工交付确定的商业增长</span>
                         </h1>
-
-                        <p className="text-xl text-gray-400 leading-relaxed mb-10 max-w-lg">
-                            服务华为、淘宝、小米等头部平台，通过AI智能体实现可量化的收入增长。
-                            真实案例：华为Push月增收¥2800万，淘宝大促GMV提升45%
+                        
+                        <p className="text-2xl text-gray-400 leading-relaxed mb-10 max-w-lg">
+                            让数字员工交付确定的商业增长
                         </p>
 
                         <div className="flex flex-wrap gap-4">
