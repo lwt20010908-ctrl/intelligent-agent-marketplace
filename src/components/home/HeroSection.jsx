@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../../utils';
 import { motion } from 'framer-motion';
-import { ArrowRight, Play, Sparkles } from 'lucide-react';
+import { ArrowRight, Play, Sparkles, Bot, TrendingUp, Zap, Sparkle } from 'lucide-react';
 
 export default function HeroSection() {
     return (
@@ -91,20 +91,22 @@ export default function HeroSection() {
 
                             {/* Floating Cards */}
                             {[
-                                { icon: '🤖', title: '智能客服', pos: 'top-0 left-0' },
-                                { icon: '📊', title: '数据分析', pos: 'top-0 right-0' },
-                                { icon: '💬', title: '销售助手', pos: 'bottom-0 left-0' },
-                                { icon: '📝', title: '内容创作', pos: 'bottom-0 right-0' },
+                                { Icon: Bot, title: '智能客服', pos: 'top-0 left-0', gradient: 'from-blue-400 to-cyan-400' },
+                                { Icon: TrendingUp, title: '数据分析', pos: 'top-0 right-0', gradient: 'from-indigo-400 to-purple-400' },
+                                { Icon: Zap, title: '销售助手', pos: 'bottom-0 left-0', gradient: 'from-purple-400 to-pink-400' },
+                                { Icon: Sparkle, title: '内容创作', pos: 'bottom-0 right-0', gradient: 'from-pink-400 to-rose-400' },
                             ].map((card, i) => (
                                 <motion.div
                                     key={i}
                                     initial={{ opacity: 0, scale: 0 }}
                                     animate={{ opacity: 1, scale: 1 }}
                                     transition={{ delay: 0.8 + i * 0.1 }}
-                                    className={`absolute ${card.pos} p-4 bg-white/10 backdrop-blur-xl rounded-2xl border border-white/10`}
+                                    className={`absolute ${card.pos} p-5 bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 hover:bg-white/10 transition-all duration-300 group cursor-pointer`}
                                 >
-                                    <div className="text-2xl mb-1">{card.icon}</div>
-                                    <div className="text-sm text-white font-medium">{card.title}</div>
+                                    <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${card.gradient} flex items-center justify-center mb-3 group-hover:scale-110 transition-transform`}>
+                                        <card.Icon className="w-6 h-6 text-white" />
+                                    </div>
+                                    <div className="text-sm text-white/90 font-medium">{card.title}</div>
                                 </motion.div>
                             ))}
                         </div>
