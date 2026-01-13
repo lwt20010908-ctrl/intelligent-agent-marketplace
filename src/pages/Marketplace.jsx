@@ -22,11 +22,74 @@ export default function Marketplace() {
         maxPrice: 10000
     });
     const [viewMode, setViewMode] = useState('grid');
+    const [showHireModal, setShowHireModal] = useState(false);
+    const [selectedAgent, setSelectedAgent] = useState(null);
+    const [hireForm, setHireForm] = useState({
+        merchant_name: '',
+        merchant_contact: '',
+        plan_type: 'monthly',
+        workspace_id: ''
+    });
+    const queryClient = useQueryClient();
 
     const { data: agents = [], isLoading } = useQuery({
         queryKey: ['agents'],
         queryFn: () => base44.entities.Agent.list()
     });
+
+    const { data: currentUser } = useQuery({
+        queryKey: ['currentUser'],
+        queryFn: () => base44.auth.me().catch(() => null)
+    });
+
+    const { data: workspaces = [] } = useQuery({
+        queryKey: ['userWorkspaces'],
+        queryFn: () => base44.entities.Workspace.list(),
+        enabled: !!currentUser
+    });
+
+    React.useEffect(() => {
+        if (currentUser && !hireForm.merchant_name) {
+            setHireForm(prev => ({
+                ...prev,
+                merchant_name: currentUser.company_name || currentUser.full_name || '',
+                merchant_contact: currentUser.email || ''
+            }));
+        }
+    }, [currentUser]);
+
+    const hireMutation = useMutation({
+        mutationFn: (data) => base44.entities.Hire.create(data),
+        onSuccess: () => {
+            toast.success('雇佣申请已提交，正在添加到您的工作台...');
+            setShowHireModal(false);
+            setSelectedAgent(null);
+            setHireForm({ merchant_name: '', merchant_contact: '', plan_type: 'monthly', workspace_id: '' });
+            queryClient.invalidateQueries({ queryKey: ['hires'] });
+        }
+    });
+
+    const handleHire = () => {
+        if (!hireForm.merchant_name || !hireForm.merchant_contact) {
+            toast.error('请填写完整信息');
+            return;
+        }
+        if (!hireForm.workspace_id) {
+            toast.error('请选择部署的工作台');
+            return;
+        }
+        hireMutation.mutate({
+            agent_id: selectedAgent.id,
+            agent_name: selectedAgent.name,
+            merchant_name: hireForm.merchant_name,
+            merchant_contact: hireForm.merchant_contact,
+            plan_type: hireForm.plan_type,
+            amount: hireForm.plan_type === 'monthly' ? selectedAgent.price_monthly : selectedAgent.price_yearly,
+            status: 'pending',
+            workspace_id: hireForm.workspace_id,
+            start_date: new Date().toISOString().split('T')[0]
+        });
+    };
 
     // Filter agents
     const filteredAgents = agents.filter(agent => {
