@@ -223,9 +223,99 @@ export default function Marketplace() {
                                     </motion.div>
                                 )}
                             </>
-                        )}
-                </div>
-            </div>
-        </div>
-    );
-}
+                                )}
+                            </div>
+
+                            {/* Hire Modal */}
+                            <Dialog open={showHireModal} onOpenChange={setShowHireModal}>
+                            <DialogContent className="sm:max-w-md">
+                                <DialogHeader>
+                                    <DialogTitle>雇佣 {selectedAgent?.name}</DialogTitle>
+                                </DialogHeader>
+                                <div className="space-y-4 py-4">
+                                    <div className="space-y-2">
+                                        <Label>商家名称</Label>
+                                        <input
+                                            type="text"
+                                            placeholder="请输入您的公司/店铺名称"
+                                            value={hireForm.merchant_name}
+                                            onChange={(e) => setHireForm({ ...hireForm, merchant_name: e.target.value })}
+                                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500"
+                                        />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <Label>联系方式</Label>
+                                        <input
+                                            type="text"
+                                            placeholder="请输入手机号或邮箱"
+                                            value={hireForm.merchant_contact}
+                                            onChange={(e) => setHireForm({ ...hireForm, merchant_contact: e.target.value })}
+                                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500"
+                                        />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <Label>选择套餐</Label>
+                                        <RadioGroup 
+                                            value={hireForm.plan_type}
+                                            onValueChange={(value) => setHireForm({ ...hireForm, plan_type: value })}
+                                        >
+                                            <div className="flex items-center space-x-2 p-3 border rounded-lg">
+                                                <RadioGroupItem value="monthly" id="monthly" />
+                                                <Label htmlFor="monthly" className="flex-grow cursor-pointer">
+                                                    月度套餐 - ¥{selectedAgent?.price_monthly}/月
+                                                </Label>
+                                            </div>
+                                            {selectedAgent?.price_yearly && (
+                                                <div className="flex items-center space-x-2 p-3 border rounded-lg border-indigo-200 bg-indigo-50/50">
+                                                    <RadioGroupItem value="yearly" id="yearly" />
+                                                    <Label htmlFor="yearly" className="flex-grow cursor-pointer">
+                                                        年度套餐 - ¥{selectedAgent?.price_yearly}/年
+                                                    </Label>
+                                                </div>
+                                            )}
+                                        </RadioGroup>
+                                    </div>
+                                    <div className="space-y-2">
+                                        <Label>部署到工作台</Label>
+                                        {workspaces.length > 0 ? (
+                                            <RadioGroup 
+                                                value={hireForm.workspace_id}
+                                                onValueChange={(value) => setHireForm({ ...hireForm, workspace_id: value })}
+                                            >
+                                                {workspaces.map((workspace) => (
+                                                    <div key={workspace.id} className="flex items-center space-x-2 p-3 border rounded-lg hover:border-indigo-300 transition-colors">
+                                                        <RadioGroupItem value={workspace.id} id={workspace.id} />
+                                                        <Label htmlFor={workspace.id} className="flex-grow cursor-pointer">
+                                                            <div>
+                                                                <div className="font-medium text-gray-900">{workspace.name}</div>
+                                                                <div className="text-xs text-gray-500">{workspace.client_name}</div>
+                                                            </div>
+                                                        </Label>
+                                                    </div>
+                                                ))}
+                                            </RadioGroup>
+                                        ) : (
+                                            <div className="p-3 border border-dashed border-gray-300 rounded-lg text-center">
+                                                <p className="text-sm text-gray-500">您还没有工作台，请先创建</p>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                                <DialogFooter>
+                                    <Button variant="outline" onClick={() => setShowHireModal(false)}>
+                                        取消
+                                    </Button>
+                                    <Button 
+                                        onClick={handleHire}
+                                        disabled={hireMutation.isPending}
+                                        className="bg-gradient-to-r from-indigo-500 to-purple-600"
+                                    >
+                                        {hireMutation.isPending ? '提交中...' : '确认雇佣'}
+                                    </Button>
+                                </DialogFooter>
+                            </DialogContent>
+                            </Dialog>
+                            </div>
+                            </div>
+                            );
+                            }
