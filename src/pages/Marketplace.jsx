@@ -192,7 +192,14 @@ export default function Marketplace() {
                                         }>
                                             <AnimatePresence>
                                                 {filteredAgents.map((agent, i) => (
-                                                    <AgentCard key={agent.id} agent={agent} index={i} />
+                                                    <div key={agent.id} onClick={() => {
+                                                        if (agent.type === 'tradeable') {
+                                                            setSelectedAgent(agent);
+                                                            setShowHireModal(true);
+                                                        }
+                                                    }}>
+                                                        <AgentCard agent={agent} index={i} />
+                                                    </div>
                                                 ))}
                                             </AnimatePresence>
                                         </div>
