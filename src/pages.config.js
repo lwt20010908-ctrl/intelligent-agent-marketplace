@@ -3,6 +3,8 @@ import Marketplace from './pages/Marketplace';
 import AgentDetail from './pages/AgentDetail';
 import Developer from './pages/Developer';
 import About from './pages/About';
+import Dashboard from './pages/Dashboard';
+import MerchantWorkspace from './pages/MerchantWorkspace';
 import __Layout from './Layout.jsx';
 
 
@@ -12,6 +14,8 @@ export const PAGES = {
     "AgentDetail": AgentDetail,
     "Developer": Developer,
     "About": About,
+    "Dashboard": Dashboard,
+    "MerchantWorkspace": MerchantWorkspace,
 }
 
 export const pagesConfig = {
