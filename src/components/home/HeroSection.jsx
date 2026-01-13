@@ -10,16 +10,17 @@ export default function HeroSection() {
             {/* Background Effects */}
             <div className="absolute inset-0">
                 {/* Gradient Orbs */}
-                <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-indigo-500/20 rounded-full blur-3xl" />
-                <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-purple-500/20 rounded-full blur-3xl" />
+                <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-indigo-500/30 rounded-full blur-3xl animate-pulse" />
+                <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-purple-500/30 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-pink-500/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
                 
                 {/* Grid Pattern */}
                 <div 
-                    className="absolute inset-0 opacity-[0.03]"
+                    className="absolute inset-0 opacity-[0.05]"
                     style={{
-                        backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
-                                         linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
-                        backgroundSize: '60px 60px'
+                        backgroundImage: `linear-gradient(rgba(99,102,241,0.3) 1px, transparent 1px),
+                                         linear-gradient(90deg, rgba(99,102,241,0.3) 1px, transparent 1px)`,
+                        backgroundSize: '80px 80px'
                     }}
                 />
             </div>
@@ -42,23 +43,29 @@ export default function HeroSection() {
                             <span className="text-sm text-gray-300">新一代企业智能化解决方案</span>
                         </motion.div>
 
-                        <h1 className="text-5xl lg:text-7xl font-bold text-white leading-tight mb-4">
-                            构建智能体经济新生态
-                        </h1>
-                        
-                        <p className="text-2xl text-gray-400 leading-relaxed mb-10 max-w-lg">
-                            让数字员工交付确定的商业增长
-                        </p>
+                        <div className="space-y-6 mb-12">
+                            <h1 className="text-6xl lg:text-8xl font-bold leading-tight">
+                                <span className="block text-white mb-3">构建智能体</span>
+                                <span className="block bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+                                    经济新生态
+                                </span>
+                            </h1>
+                            
+                            <p className="text-xl lg:text-2xl text-indigo-200/80 leading-relaxed max-w-2xl">
+                                让数字员工交付确定的商业增长
+                            </p>
+                        </div>
 
                         <div className="flex flex-wrap gap-4">
                             <Link
                                 to={createPageUrl('Marketplace')}
-                                className="group inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-medium rounded-full hover:shadow-xl hover:shadow-indigo-500/30 transition-all duration-300"
+                                className="group relative inline-flex items-center gap-3 px-10 py-5 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white text-lg font-semibold rounded-2xl overflow-hidden hover:shadow-2xl hover:shadow-indigo-500/40 transition-all duration-300 hover:scale-105"
                             >
-                                立即体验
-                                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                                <span className="relative z-10">立即体验</span>
+                                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform relative z-10" />
+                                <div className="absolute inset-0 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 opacity-0 group-hover:opacity-100 transition-opacity" />
                             </Link>
-                            <button className="inline-flex items-center gap-2 px-8 py-4 border border-white/20 text-white font-medium rounded-full hover:bg-white/5 transition-all duration-300">
+                            <button className="inline-flex items-center gap-3 px-10 py-5 bg-white/10 backdrop-blur-sm border border-white/20 text-white text-lg font-semibold rounded-2xl hover:bg-white/15 transition-all duration-300">
                                 <Play className="w-5 h-5" />
                                 观看演示
                             </button>
