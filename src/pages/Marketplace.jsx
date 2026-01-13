@@ -56,16 +56,16 @@ export default function Marketplace() {
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="mb-12"
+                    className="mb-10"
                 >
-                    <div className="flex items-center gap-2 mb-4">
+                    <div className="flex items-center gap-2 mb-6">
                         <Sparkles className="w-5 h-5 text-indigo-500" />
-                        <span className="text-indigo-500 font-medium">AI人才市场</span>
+                        <span className="text-indigo-600 font-semibold text-sm tracking-wide">AI人才市场</span>
                     </div>
-                    <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
-                        雇佣经过头部企业验证的AI员工
+                    <h1 className="text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+                        发现您的AI专业员工
                     </h1>
-                    <p className="text-xl text-gray-500 max-w-2xl">
+                    <p className="text-lg text-gray-600 max-w-3xl leading-relaxed">
                         华为、淘宝、小米都在用的智能体，现在商家也可以直接雇佣。真实案例，可量化效果
                     </p>
                 </motion.div>
