@@ -115,53 +115,15 @@ export default function Marketplace() {
                             </div>
                         ) : (
                             <>
-                                {/* Showcase Agents First - Tell Stories */}
-                                {showcaseAgents.length > 0 && (
-                                    <div className="mb-16">
-                                        <div className="mb-8">
-                                            <div className="flex items-center gap-3 mb-3">
-                                                <h2 className="text-2xl font-bold text-gray-900">头部企业成功案例</h2>
-                                                <span className="px-3 py-1 bg-gradient-to-r from-amber-400 to-orange-500 text-white text-sm font-medium rounded-full">
-                                                    最佳实践
-                                                </span>
-                                            </div>
-                                            <p className="text-gray-500">
-                                                看看华为、淘宝、小米如何通过AI实现可量化的业务增长
-                                            </p>
-                                        </div>
-                                        <div className={viewMode === 'grid' 
-                                            ? "grid md:grid-cols-2 xl:grid-cols-3 gap-6"
-                                            : "space-y-4"
-                                        }>
-                                            <AnimatePresence>
-                                                {showcaseAgents.map((agent, i) => (
-                                                    <AgentCard key={agent.id} agent={agent} index={i} />
-                                                ))}
-                                            </AnimatePresence>
-                                        </div>
-                                    </div>
-                                )}
-
-                                {/* Tradeable Agents - Now You Can Hire */}
-                                {tradeableAgents.length > 0 && (
+                                {/* All Agents */}
+                                {filteredAgents.length > 0 && (
                                     <div className="mb-12">
-                                        <div className="mb-8">
-                                            <div className="flex items-center gap-3 mb-3">
-                                                <h2 className="text-2xl font-bold text-gray-900">立即雇佣，开启智能化</h2>
-                                                <span className="px-3 py-1 bg-indigo-50 text-indigo-600 text-sm rounded-full">
-                                                    {tradeableAgents.length} 个智能体可用
-                                                </span>
-                                            </div>
-                                            <p className="text-gray-500">
-                                                无需等待，选择适合的智能体，7天免费试用，随时开始
-                                            </p>
-                                        </div>
                                         <div className={viewMode === 'grid' 
                                             ? "grid md:grid-cols-2 xl:grid-cols-3 gap-6"
                                             : "space-y-4"
                                         }>
                                             <AnimatePresence>
-                                                {tradeableAgents.map((agent, i) => (
+                                                {filteredAgents.map((agent, i) => (
                                                     <AgentCard key={agent.id} agent={agent} index={i} />
                                                 ))}
                                             </AnimatePresence>
