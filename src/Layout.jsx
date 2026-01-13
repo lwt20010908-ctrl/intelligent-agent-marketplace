@@ -20,7 +20,6 @@ export default function Layout({ children, currentPageName }) {
     const navItems = [
         { name: '首页', page: 'Home' },
         { name: 'AI人才市场', page: 'Marketplace' },
-        { name: '开发者社区', page: 'Developer' },
         { name: '关于我们', page: 'About' },
     ];
 
@@ -188,7 +187,6 @@ export default function Layout({ children, currentPageName }) {
                                 <h4 className="font-semibold mb-4">产品</h4>
                                 <ul className="space-y-3 text-gray-400">
                                     <li><Link to={createPageUrl('Marketplace')} className="hover:text-white transition-colors">AI人才市场</Link></li>
-                                    <li><Link to={createPageUrl('Developer')} className="hover:text-white transition-colors">开发者社区</Link></li>
                                     <li><Link to={createPageUrl('About')} className="hover:text-white transition-colors">关于我们</Link></li>
                                 </ul>
                             </div>
