@@ -59,13 +59,30 @@ export default function Marketplace() {
     }, [currentUser]);
 
     const hireMutation = useMutation({
-        mutationFn: (data) => base44.entities.Hire.create(data),
+        mutationFn: async (data) => {
+            const hire = await base44.entities.Hire.create(data);
+            
+            // Update workspace to include deployed agent
+            const workspace = workspaces.find(w => w.id === data.workspace_id);
+            if (workspace) {
+                const updatedAgents = workspace.agents_deployed || [];
+                if (!updatedAgents.includes(data.agent_id)) {
+                    updatedAgents.push(data.agent_id);
+                    await base44.entities.Workspace.update(data.workspace_id, {
+                        agents_deployed: updatedAgents
+                    });
+                }
+            }
+            
+            return hire;
+        },
         onSuccess: () => {
-            toast.success('雇佣申请已提交，正在添加到您的工作台...');
+            toast.success('✨ 智能体已成功添加到您的工作台！');
             setShowHireModal(false);
             setSelectedAgent(null);
             setHireForm({ merchant_name: '', merchant_contact: '', plan_type: 'monthly', workspace_id: '' });
             queryClient.invalidateQueries({ queryKey: ['hires'] });
+            queryClient.invalidateQueries({ queryKey: ['workspaces'] });
         }
     });
 
