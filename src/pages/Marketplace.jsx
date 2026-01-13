@@ -2,13 +2,12 @@ import React, { useState } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, SlidersHorizontal, Grid, List, Sparkles } from 'lucide-react';
+import { Search, Grid, List, Sparkles } from 'lucide-react';
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import AgentCard from '../components/marketplace/AgentCard';
-import FilterSidebar from '../components/marketplace/FilterSidebar';
+import HorizontalFilter from '../components/marketplace/HorizontalFilter';
 
 export default function Marketplace() {
     const [search, setSearch] = useState('');
@@ -17,7 +16,6 @@ export default function Marketplace() {
         categories: [],
         maxPrice: 10000
     });
-    const [showMobileFilter, setShowMobileFilter] = useState(false);
     const [viewMode, setViewMode] = useState('grid');
 
     const { data: agents = [], isLoading } = useQuery({
@@ -72,8 +70,8 @@ export default function Marketplace() {
                     </p>
                 </motion.div>
 
-                {/* Search & Controls */}
-                <div className="flex flex-col sm:flex-row gap-4 mb-8">
+                {/* Search & View Mode */}
+                <div className="flex flex-col sm:flex-row gap-4 mb-6">
                     <div className="relative flex-grow">
                         <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                         <Input
@@ -83,38 +81,26 @@ export default function Marketplace() {
                             className="pl-12 h-12 bg-white border-gray-200 rounded-xl"
                         />
                     </div>
-                    <div className="flex gap-2">
-                        <Button
-                            variant="outline"
-                            className="lg:hidden h-12 px-4"
-                            onClick={() => setShowMobileFilter(true)}
-                        >
-                            <SlidersHorizontal className="w-5 h-5" />
-                        </Button>
-                        <Tabs value={viewMode} onValueChange={setViewMode} className="hidden sm:block">
-                            <TabsList className="h-12 bg-white border">
-                                <TabsTrigger value="grid" className="px-4">
-                                    <Grid className="w-4 h-4" />
-                                </TabsTrigger>
-                                <TabsTrigger value="list" className="px-4">
-                                    <List className="w-4 h-4" />
-                                </TabsTrigger>
-                            </TabsList>
-                        </Tabs>
-                    </div>
+                    <Tabs value={viewMode} onValueChange={setViewMode} className="hidden sm:block">
+                        <TabsList className="h-12 bg-white border">
+                            <TabsTrigger value="grid" className="px-4">
+                                <Grid className="w-4 h-4" />
+                            </TabsTrigger>
+                            <TabsTrigger value="list" className="px-4">
+                                <List className="w-4 h-4" />
+                            </TabsTrigger>
+                        </TabsList>
+                    </Tabs>
                 </div>
 
-                <div className="flex gap-8">
-                    {/* Sidebar */}
-                    <FilterSidebar
-                        filters={filters}
-                        setFilters={setFilters}
-                        showMobile={showMobileFilter}
-                        setShowMobile={setShowMobileFilter}
-                    />
+                {/* Horizontal Filters */}
+                <HorizontalFilter
+                    filters={filters}
+                    setFilters={setFilters}
+                />
 
-                    {/* Main Content */}
-                    <div className="flex-grow">
+                {/* Main Content */}
+                <div>
                         {isLoading ? (
                             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                                 {[...Array(6)].map((_, i) => (
