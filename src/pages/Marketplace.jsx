@@ -65,10 +65,10 @@ export default function Marketplace() {
                         <span className="text-indigo-500 font-medium">AI人才市场</span>
                     </div>
                     <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
-                        发现您的专属AI员工
+                        雇佣经过头部企业验证的AI员工
                     </h1>
                     <p className="text-xl text-gray-500 max-w-2xl">
-                        浏览、筛选并雇佣适合您业务的智能体，开启智能化运营之旅
+                        华为、淘宝、小米都在用的智能体，现在商家也可以直接雇佣。真实案例，可量化效果
                     </p>
                 </motion.div>
 
@@ -129,14 +129,46 @@ export default function Marketplace() {
                             </div>
                         ) : (
                             <>
-                                {/* Tradeable Agents - Priority */}
+                                {/* Showcase Agents First - Tell Stories */}
+                                {showcaseAgents.length > 0 && (
+                                    <div className="mb-16">
+                                        <div className="mb-8">
+                                            <div className="flex items-center gap-3 mb-3">
+                                                <h2 className="text-2xl font-bold text-gray-900">头部企业成功案例</h2>
+                                                <span className="px-3 py-1 bg-gradient-to-r from-amber-400 to-orange-500 text-white text-sm font-medium rounded-full">
+                                                    最佳实践
+                                                </span>
+                                            </div>
+                                            <p className="text-gray-500">
+                                                看看华为、淘宝、小米如何通过AI实现可量化的业务增长
+                                            </p>
+                                        </div>
+                                        <div className={viewMode === 'grid' 
+                                            ? "grid md:grid-cols-2 xl:grid-cols-3 gap-6"
+                                            : "space-y-4"
+                                        }>
+                                            <AnimatePresence>
+                                                {showcaseAgents.map((agent, i) => (
+                                                    <AgentCard key={agent.id} agent={agent} index={i} />
+                                                ))}
+                                            </AnimatePresence>
+                                        </div>
+                                    </div>
+                                )}
+
+                                {/* Tradeable Agents - Now You Can Hire */}
                                 {tradeableAgents.length > 0 && (
                                     <div className="mb-12">
-                                        <div className="flex items-center gap-3 mb-6">
-                                            <h2 className="text-xl font-semibold text-gray-900">可雇佣智能体</h2>
-                                            <span className="px-3 py-1 bg-indigo-50 text-indigo-600 text-sm rounded-full">
-                                                {tradeableAgents.length} 个可用
-                                            </span>
+                                        <div className="mb-8">
+                                            <div className="flex items-center gap-3 mb-3">
+                                                <h2 className="text-2xl font-bold text-gray-900">立即雇佣，开启智能化</h2>
+                                                <span className="px-3 py-1 bg-indigo-50 text-indigo-600 text-sm rounded-full">
+                                                    {tradeableAgents.length} 个智能体可用
+                                                </span>
+                                            </div>
+                                            <p className="text-gray-500">
+                                                无需等待，选择适合的智能体，7天免费试用，随时开始
+                                            </p>
                                         </div>
                                         <div className={viewMode === 'grid' 
                                             ? "grid md:grid-cols-2 xl:grid-cols-3 gap-6"
@@ -151,27 +183,7 @@ export default function Marketplace() {
                                     </div>
                                 )}
 
-                                {/* Showcase Agents */}
-                                {showcaseAgents.length > 0 && (
-                                    <div>
-                                        <div className="flex items-center gap-3 mb-6">
-                                            <h2 className="text-xl font-semibold text-gray-900">展示案例</h2>
-                                            <span className="px-3 py-1 bg-amber-50 text-amber-600 text-sm rounded-full">
-                                                头部客户专属
-                                            </span>
-                                        </div>
-                                        <div className={viewMode === 'grid' 
-                                            ? "grid md:grid-cols-2 xl:grid-cols-3 gap-6"
-                                            : "space-y-4"
-                                        }>
-                                            <AnimatePresence>
-                                                {showcaseAgents.map((agent, i) => (
-                                                    <AgentCard key={agent.id} agent={agent} index={i} />
-                                                ))}
-                                            </AnimatePresence>
-                                        </div>
-                                    </div>
-                                )}
+
 
                                 {/* Empty State */}
                                 {filteredAgents.length === 0 && (

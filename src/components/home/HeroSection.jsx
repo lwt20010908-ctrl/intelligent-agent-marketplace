@@ -43,14 +43,14 @@ export default function HeroSection() {
                         </motion.div>
 
                         <h1 className="text-5xl lg:text-7xl font-bold text-white leading-tight mb-8">
-                            雇佣AI员工
+                            帮助华为提升
                             <br />
-                            <span className="gradient-text">重塑商业效率</span>
+                            <span className="gradient-text">300% Push转化率</span>
                         </h1>
 
                         <p className="text-xl text-gray-400 leading-relaxed mb-10 max-w-lg">
-                            一站式AI智能体平台，为企业提供客服、销售、运营等全场景智能员工，
-                            7×24小时不间断工作，效率提升300%
+                            服务华为、淘宝、小米等头部平台，通过AI智能体实现可量化的收入增长。
+                            真实案例：华为Push月增收¥2800万，淘宝大促GMV提升45%
                         </p>
 
                         <div className="flex flex-wrap gap-4">
@@ -70,9 +70,9 @@ export default function HeroSection() {
                         {/* Stats */}
                         <div className="mt-16 grid grid-cols-3 gap-8">
                             {[
-                                { value: '500+', label: '服务商家' },
-                                { value: '98%', label: '满意度' },
-                                { value: '24/7', label: '不间断服务' },
+                                { value: '¥2800万', label: '华为月增收' },
+                                { value: '+45%', label: '淘宝GMV增长' },
+                                { value: '+220%', label: '小米销量增长' },
                             ].map((stat, i) => (
                                 <motion.div
                                     key={i}

@@ -25,13 +25,13 @@ export default function CTASection() {
                     </div>
 
                     <h2 className="text-4xl lg:text-6xl font-bold text-white mb-6">
-                        开启智能化转型
+                        复制头部企业的成功
                         <br />
-                        <span className="gradient-text">从今天开始</span>
+                        <span className="gradient-text">从雇佣AI开始</span>
                     </h2>
 
                     <p className="text-xl text-gray-400 mb-12 max-w-2xl mx-auto">
-                        免费试用7天，无需信用卡，体验AI智能体的强大能力
+                        华为、淘宝都在用的AI智能体，现在你也可以拥有。7天免费试用，亲眼见证可量化的增长
                     </p>
 
                     <div className="flex flex-wrap justify-center gap-4">
