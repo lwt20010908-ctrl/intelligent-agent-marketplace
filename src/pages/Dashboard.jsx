@@ -23,22 +23,21 @@ export default function Dashboard() {
         base44.auth.me().then(setUser).catch(() => {});
     }, []);
 
+    const isKA = user?.client_type === 'ka';
+
     const { data: workspaces = [], isLoading: workspacesLoading } = useQuery({
         queryKey: ['workspaces'],
-        queryFn: () => base44.entities.Workspace.list()
+        queryFn: () => base44.entities.Workspace.list(),
+        enabled: !!user
     });
 
     const { data: hires = [] } = useQuery({
         queryKey: ['hires'],
-        queryFn: () => base44.entities.Hire.list()
+        queryFn: () => base44.entities.Hire.list(),
+        enabled: !!user && !isKA
     });
 
-    // Determine client type from workspaces
-    const clientInfo = workspaces.length > 0 
-        ? { name: workspaces[0].client_name, type: workspaces[0].client_type }
-        : null;
-
-    const isKA = clientInfo?.type === 'ka';
+    const clientInfo = { name: user?.company_name || user?.full_name, type: user?.client_type };
 
     // KA authentication check
     if (isKA && !isKaAuthenticated) {

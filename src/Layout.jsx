@@ -3,10 +3,12 @@ import { Link } from 'react-router-dom';
 import { createPageUrl } from './utils';
 import { Menu, X, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { base44 } from '@/api/base44Client';
 
 export default function Layout({ children, currentPageName }) {
     const [scrolled, setScrolled] = useState(false);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const [user, setUser] = useState(null);
 
     useEffect(() => {
         const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -14,14 +16,37 @@ export default function Layout({ children, currentPageName }) {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
+    useEffect(() => {
+        base44.auth.me().then(setUser).catch(() => {});
+    }, []);
+
     const isHomePage = currentPageName === 'Home';
     const isDashboard = currentPageName === 'Dashboard' || currentPageName === 'MerchantWorkspace';
+    const isKA = user?.client_type === 'ka';
+    const isMerchant = user?.client_type === 'merchant';
 
-    const navItems = [
-        { name: '首页', page: 'Home' },
-        { name: 'AI人才市场', page: 'Marketplace' },
-        { name: '关于我们', page: 'About' },
-    ];
+    // Different nav items based on user type
+    const getNavItems = () => {
+        if (isKA) {
+            return [
+                { name: '运营看板', page: 'Dashboard' }
+            ];
+        }
+        if (isMerchant) {
+            return [
+                { name: 'AI人才市场', page: 'Marketplace' },
+                { name: '我的工作台', page: 'Dashboard' }
+            ];
+        }
+        // Default for non-logged-in users
+        return [
+            { name: '首页', page: 'Home' },
+            { name: 'AI人才市场', page: 'Marketplace' },
+            { name: '关于我们', page: 'About' }
+        ];
+    };
+
+    const navItems = getNavItems();
 
     if (isDashboard) {
         return <>{children}</>;
@@ -100,20 +125,43 @@ export default function Layout({ children, currentPageName }) {
 
                         {/* CTA Buttons */}
                         <div className="hidden md:flex items-center gap-4">
-                            <Link
-                                to={createPageUrl('Dashboard')}
-                                className={`text-sm font-medium transition-colors ${
-                                    scrolled || !isHomePage ? 'text-gray-600 hover:text-gray-900' : 'text-white/80 hover:text-white'
-                                }`}
-                            >
-                                控制台
-                            </Link>
-                            <Link
-                                to={createPageUrl('Marketplace')}
-                                className="px-5 py-2.5 bg-gradient-to-r from-indigo-500 to-purple-600 text-white text-sm font-medium rounded-full hover:shadow-lg hover:shadow-indigo-500/30 transition-all duration-300"
-                            >
-                                开始雇佣
-                            </Link>
+                            {user ? (
+                                <>
+                                    <Link
+                                        to={createPageUrl('Dashboard')}
+                                        className={`text-sm font-medium transition-colors ${
+                                            scrolled || !isHomePage ? 'text-gray-600 hover:text-gray-900' : 'text-white/80 hover:text-white'
+                                        }`}
+                                    >
+                                        {isKA ? '运营看板' : '控制台'}
+                                    </Link>
+                                    {isMerchant && (
+                                        <Link
+                                            to={createPageUrl('Marketplace')}
+                                            className="px-5 py-2.5 bg-gradient-to-r from-indigo-500 to-purple-600 text-white text-sm font-medium rounded-full hover:shadow-lg hover:shadow-indigo-500/30 transition-all duration-300"
+                                        >
+                                            发现AI员工
+                                        </Link>
+                                    )}
+                                </>
+                            ) : (
+                                <>
+                                    <Link
+                                        to={createPageUrl('Dashboard')}
+                                        className={`text-sm font-medium transition-colors ${
+                                            scrolled || !isHomePage ? 'text-gray-600 hover:text-gray-900' : 'text-white/80 hover:text-white'
+                                        }`}
+                                    >
+                                        登录
+                                    </Link>
+                                    <Link
+                                        to={createPageUrl('Marketplace')}
+                                        className="px-5 py-2.5 bg-gradient-to-r from-indigo-500 to-purple-600 text-white text-sm font-medium rounded-full hover:shadow-lg hover:shadow-indigo-500/30 transition-all duration-300"
+                                    >
+                                        开始雇佣
+                                    </Link>
+                                </>
+                            )}
                         </div>
 
                         {/* Mobile Menu Button */}
