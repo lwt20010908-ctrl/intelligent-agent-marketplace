@@ -1,0 +1,211 @@
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { createPageUrl } from './utils';
+import { Menu, X, ChevronDown } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+
+export default function Layout({ children, currentPageName }) {
+    const [scrolled, setScrolled] = useState(false);
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+    useEffect(() => {
+        const handleScroll = () => setScrolled(window.scrollY > 20);
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
+    const isHomePage = currentPageName === 'Home';
+    const isDashboard = currentPageName === 'Dashboard' || currentPageName === 'MerchantWorkspace';
+
+    const navItems = [
+        { name: '首页', page: 'Home' },
+        { name: 'AI人才市场', page: 'Marketplace' },
+        { name: '开发者社区', page: 'Developer' },
+        { name: '关于我们', page: 'About' },
+    ];
+
+    if (isDashboard) {
+        return <>{children}</>;
+    }
+
+    return (
+        <div className="min-h-screen bg-white">
+            <style>{`
+                :root {
+                    --primary: #6366F1;
+                    --primary-dark: #4F46E5;
+                    --bg-dark: #0A1628;
+                    --bg-darker: #060D18;
+                }
+                .gradient-text {
+                    background: linear-gradient(135deg, #6366F1 0%, #818CF8 50%, #A5B4FC 100%);
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                    background-clip: text;
+                }
+                .gradient-border {
+                    background: linear-gradient(135deg, #6366F1, #818CF8);
+                    padding: 1px;
+                }
+                .glow {
+                    box-shadow: 0 0 40px rgba(99, 102, 241, 0.3);
+                }
+                .glass {
+                    background: rgba(255, 255, 255, 0.8);
+                    backdrop-filter: blur(20px);
+                }
+                .glass-dark {
+                    background: rgba(10, 22, 40, 0.9);
+                    backdrop-filter: blur(20px);
+                }
+            `}</style>
+
+            {/* Navigation */}
+            <motion.header
+                initial={{ y: -100 }}
+                animate={{ y: 0 }}
+                className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+                    scrolled ? 'glass shadow-lg shadow-black/5' : 'bg-transparent'
+                }`}
+            >
+                <nav className="max-w-7xl mx-auto px-6 lg:px-8">
+                    <div className="flex items-center justify-between h-20">
+                        {/* Logo */}
+                        <Link to={createPageUrl('Home')} className="flex items-center gap-3">
+                            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
+                                <span className="text-white font-bold text-lg">AI</span>
+                            </div>
+                            <span className={`text-xl font-semibold ${scrolled || !isHomePage ? 'text-gray-900' : 'text-white'}`}>
+                                智能体市场
+                            </span>
+                        </Link>
+
+                        {/* Desktop Nav */}
+                        <div className="hidden md:flex items-center gap-8">
+                            {navItems.map((item) => (
+                                <Link
+                                    key={item.page}
+                                    to={createPageUrl(item.page)}
+                                    className={`text-sm font-medium transition-colors hover:text-indigo-500 ${
+                                        currentPageName === item.page
+                                            ? 'text-indigo-500'
+                                            : scrolled || !isHomePage
+                                            ? 'text-gray-600'
+                                            : 'text-white/80'
+                                    }`}
+                                >
+                                    {item.name}
+                                </Link>
+                            ))}
+                        </div>
+
+                        {/* CTA Buttons */}
+                        <div className="hidden md:flex items-center gap-4">
+                            <Link
+                                to={createPageUrl('Dashboard')}
+                                className={`text-sm font-medium transition-colors ${
+                                    scrolled || !isHomePage ? 'text-gray-600 hover:text-gray-900' : 'text-white/80 hover:text-white'
+                                }`}
+                            >
+                                控制台
+                            </Link>
+                            <Link
+                                to={createPageUrl('Marketplace')}
+                                className="px-5 py-2.5 bg-gradient-to-r from-indigo-500 to-purple-600 text-white text-sm font-medium rounded-full hover:shadow-lg hover:shadow-indigo-500/30 transition-all duration-300"
+                            >
+                                开始雇佣
+                            </Link>
+                        </div>
+
+                        {/* Mobile Menu Button */}
+                        <button
+                            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                            className="md:hidden p-2"
+                        >
+                            {mobileMenuOpen ? (
+                                <X className={scrolled || !isHomePage ? 'text-gray-900' : 'text-white'} />
+                            ) : (
+                                <Menu className={scrolled || !isHomePage ? 'text-gray-900' : 'text-white'} />
+                            )}
+                        </button>
+                    </div>
+                </nav>
+
+                {/* Mobile Menu */}
+                <AnimatePresence>
+                    {mobileMenuOpen && (
+                        <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: 'auto' }}
+                            exit={{ opacity: 0, height: 0 }}
+                            className="md:hidden glass border-t border-gray-100"
+                        >
+                            <div className="px-6 py-4 space-y-3">
+                                {navItems.map((item) => (
+                                    <Link
+                                        key={item.page}
+                                        to={createPageUrl(item.page)}
+                                        onClick={() => setMobileMenuOpen(false)}
+                                        className="block py-2 text-gray-600 hover:text-indigo-500"
+                                    >
+                                        {item.name}
+                                    </Link>
+                                ))}
+                                <div className="pt-4 border-t border-gray-100">
+                                    <Link
+                                        to={createPageUrl('Marketplace')}
+                                        className="block w-full py-3 bg-gradient-to-r from-indigo-500 to-purple-600 text-white text-center rounded-full"
+                                    >
+                                        开始雇佣
+                                    </Link>
+                                </div>
+                            </div>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+            </motion.header>
+
+            {/* Main Content */}
+            <main>{children}</main>
+
+            {/* Footer */}
+            {!isDashboard && (
+                <footer className="bg-[#0A1628] text-white">
+                    <div className="max-w-7xl mx-auto px-6 lg:px-8 py-16">
+                        <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
+                            <div className="col-span-1 md:col-span-2">
+                                <div className="flex items-center gap-3 mb-6">
+                                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
+                                        <span className="text-white font-bold text-lg">AI</span>
+                                    </div>
+                                    <span className="text-xl font-semibold">智能体市场</span>
+                                </div>
+                                <p className="text-gray-400 max-w-sm leading-relaxed">
+                                    企业级AI智能体解决方案，让每个商家都能拥有专属的智能员工
+                                </p>
+                            </div>
+                            <div>
+                                <h4 className="font-semibold mb-4">产品</h4>
+                                <ul className="space-y-3 text-gray-400">
+                                    <li><Link to={createPageUrl('Marketplace')} className="hover:text-white transition-colors">AI人才市场</Link></li>
+                                    <li><Link to={createPageUrl('Developer')} className="hover:text-white transition-colors">开发者社区</Link></li>
+                                    <li><Link to={createPageUrl('About')} className="hover:text-white transition-colors">关于我们</Link></li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 className="font-semibold mb-4">联系我们</h4>
+                                <ul className="space-y-3 text-gray-400">
+                                    <li>contact@aimarket.com</li>
+                                    <li>400-888-8888</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div className="mt-12 pt-8 border-t border-white/10 text-center text-gray-500 text-sm">
+                            © 2024 AI智能体市场. All rights reserved.
+                        </div>
+                    </div>
+                </footer>
+            )}
+        </div>
+    );
+}
