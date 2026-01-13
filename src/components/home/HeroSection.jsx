@@ -43,9 +43,9 @@ export default function HeroSection() {
                         </motion.div>
 
                         <h1 className="text-5xl lg:text-7xl font-bold text-white leading-tight mb-8">
-                            帮助华为提升
+                            构建智能体经济新生态
                             <br />
-                            <span className="gradient-text">300% Push转化率</span>
+                            <span className="gradient-text">让数字员工交付确定的商业增长</span>
                         </h1>
 
                         <p className="text-xl text-gray-400 leading-relaxed mb-10 max-w-lg">
