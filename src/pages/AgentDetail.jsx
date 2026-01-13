@@ -37,7 +37,22 @@ export default function AgentDetail() {
     const [hireForm, setHireForm] = useState({
         merchant_name: '',
         merchant_contact: '',
-        plan_type: 'monthly'
+        plan_type: 'monthly',
+        workspace_id: ''
+    });
+    const [user, setUser] = useState(null);
+
+    // Fetch current user
+    const { data: currentUser } = useQuery({
+        queryKey: ['currentUser'],
+        queryFn: () => base44.auth.me().catch(() => null)
+    });
+
+    // Fetch workspaces
+    const { data: workspaces = [] } = useQuery({
+        queryKey: ['userWorkspaces'],
+        queryFn: () => base44.entities.Workspace.list(),
+        enabled: !!currentUser
     });
 
     const { data: agent, isLoading } = useQuery({
@@ -48,6 +63,17 @@ export default function AgentDetail() {
         },
         enabled: !!agentId
     });
+
+    // Auto-fill form with user info
+    React.useEffect(() => {
+        if (currentUser && !hireForm.merchant_name) {
+            setHireForm(prev => ({
+                ...prev,
+                merchant_name: currentUser.company_name || currentUser.full_name || '',
+                merchant_contact: currentUser.email || ''
+            }));
+        }
+    }, [currentUser]);
 
     const hireMutation = useMutation({
         mutationFn: (data) => base44.entities.Hire.create(data),
@@ -63,6 +89,10 @@ export default function AgentDetail() {
             toast.error('请填写完整信息');
             return;
         }
+        if (!hireForm.workspace_id) {
+            toast.error('请选择部署的工作台');
+            return;
+        }
         hireMutation.mutate({
             agent_id: agentId,
             agent_name: agent.name,
@@ -71,6 +101,7 @@ export default function AgentDetail() {
             plan_type: hireForm.plan_type,
             amount: hireForm.plan_type === 'monthly' ? agent.price_monthly : agent.price_yearly,
             status: 'pending',
+            workspace_id: hireForm.workspace_id,
             start_date: new Date().toISOString().split('T')[0]
         });
     };
@@ -368,6 +399,31 @@ export default function AgentDetail() {
                                     </div>
                                 )}
                             </RadioGroup>
+                        </div>
+                        <div className="space-y-2">
+                            <Label>部署到工作台</Label>
+                            {workspaces.length > 0 ? (
+                                <RadioGroup 
+                                    value={hireForm.workspace_id}
+                                    onValueChange={(value) => setHireForm({ ...hireForm, workspace_id: value })}
+                                >
+                                    {workspaces.map((workspace) => (
+                                        <div key={workspace.id} className="flex items-center space-x-2 p-3 border rounded-lg hover:border-indigo-300 transition-colors">
+                                            <RadioGroupItem value={workspace.id} id={workspace.id} />
+                                            <Label htmlFor={workspace.id} className="flex-grow cursor-pointer">
+                                                <div>
+                                                    <div className="font-medium text-gray-900">{workspace.name}</div>
+                                                    <div className="text-xs text-gray-500">{workspace.client_name}</div>
+                                                </div>
+                                            </Label>
+                                        </div>
+                                    ))}
+                                </RadioGroup>
+                            ) : (
+                                <div className="p-3 border border-dashed border-gray-300 rounded-lg text-center">
+                                    <p className="text-sm text-gray-500">您还没有工作台，<Link to={createPageUrl('Dashboard')} className="text-indigo-500 hover:underline">立即创建</Link></p>
+                                </div>
+                            )}
                         </div>
                     </div>
                     <DialogFooter>
