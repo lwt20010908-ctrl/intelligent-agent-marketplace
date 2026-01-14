@@ -26,10 +26,10 @@ export default function TalentShowcase() {
                         <span className="text-indigo-600 font-semibold text-sm tracking-wide uppercase">优秀AI员工</span>
                     </div>
                     <h1 className="text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-                        发现顶尖AI人才
+                        发现您的专属AI员工
                     </h1>
                     <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-                        经过实战验证的智能体员工，为华为、淘宝、小米等顶级企业提供服务
+                        告别繁琐重复，让智慧涌动。在AI人才市场，找到与您业务完美契合的智能解决方案
                     </p>
                 </motion.div>
 
