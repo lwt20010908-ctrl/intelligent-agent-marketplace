@@ -313,12 +313,12 @@ export default function Marketplace() {
                                     </motion.div>
                                 )}
                             </>
-                                )}
-                            </div>
+                        )}
+                    </div>
 
-                            {/* Hire Modal */}
-                            <Dialog open={showHireModal} onOpenChange={setShowHireModal}>
-                            <DialogContent className="sm:max-w-md">
+                    {/* Hire Modal */}
+                    <Dialog open={showHireModal} onOpenChange={setShowHireModal}>
+                        <DialogContent className="sm:max-w-md">
                                 <DialogHeader>
                                     <DialogTitle>雇佣 {selectedAgent?.name}</DialogTitle>
                                 </DialogHeader>
@@ -402,11 +402,10 @@ export default function Marketplace() {
                                     >
                                         {hireMutation.isPending ? '提交中...' : '确认雇佣'}
                                     </Button>
-                                </DialogFooter>
-                            </DialogContent>
-                            </Dialog>
-                            </div>
-                            </div>
-                            </div>
-                            );
-                            }
+                        </DialogFooter>
+                    </DialogContent>
+                </Dialog>
+            </div>
+        </div>
+    );
+}
