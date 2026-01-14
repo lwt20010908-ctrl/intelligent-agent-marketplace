@@ -182,14 +182,14 @@ export default function Dashboard() {
 
                 {/* Content */}
                 <main className="p-4 lg:p-8">
-                    {currentTab === 'marketplace' && (
-                        <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                        >
-                            <MarketplaceContent />
-                        </motion.div>
-                    )}
+                    {currentTab === 'marketplace' && !isKA && (
+                                <motion.div
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                >
+                                    <MarketplaceContent />
+                                </motion.div>
+                            )}
 
                     {currentTab === 'overview' && (
                         <motion.div

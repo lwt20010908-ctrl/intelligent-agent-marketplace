@@ -24,6 +24,8 @@ export default function MarketplaceContent() {
     const [viewMode, setViewMode] = useState('grid');
     const [showHireModal, setShowHireModal] = useState(false);
     const [selectedAgent, setSelectedAgent] = useState(null);
+    const [showVideoModal, setShowVideoModal] = useState(false);
+    const [selectedVideoAgent, setSelectedVideoAgent] = useState(null);
     const [hireForm, setHireForm] = useState({
         merchant_name: '',
         merchant_contact: '',
@@ -62,7 +64,6 @@ export default function MarketplaceContent() {
         mutationFn: async (data) => {
             const hire = await base44.entities.Hire.create(data);
             
-            // Update workspace to include deployed agent
             const workspace = workspaces.find(w => w.id === data.workspace_id);
             if (workspace) {
                 const updatedAgents = workspace.agents_deployed || [];
@@ -108,22 +109,17 @@ export default function MarketplaceContent() {
         });
     };
 
-    // Filter agents
     const filteredAgents = agents.filter(agent => {
-        // Search
         if (search && !agent.name.toLowerCase().includes(search.toLowerCase()) &&
             !agent.description?.toLowerCase().includes(search.toLowerCase())) {
             return false;
         }
-        // Type
         if (filters.type !== 'all' && agent.type !== filters.type) {
             return false;
         }
-        // Categories
         if (filters.categories.length > 0 && !filters.categories.includes(agent.category)) {
             return false;
         }
-        // Price
         if (agent.price_monthly && agent.price_monthly > filters.maxPrice) {
             return false;
         }
@@ -131,7 +127,21 @@ export default function MarketplaceContent() {
     });
 
     return (
-        <div>
+        <div className="py-8">
+            {/* Header */}
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="mb-8"
+            >
+                <h1 className="text-4xl font-bold text-gray-900 mb-4 leading-tight">
+                    发现您的AI专业员工
+                </h1>
+                <p className="text-lg text-gray-600 max-w-3xl leading-relaxed">
+                    华为、淘宝、小米都在用的智能体，现在商家也可以直接雇佣。真实案例，可量化效果
+                </p>
+            </motion.div>
+
             {/* Search & View Mode */}
             <div className="flex flex-col sm:flex-row gap-4 mb-6">
                 <div className="relative flex-grow">
@@ -155,68 +165,70 @@ export default function MarketplaceContent() {
                 </Tabs>
             </div>
 
-            {/* Horizontal Filters */}
+            {/* Filters */}
             <HorizontalFilter
                 filters={filters}
                 setFilters={setFilters}
             />
 
-            {/* Main Content */}
-            <div>
-                {isLoading ? (
-                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {[...Array(6)].map((_, i) => (
-                            <div key={i} className="bg-white rounded-3xl p-6 border border-gray-100">
-                                <Skeleton className="w-14 h-14 rounded-2xl mb-4" />
-                                <Skeleton className="h-6 w-3/4 mb-2" />
-                                <Skeleton className="h-4 w-1/2 mb-4" />
-                                <Skeleton className="h-16 w-full mb-4" />
-                                <Skeleton className="h-10 w-full" />
-                            </div>
-                        ))}
-                    </div>
-                ) : (
-                    <>
-                        {/* All Agents */}
-                        {filteredAgents.length > 0 && (
-                            <div className="mb-12">
-                                <div className={viewMode === 'grid' 
-                                    ? "grid md:grid-cols-2 xl:grid-cols-3 gap-6"
-                                    : "space-y-4"
-                                }>
-                                    <AnimatePresence>
-                                        {filteredAgents.map((agent, i) => (
-                                            <div key={agent.id} onClick={() => {
+            {/* Agents Grid */}
+            {isLoading ? (
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {[...Array(6)].map((_, i) => (
+                        <div key={i} className="bg-white rounded-3xl p-6 border border-gray-100">
+                            <Skeleton className="w-14 h-14 rounded-2xl mb-4" />
+                            <Skeleton className="h-6 w-3/4 mb-2" />
+                            <Skeleton className="h-4 w-1/2 mb-4" />
+                            <Skeleton className="h-16 w-full mb-4" />
+                            <Skeleton className="h-10 w-full" />
+                        </div>
+                    ))}
+                </div>
+            ) : (
+                <>
+                    {filteredAgents.length > 0 && (
+                        <div className={viewMode === 'grid' 
+                            ? "grid md:grid-cols-2 lg:grid-cols-3 gap-6"
+                            : "space-y-4"
+                        }>
+                            <AnimatePresence>
+                                {filteredAgents.map((agent, i) => (
+                                    <div key={agent.id}>
+                                        <AgentCard 
+                                            agent={agent} 
+                                            index={i} 
+                                            onWatchDemo={() => {
+                                                setSelectedVideoAgent(agent);
+                                                setShowVideoModal(true);
+                                            }}
+                                            onClick={() => {
                                                 if (agent.type === 'tradeable') {
                                                     setSelectedAgent(agent);
                                                     setShowHireModal(true);
                                                 }
-                                            }}>
-                                                <AgentCard agent={agent} index={i} />
-                                            </div>
-                                        ))}
-                                    </AnimatePresence>
-                                </div>
-                            </div>
-                        )}
+                                            }}
+                                        />
+                                    </div>
+                                ))}
+                            </AnimatePresence>
+                        </div>
+                    )}
 
-                        {/* Empty State */}
-                        {filteredAgents.length === 0 && (
-                            <motion.div
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                className="text-center py-20"
-                            >
-                                <div className="w-20 h-20 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-6">
-                                    <Search className="w-8 h-8 text-gray-400" />
-                                </div>
-                                <h3 className="text-xl font-semibold text-gray-900 mb-2">未找到智能体</h3>
-                                <p className="text-gray-500">请尝试调整筛选条件或搜索关键词</p>
-                            </motion.div>
-                        )}
-                    </>
-                )}
-            </div>
+                    {filteredAgents.length === 0 && (
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            className="text-center py-20"
+                        >
+                            <div className="w-20 h-20 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-6">
+                                <Search className="w-8 h-8 text-gray-400" />
+                            </div>
+                            <h3 className="text-xl font-semibold text-gray-900 mb-2">未找到智能体</h3>
+                            <p className="text-gray-500">请尝试调整筛选条件或搜索关键词</p>
+                        </motion.div>
+                    )}
+                </>
+            )}
 
             {/* Hire Modal */}
             <Dialog open={showHireModal} onOpenChange={setShowHireModal}>
@@ -305,6 +317,33 @@ export default function MarketplaceContent() {
                             {hireMutation.isPending ? '提交中...' : '确认雇佣'}
                         </Button>
                     </DialogFooter>
+                </DialogContent>
+            </Dialog>
+
+            {/* Video Demo Modal */}
+            <Dialog open={showVideoModal} onOpenChange={setShowVideoModal}>
+                <DialogContent className="sm:max-w-xl">
+                    <DialogHeader>
+                        <DialogTitle>{selectedVideoAgent?.name} 演示视频</DialogTitle>
+                    </DialogHeader>
+                    <div className="aspect-video w-full rounded-lg overflow-hidden">
+                        {selectedVideoAgent?.demo_video_url ? (
+                            <iframe
+                                width="100%"
+                                height="100%"
+                                src={selectedVideoAgent.demo_video_url}
+                                title={`${selectedVideoAgent.name} Demo Video`}
+                                frameBorder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowFullScreen
+                                className="w-full h-full"
+                            ></iframe>
+                        ) : (
+                            <div className="flex items-center justify-center h-full bg-gray-100 text-gray-500">
+                                暂无演示视频
+                            </div>
+                        )}
+                    </div>
                 </DialogContent>
             </Dialog>
         </div>

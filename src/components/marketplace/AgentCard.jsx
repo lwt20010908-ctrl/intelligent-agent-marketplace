@@ -24,16 +24,17 @@ const categoryColors = {
     content: 'bg-pink-50 text-pink-600'
 };
 
-export default function AgentCard({ agent, index = 0, hidePrice = false, onWatchDemo }) {
-          const isShowcase = agent.type === 'showcase';
+export default function AgentCard({ agent, index = 0, hidePrice = false, onWatchDemo, onClick }) {
+                const isShowcase = agent.type === 'showcase';
 
-    return (
-        <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.05 }}
-            className="group relative"
-        >
+          return (
+              <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.05 }}
+                  className="group relative cursor-pointer"
+                  onClick={onClick}
+              >
             <div className="absolute inset-0 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl -z-10" />
             
             <div className="relative bg-white rounded-3xl p-6 border border-gray-100 hover:border-indigo-200 hover:shadow-xl transition-all duration-300 h-full flex flex-col">
