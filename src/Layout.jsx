@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { createPageUrl } from './utils';
 import { Menu, X, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -8,6 +8,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import IdentitySelectorModal from './components/auth/IdentitySelectorModal';
 
 export default function Layout({ children, currentPageName }) {
+    const navigate = useNavigate();
     const [scrolled, setScrolled] = useState(false);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [user, setUser] = useState(null);
@@ -229,8 +230,10 @@ export default function Layout({ children, currentPageName }) {
                 onSelectIdentity={(type) => {
                     if (type === 'merchant') {
                         setSimulatedUserType('merchant');
+                        navigate(createPageUrl('Dashboard'));
                     } else if (type === 'ka') {
                         setSimulatedUserType('ka');
+                        navigate(createPageUrl('Dashboard'));
                     } else {
                         setSimulatedUserType(null);
                     }
