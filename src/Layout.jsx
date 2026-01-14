@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { base44 } from '@/api/base44Client';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import IdentitySelectorModal from './components/auth/IdentitySelectorModal';
+import UserNav from './components/auth/UserNav';
 
 export default function Layout({ children, currentPageName }) {
     const navigate = useNavigate();
@@ -136,41 +137,47 @@ export default function Layout({ children, currentPageName }) {
 
                         {/* CTA Buttons */}
                         <div className="hidden md:flex items-center gap-4">
-                            <DropdownMenu>
-                                <DropdownMenuTrigger className={`text-sm font-medium transition-colors flex items-center gap-1 ${
-                                    scrolled || !isHomePage ? 'text-gray-600 hover:text-gray-900' : 'text-white/80 hover:text-white'
-                                }`}>
-                                    {simulatedUserType === 'merchant' ? '商家模式' : 
-                                     simulatedUserType === 'ka' ? 'KA模式' : '未登录'}
-                                    <ChevronDown className="w-4 h-4" />
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent>
-                                    <DropdownMenuItem onClick={() => setSimulatedUserType(null)}>
-                                        未登录状态
-                                    </DropdownMenuItem>
-                                    <DropdownMenuItem onClick={() => setSimulatedUserType('merchant')}>
-                                        商家登录
-                                    </DropdownMenuItem>
-                                    <DropdownMenuItem onClick={() => setSimulatedUserType('ka')}>
-                                        大B端登录
-                                    </DropdownMenuItem>
-                                </DropdownMenuContent>
-                            </DropdownMenu>
+                            {user ? (
+                                <UserNav user={user} isHomePage={isHomePage} scrolled={scrolled} />
+                            ) : (
+                                <>
+                                    <DropdownMenu>
+                                        <DropdownMenuTrigger className={`text-sm font-medium transition-colors flex items-center gap-1 ${
+                                            scrolled || !isHomePage ? 'text-gray-600 hover:text-gray-900' : 'text-white/80 hover:text-white'
+                                        }`}>
+                                            {simulatedUserType === 'merchant' ? '商家模式' : 
+                                             simulatedUserType === 'ka' ? 'KA模式' : '未登录'}
+                                            <ChevronDown className="w-4 h-4" />
+                                        </DropdownMenuTrigger>
+                                        <DropdownMenuContent>
+                                            <DropdownMenuItem onClick={() => setSimulatedUserType(null)}>
+                                                未登录状态
+                                            </DropdownMenuItem>
+                                            <DropdownMenuItem onClick={() => setSimulatedUserType('merchant')}>
+                                                商家登录
+                                            </DropdownMenuItem>
+                                            <DropdownMenuItem onClick={() => setSimulatedUserType('ka')}>
+                                                大B端登录
+                                            </DropdownMenuItem>
+                                        </DropdownMenuContent>
+                                    </DropdownMenu>
 
-                            <button
-                                onClick={() => setShowIdentitySelector(true)}
-                                className={`text-sm font-medium transition-colors ${
-                                    scrolled || !isHomePage ? 'text-gray-600 hover:text-gray-900' : 'text-white/80 hover:text-white'
-                                }`}
-                            >
-                                登录
-                            </button>
-                            <Link
-                                to={createPageUrl('Marketplace')}
-                                className="px-6 py-3 bg-gradient-to-r from-indigo-500 to-purple-600 text-white text-base font-semibold rounded-full hover:shadow-lg hover:shadow-indigo-500/30 transition-all duration-300"
-                            >
-                                注册
-                            </Link>
+                                    <button
+                                        onClick={() => setShowIdentitySelector(true)}
+                                        className={`text-sm font-medium transition-colors ${
+                                            scrolled || !isHomePage ? 'text-gray-600 hover:text-gray-900' : 'text-white/80 hover:text-white'
+                                        }`}
+                                    >
+                                        登录
+                                    </button>
+                                    <Link
+                                        to={createPageUrl('Home')}
+                                        className="px-6 py-3 bg-gradient-to-r from-indigo-500 to-purple-600 text-white text-base font-semibold rounded-full hover:shadow-lg hover:shadow-indigo-500/30 transition-all duration-300"
+                                    >
+                                        注册
+                                    </Link>
+                                </>
+                            )}
                         </div>
 
                         {/* Mobile Menu Button */}
