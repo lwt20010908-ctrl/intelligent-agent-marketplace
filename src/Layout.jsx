@@ -45,7 +45,6 @@ export default function Layout({ children, currentPageName }) {
         }
         if (isMerchant) {
             return [
-                { name: 'AI人才市场', page: 'Marketplace' },
                 { name: '我的工作台', page: 'Dashboard' },
                 { name: '开发者社区', page: 'Developer' }
             ];
@@ -53,7 +52,6 @@ export default function Layout({ children, currentPageName }) {
         // Default for non-logged-in users
         return [
             { name: '首页', page: 'Home' },
-            { name: 'AI人才市场', page: 'Marketplace' },
             { name: '开发者社区', page: 'Developer' },
             { name: '关于我们', page: 'About' }
         ];
