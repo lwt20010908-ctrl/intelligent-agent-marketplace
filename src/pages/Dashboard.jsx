@@ -2,18 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
-import { Bell, Search, User, Calendar, ArrowLeft, Lock, LayoutDashboard, Bot, BarChart3, Settings, ShoppingBag } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Calendar, Lock } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
 import { createPageUrl } from '../utils';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 import StatsOverview from '../components/dashboard/StatsOverview';
 import WorkspaceList from '../components/dashboard/WorkspaceList';
 import MarketplaceContent from '../components/marketplace/MarketplaceContent';
+import DashboardLayout from '../components/dashboard/DashboardLayout';
 
 export default function Dashboard() {
+    const navigate = useNavigate();
     const [currentTab, setCurrentTab] = useState('overview');
     const [user, setUser] = useState(null);
     const [kaPassword, setKaPassword] = useState('');
@@ -39,23 +39,7 @@ export default function Dashboard() {
 
     const clientInfo = { name: user?.company_name || user?.full_name, type: user?.client_type };
 
-    const getMenuItems = () => {
-        const baseItems = [
-            { icon: LayoutDashboard, label: '总览', tab: 'overview' },
-            { icon: Bot, label: '我的智能体', tab: 'agents' },
-            { icon: BarChart3, label: '数据报表', tab: 'analytics' },
-            { icon: Settings, label: '设置', tab: 'settings' }
-        ];
-        if (!isKA) {
-            return [
-                { icon: LayoutDashboard, label: '总览', tab: 'overview' },
-                { icon: ShoppingBag, label: 'AI人才市场', tab: 'marketplace' },
-                ...baseItems.slice(1)
-            ];
-        }
-        return baseItems;
-    };
-    const menuItems = getMenuItems();
+
 
     // KA authentication check
     if (isKA && !isKaAuthenticated) {
@@ -121,77 +105,12 @@ export default function Dashboard() {
     }
 
     return (
-        <div className="min-h-screen bg-gray-50">
-            {/* Main Content */}
-            <div className="flex-grow">
-                {/* Top Bar */}
-                <header className="bg-white border-b border-gray-100 p-4 lg:p-6">
-                    <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-4">
-                            <Link
-                                to={createPageUrl('Home')}
-                                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-                            >
-                                <ArrowLeft className="w-5 h-5 text-gray-600" />
-                            </Link>
-                            <div>
-                                <h1 className="text-2xl font-bold text-gray-900">
-                                    {isKA ? '运营看板' : '控制台'}
-                                </h1>
-                                <p className="text-gray-500 text-sm mt-1">
-                                    {isKA 
-                                        ? '查看所有工作台的运营数据和AI工作成果' 
-                                        : '管理您的智能体和工作台'
-                                    }
-                                </p>
-                            </div>
-                        </div>
-                        <div className="flex items-center gap-4">
-                            <div className="hidden sm:block relative">
-                                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                                <Input
-                                    placeholder="搜索..."
-                                    className="pl-10 w-64 bg-gray-50 border-0"
-                                />
-                            </div>
-                            <Button variant="ghost" size="icon" className="relative">
-                                <Bell className="w-5 h-5 text-gray-500" />
-                                <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full" />
-                            </Button>
-                            <DropdownMenu>
-                                <DropdownMenuTrigger asChild>
-                                    <button className="focus:outline-none">
-                                        <Avatar className="cursor-pointer">
-                                            <AvatarFallback className="bg-indigo-100 text-indigo-600">
-                                                {user?.full_name?.[0] || 'U'}
-                                            </AvatarFallback>
-                                        </Avatar>
-                                    </button>
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent align="end" className="w-56">
-                                    <div className="px-2 py-2 text-sm">
-                                        <div className="font-medium text-gray-900">{user?.full_name || '用户'}</div>
-                                        <div className="text-xs text-gray-500">{user?.email}</div>
-                                    </div>
-                                    <DropdownMenuSeparator />
-                                    {menuItems.map((item) => (
-                                        <DropdownMenuItem
-                                            key={item.tab}
-                                            onClick={() => setCurrentTab(item.tab)}
-                                            className={currentTab === item.tab ? 'bg-indigo-50 text-indigo-600' : ''}
-                                        >
-                                            <item.icon className="w-4 h-4 mr-2" />
-                                            {item.label}
-                                        </DropdownMenuItem>
-                                    ))}
-                                </DropdownMenuContent>
-                            </DropdownMenu>
-                        </div>
-                    </div>
-                </header>
-
-                {/* Content */}
-                <main className="p-4 lg:p-8">
+        <DashboardLayout 
+            currentTab={currentTab} 
+            setCurrentTab={setCurrentTab} 
+            user={user}
+            isKA={isKA}
+        >
                     {currentTab === 'marketplace' && !isKA && (
                                 <motion.div
                                     initial={{ opacity: 0 }}
@@ -351,8 +270,6 @@ export default function Dashboard() {
                             <p className="text-gray-500">账户和偏好设置即将上线</p>
                         </motion.div>
                     )}
-                </main>
-            </div>
-        </div>
+        </DashboardLayout>
     );
 }
