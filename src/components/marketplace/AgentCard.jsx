@@ -24,8 +24,8 @@ const categoryColors = {
     content: 'bg-pink-50 text-pink-600'
 };
 
-export default function AgentCard({ agent, index = 0, hidePrice = false }) {
-    const isShowcase = agent.type === 'showcase';
+export default function AgentCard({ agent, index = 0, hidePrice = false, onWatchDemo }) {
+          const isShowcase = agent.type === 'showcase';
 
     return (
         <motion.div
