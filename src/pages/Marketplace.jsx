@@ -240,35 +240,6 @@ export default function Marketplace() {
                     </p>
                 </motion.div>
 
-                {/* Search & View Mode */}
-                <div className="flex flex-col sm:flex-row gap-4 mb-6">
-                    <div className="relative flex-grow">
-                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                        <Input
-                            placeholder="搜索智能体..."
-                            value={search}
-                            onChange={(e) => setSearch(e.target.value)}
-                            className="pl-12 h-12 bg-white border-gray-200 rounded-xl"
-                        />
-                    </div>
-                    <Tabs value={viewMode} onValueChange={setViewMode} className="hidden sm:block">
-                        <TabsList className="h-12 bg-white border">
-                            <TabsTrigger value="grid" className="px-4">
-                                <Grid className="w-4 h-4" />
-                            </TabsTrigger>
-                            <TabsTrigger value="list" className="px-4">
-                                <List className="w-4 h-4" />
-                            </TabsTrigger>
-                        </TabsList>
-                    </Tabs>
-                </div>
-
-                {/* Horizontal Filters */}
-                <HorizontalFilter
-                    filters={filters}
-                    setFilters={setFilters}
-                />
-
                 {/* Main Content */}
                 <div>
                         {isLoading ? (
