@@ -1,55 +1,85 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Building2, CheckCircle2, PiggyBank, TrendingUp, Globe, Zap } from 'lucide-react';
+import { Building2, CheckCircle2, PiggyBank, TrendingUp } from 'lucide-react';
 
-const AnimatedCounter = ({ target, duration = 2 }) => {
-    const [count, setCount] = useState(0);
+const AnimatedCounter = ({ value, format }) => {
+    const [displayValue, setDisplayValue] = useState('0');
 
     useEffect(() => {
         let start = 0;
-        const increment = target / (duration * 60);
+        const target = value;
+        const increment = target / 50;
+        let current = 0;
+
         const timer = setInterval(() => {
-            start += increment;
-            if (start >= target) {
-                setCount(target);
-                clearInterval(timer);
+            current += increment;
+            if (current >= target) {
+                setDisplayValue(format(target));
             } else {
-                setCount(Math.floor(start));
+                setDisplayValue(format(Math.floor(current)));
             }
-        }, 1000 / 60);
+        }, 30);
 
         return () => clearInterval(timer);
-    }, [target, duration]);
+    }, [value, format]);
 
-    return count;
+    return displayValue;
 };
 
-const MiniChart = ({ type }) => {
-    if (type === 'growth') {
-        return (
-            <svg className="w-full h-16" viewBox="0 0 100 60" preserveAspectRatio="none">
-                <polyline
-                    points="0,50 20,35 40,20 60,10 80,5 100,0"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    vectorEffect="non-scaling-stroke"
-                />
-            </svg>
-        );
-    }
+const GrowthChart = ({ color }) => (
+    <svg className="w-full h-20" viewBox="0 0 120 80" preserveAspectRatio="none">
+        {/* Grid lines */}
+        <line x1="0" y1="60" x2="120" y2="60" stroke="#f0f0f0" strokeWidth="1" />
+        <line x1="0" y1="40" x2="120" y2="40" stroke="#f0f0f0" strokeWidth="1" />
+        <line x1="0" y1="20" x2="120" y2="20" stroke="#f0f0f0" strokeWidth="1" />
+        
+        {/* Growth line */}
+        <polyline
+            points="0,65 15,55 30,42 45,30 60,18 75,12 90,8 105,5 120,2"
+            fill="none"
+            stroke={`url(#grad-${color})`}
+            strokeWidth="3"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+        />
+        
+        {/* Gradient definition */}
+        <defs>
+            <linearGradient id={`grad-${color}`} x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor={color} stopOpacity="0.5" />
+                <stop offset="100%" stopColor={color} stopOpacity="1" />
+            </linearGradient>
+        </defs>
+    </svg>
+);
 
-    if (type === 'comparison') {
-        return (
-            <div className="flex items-end gap-2 h-16">
-                <div className="flex-1 bg-gradient-to-t from-red-400 to-red-300 rounded-t opacity-40 h-3/4" />
-                <div className="flex-1 bg-gradient-to-t from-green-500 to-green-400 rounded-t h-full" />
-            </div>
-        );
-    }
-
-    return null;
-};
+const SavingsChart = () => (
+    <svg className="w-full h-20" viewBox="0 0 120 80" preserveAspectRatio="none">
+        {/* Before bar */}
+        <g>
+            <rect x="15" y="35" width="25" height="45" fill="#ef4444" opacity="0.3" rx="2" />
+            <text x="27.5" y="75" textAnchor="middle" fontSize="10" fill="#666">优化前</text>
+        </g>
+        
+        {/* After bar */}
+        <g>
+            <rect x="55" y="15" width="25" height="65" fill="#10b981" opacity="0.8" rx="2" />
+            <text x="67.5" y="75" textAnchor="middle" fontSize="10" fill="#666">优化后</text>
+        </g>
+        
+        {/* Arrow and percentage */}
+        <g>
+            <path d="M 45 30 L 55 30" stroke="#10b981" strokeWidth="2" fill="none" markerEnd="url(#arrowGreen)" />
+            <text x="50" y="25" textAnchor="middle" fontSize="11" fill="#10b981" fontWeight="bold">节省50%</text>
+        </g>
+        
+        <defs>
+            <marker id="arrowGreen" markerWidth="10" markerHeight="10" refX="5" refY="3" orient="auto">
+                <polygon points="0 0, 10 3, 0 6" fill="#10b981" />
+            </marker>
+        </defs>
+    </svg>
+);
 
 export default function CoreDataOverview() {
     const stats = [
