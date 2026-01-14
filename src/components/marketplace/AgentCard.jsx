@@ -123,7 +123,7 @@ export default function AgentCard({ agent, index = 0, hidePrice = false }) {
 
                 {/* Footer */}
                 <div className="flex items-center justify-between pt-4 border-t border-gray-100">
-                    {!isShowcase && agent.price_monthly ? (
+                    {!hidePrice && !isShowcase && agent.price_monthly ? (
                         <div>
                             <span className="text-2xl font-bold text-gray-900">¥{agent.price_monthly}</span>
                             <span className="text-gray-400 text-sm">/月</span>
