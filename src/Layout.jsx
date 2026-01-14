@@ -5,12 +5,14 @@ import { Menu, X, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { base44 } from '@/api/base44Client';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import IdentitySelectorModal from './components/auth/IdentitySelectorModal';
 
 export default function Layout({ children, currentPageName }) {
     const [scrolled, setScrolled] = useState(false);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [user, setUser] = useState(null);
     const [simulatedUserType, setSimulatedUserType] = useState(null); // null, 'merchant', 'ka'
+    const [showIdentitySelector, setShowIdentitySelector] = useState(false);
 
     useEffect(() => {
         const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -156,14 +158,14 @@ export default function Layout({ children, currentPageName }) {
                                 </DropdownMenuContent>
                             </DropdownMenu>
 
-                            <Link
-                                to={createPageUrl('Dashboard')}
+                            <button
+                                onClick={() => setShowIdentitySelector(true)}
                                 className={`text-sm font-medium transition-colors ${
                                     scrolled || !isHomePage ? 'text-gray-600 hover:text-gray-900' : 'text-white/80 hover:text-white'
                                 }`}
                             >
                                 登录
-                            </Link>
+                            </button>
                             <Link
                                 to={createPageUrl('Marketplace')}
                                 className="px-6 py-3 bg-gradient-to-r from-indigo-500 to-purple-600 text-white text-base font-semibold rounded-full hover:shadow-lg hover:shadow-indigo-500/30 transition-all duration-300"
@@ -219,6 +221,21 @@ export default function Layout({ children, currentPageName }) {
                     )}
                 </AnimatePresence>
             </motion.header>
+
+            {/* Identity Selector Modal */}
+            <IdentitySelectorModal
+                open={showIdentitySelector}
+                onClose={() => setShowIdentitySelector(false)}
+                onSelectIdentity={(type) => {
+                    if (type === 'merchant') {
+                        setSimulatedUserType('merchant');
+                    } else if (type === 'ka') {
+                        setSimulatedUserType('ka');
+                    } else {
+                        setSimulatedUserType(null);
+                    }
+                }}
+            />
 
             {/* Main Content */}
             <main>{children}</main>
