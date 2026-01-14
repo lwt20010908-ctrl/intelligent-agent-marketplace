@@ -4,7 +4,7 @@ import { createPageUrl } from './utils';
 import { Menu, X, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { base44 } from '@/api/base44Client';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { createPageUrl } from './components/utils';
 import IdentitySelectorModal from './components/auth/IdentitySelectorModal';
 
 export default function Layout({ children, currentPageName }) {
