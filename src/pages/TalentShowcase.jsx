@@ -107,7 +107,41 @@ export default function TalentShowcase() {
                         浏览全部AI人才
                     </a>
                 </motion.div>
-            </div>
-        </div>
-    );
-}
+                </div>
+
+                {/* Video Demo Modal */}
+                <Dialog open={!!selectedAgent} onOpenChange={() => setSelectedAgent(null)}>
+                <DialogContent className="max-w-4xl w-full p-0 border-0 bg-black">
+                    <div className="relative w-full bg-black rounded-lg overflow-hidden">
+                        <button
+                            onClick={() => setSelectedAgent(null)}
+                            className="absolute top-4 right-4 z-50 p-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors"
+                        >
+                            <X className="w-6 h-6 text-white" />
+                        </button>
+
+                        {selectedAgent?.demo_video_url && (
+                            <div className="aspect-video w-full">
+                                <video
+                                    src={selectedAgent.demo_video_url}
+                                    controls
+                                    autoPlay
+                                    className="w-full h-full"
+                                />
+                            </div>
+                        )}
+
+                        <div className="p-6 bg-gray-900">
+                            <h2 className="text-2xl font-bold text-white mb-2">
+                                {selectedAgent?.name} - 演示视频
+                            </h2>
+                            <p className="text-gray-300">
+                                {selectedAgent?.description}
+                            </p>
+                        </div>
+                    </div>
+                </DialogContent>
+                </Dialog>
+                </div>
+                );
+                }
