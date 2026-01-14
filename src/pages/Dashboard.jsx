@@ -15,6 +15,7 @@ import MarketplaceContent from '../components/marketplace/MarketplaceContent';
 
 export default function Dashboard() {
     const [collapsed, setCollapsed] = useState(false);
+    const [currentTab, setCurrentTab] = useState('overview');
     const [user, setUser] = useState(null);
     const [kaPassword, setKaPassword] = useState('');
     const [isKaAuthenticated, setIsKaAuthenticated] = useState(false);
@@ -24,17 +25,6 @@ export default function Dashboard() {
     }, []);
 
     const isKA = user?.client_type === 'ka';
-    const isMerchant = user?.client_type === 'merchant';
-
-    // Determine initial tab based on user type and URL params
-    const urlParams = new URLSearchParams(window.location.search);
-    const tabParam = urlParams.get('tab');
-    const [currentTab, setCurrentTab] = useState(() => {
-        if (tabParam) return tabParam;
-        if (isMerchant) return 'marketplace'; // Merchants start at marketplace
-        if (isKA) return 'overview'; // KA starts at overview
-        return 'overview';
-    });
 
     const { data: workspaces = [], isLoading: workspacesLoading } = useQuery({
         queryKey: ['workspaces'],
@@ -115,19 +105,17 @@ export default function Dashboard() {
 
     return (
         <div className="min-h-screen bg-gray-50 flex">
-            {/* Sidebar - hide for merchants on marketplace tab */}
-            {!(isMerchant && currentTab === 'marketplace') && (
-                <DashboardSidebar
-                    collapsed={collapsed}
-                    setCollapsed={setCollapsed}
-                    currentTab={currentTab}
-                    setCurrentTab={setCurrentTab}
-                    clientInfo={clientInfo}
-                />
-            )}
+            {/* Sidebar */}
+            <DashboardSidebar
+                collapsed={collapsed}
+                setCollapsed={setCollapsed}
+                currentTab={currentTab}
+                setCurrentTab={setCurrentTab}
+                clientInfo={clientInfo}
+            />
 
             {/* Main Content */}
-            <div className={`flex-grow pt-16 lg:pt-0 ${!(isMerchant && currentTab === 'marketplace') ? '' : 'lg:ml-0'}`}>
+            <div className="flex-grow lg:ml-0 pt-16 lg:pt-0">
                 {/* Top Bar */}
                 <header className="bg-white border-b border-gray-100 p-4 lg:p-6">
                     <div className="flex items-center justify-between">
@@ -140,12 +128,10 @@ export default function Dashboard() {
                             </Link>
                             <div>
                                 <h1 className="text-2xl font-bold text-gray-900">
-                                    {currentTab === 'marketplace' ? 'AI人才市场' : isKA ? '运营看板' : '控制台'}
+                                    {isKA ? '运营看板' : '控制台'}
                                 </h1>
                                 <p className="text-gray-500 text-sm mt-1">
-                                    {currentTab === 'marketplace' 
-                                        ? '发现和雇佣智能体员工' 
-                                        : isKA 
+                                    {isKA 
                                         ? '查看所有工作台的运营数据和AI工作成果' 
                                         : '管理您的智能体和工作台'
                                     }

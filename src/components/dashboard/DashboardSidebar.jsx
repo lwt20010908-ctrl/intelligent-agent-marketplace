@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 
 const navItems = [
     { icon: LayoutDashboard, label: '总览', page: 'Dashboard' },
+    { icon: ShoppingBag, label: 'AI人才市场', page: 'Dashboard', tab: 'marketplace' },
     { icon: Bot, label: '我的智能体', page: 'Dashboard', tab: 'agents' },
     { icon: BarChart3, label: '数据报表', page: 'Dashboard', tab: 'analytics' },
     { icon: Settings, label: '设置', page: 'Dashboard', tab: 'settings' }
