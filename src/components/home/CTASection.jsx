@@ -35,17 +35,16 @@ export default function CTASection() {
                     </p>
 
                     <div className="flex flex-wrap justify-center gap-4">
-                        <button className="inline-flex items-center gap-2 px-8 py-4 border border-white/20 text-white font-medium rounded-full hover:bg-white/5 transition-all duration-300">
-                            进入控制台
-                        </button>
                         <Link
-                            to={createPageUrl('TalentShowcase')}
-                            className="group inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-medium rounded-full hover:shadow-xl hover:shadow-indigo-500/30 transition-all duration-300"
+                            to={createPageUrl('Marketplace')}
+                            className="group inline-flex items-center gap-2 px-8 py-4 bg-white text-gray-900 font-medium rounded-full hover:shadow-xl hover:shadow-white/20 transition-all duration-300"
                         >
-                            <Sparkles className="w-5 h-5" />
-                            浏览市场
+                            免费开始
                             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                         </Link>
+                        <button className="inline-flex items-center gap-2 px-8 py-4 border border-white/20 text-white font-medium rounded-full hover:bg-white/5 transition-all duration-300">
+                            预约演示
+                        </button>
                     </div>
 
                     {/* Trust Badges */}
