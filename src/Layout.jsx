@@ -38,6 +38,19 @@ export default function Layout({ children, currentPageName }) {
 
     // Different nav items based on user type
     const getNavItems = () => {
+        // Always show full navigation on public pages
+        if (isHomePage || currentPageName === 'TalentShowcase' || currentPageName === 'Resources' || 
+            currentPageName === 'CaseStudies' || currentPageName === 'About') {
+            return [
+                { name: '首页', page: 'Home' },
+                { name: '人才展示', page: 'TalentShowcase' },
+                { name: '资源', page: 'Resources' },
+                { name: '客户案例', page: 'CaseStudies' },
+                { name: '开发者社区', page: 'Developer' },
+                { name: '关于我们', page: 'About' }
+            ];
+        }
+        
         if (isKA) {
             return [
                 { name: '运营看板', page: 'Dashboard' }
