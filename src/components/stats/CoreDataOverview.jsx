@@ -121,24 +121,6 @@ export default function CoreDataOverview() {
     return (
         <div className="py-20 bg-gradient-to-b from-gray-50 via-white to-gray-50">
             <div className="max-w-7xl mx-auto px-6 lg:px-8">
-                {/* Compact Header */}
-                <motion.div
-                    initial={{ opacity: 0, y: -20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    className="text-center mb-12"
-                >
-                    <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-50 border border-indigo-200 mb-6">
-                        <span className="text-sm font-semibold text-indigo-600">💡 核心数据</span>
-                    </span>
-                    <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-3">
-                        用数据说话的力量
-                    </h2>
-                    <p className="text-gray-600 max-w-2xl mx-auto">
-                        真实规模、可量化成果，这是我们对客户的承诺
-                    </p>
-                </motion.div>
-
                 {/* Stats Grid */}
                 <div className="grid lg:grid-cols-3 gap-8">
                     {stats.map((stat, index) => {
