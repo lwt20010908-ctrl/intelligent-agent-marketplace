@@ -1,51 +1,68 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { BookOpen, Video, FileText, Download, ExternalLink, Lightbulb, Users, Zap } from 'lucide-react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Zap, Brain, Shield, Users, TrendingUp, Award, Cpu, Network, Target, CheckCircle } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function Resources() {
-    const resourceCategories = [
+    const coreCapabilities = [
         {
-            title: '入门指南',
-            icon: BookOpen,
+            icon: Brain,
+            title: '深度学习技术',
+            description: '拥有10年+AI研发经验，掌握最前沿的深度学习算法和自然语言处理技术',
             color: 'from-blue-500 to-cyan-500',
-            resources: [
-                { name: 'AI智能体快速入门', type: '文档', icon: FileText },
-                { name: '如何选择合适的智能体', type: '视频', icon: Video },
-                { name: '部署最佳实践', type: '文档', icon: FileText }
-            ]
+            highlights: ['自研NLP引擎', '多模态理解', '持续学习能力']
         },
         {
-            title: '行业案例',
-            icon: Lightbulb,
+            icon: Network,
+            title: '企业级架构',
+            description: '基于云原生架构，支持百万级并发，99.99%可用性保障',
             color: 'from-purple-500 to-pink-500',
-            resources: [
-                { name: '电商行业应用白皮书', type: 'PDF', icon: Download },
-                { name: '客服智能体成功案例', type: '文档', icon: FileText },
-                { name: '营销自动化实践指南', type: '视频', icon: Video }
-            ]
+            highlights: ['微服务架构', '弹性扩展', '容灾备份']
         },
         {
-            title: '开发者文档',
-            icon: Zap,
+            icon: Shield,
+            title: '安全合规',
+            description: '通过ISO27001、等保三级认证，企业数据安全有保障',
             color: 'from-indigo-500 to-purple-600',
-            resources: [
-                { name: 'API接口文档', type: '文档', icon: FileText },
-                { name: '自定义智能体开发', type: '文档', icon: FileText },
-                { name: 'SDK使用说明', type: '文档', icon: FileText }
-            ]
+            highlights: ['数据加密', '隐私保护', '合规认证']
         },
         {
-            title: '社区资源',
             icon: Users,
+            title: '顶尖团队',
+            description: '核心团队来自华为、阿里、腾讯，平均10年+行业经验',
             color: 'from-green-500 to-emerald-500',
-            resources: [
-                { name: '开发者论坛', type: '外部链接', icon: ExternalLink },
-                { name: '技术博客', type: '外部链接', icon: ExternalLink },
-                { name: '常见问题解答', type: '文档', icon: FileText }
-            ]
+            highlights: ['AI专家团队', '行业资深', '7×24支持']
         }
+    ];
+
+    const advantages = [
+        {
+            icon: Target,
+            title: '行业定制化',
+            description: '针对不同行业深度优化，开箱即用'
+        },
+        {
+            icon: Zap,
+            title: '快速部署',
+            description: '7天内完成部署，立即产生价值'
+        },
+        {
+            icon: TrendingUp,
+            title: '持续优化',
+            description: '基于真实数据不断学习，效果持续提升'
+        },
+        {
+            icon: Award,
+            title: '验证成功',
+            description: '服务500+企业，平均ROI提升300%'
+        }
+    ];
+
+    const technicalStack = [
+        { category: 'AI引擎', items: ['GPT-4级大模型', '多轮对话系统', '情感分析引擎', '知识图谱'] },
+        { category: '技术架构', items: ['Kubernetes集群', 'Redis缓存', 'PostgreSQL', '消息队列'] },
+        { category: '数据安全', items: ['端到端加密', '权限管控', '审计日志', '备份恢复'] },
+        { category: '集成能力', items: ['RESTful API', 'Webhook', '第三方对接', 'SDK支持'] }
     ];
 
     return (
@@ -58,86 +75,167 @@ export default function Resources() {
                     className="text-center mb-16"
                 >
                     <div className="flex items-center justify-center gap-2 mb-6">
-                        <BookOpen className="w-6 h-6 text-indigo-500" />
-                        <span className="text-indigo-600 font-semibold text-sm tracking-wide uppercase">学习中心</span>
+                        <Cpu className="w-6 h-6 text-indigo-500" />
+                        <span className="text-indigo-600 font-semibold text-sm tracking-wide uppercase">核心能力</span>
                     </div>
                     <h1 className="text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-                        资源中心
+                        为什么选择我们
                     </h1>
                     <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-                        获取文档、教程和最佳实践，充分发挥AI智能体的潜力
+                        深耕AI领域十年，为华为、淘宝、小米等顶级企业提供智能化解决方案
                     </p>
                 </motion.div>
 
-                {/* Resource Categories */}
-                <div className="space-y-12">
-                    {resourceCategories.map((category, catIndex) => {
-                        const CategoryIcon = category.icon;
-                        return (
+                {/* Core Capabilities */}
+                <div className="mb-20">
+                    <motion.h2
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.1 }}
+                        className="text-3xl font-bold text-gray-900 mb-8 text-center"
+                    >
+                        核心能力
+                    </motion.h2>
+                    <div className="grid md:grid-cols-2 gap-8">
+                        {coreCapabilities.map((capability, index) => {
+                            const Icon = capability.icon;
+                            return (
+                                <motion.div
+                                    key={index}
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: 0.2 + index * 0.1 }}
+                                >
+                                    <Card className="h-full hover:shadow-xl transition-all">
+                                        <CardHeader>
+                                            <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${capability.color} flex items-center justify-center mb-4`}>
+                                                <Icon className="w-7 h-7 text-white" />
+                                            </div>
+                                            <CardTitle className="text-2xl">{capability.title}</CardTitle>
+                                        </CardHeader>
+                                        <CardContent>
+                                            <p className="text-gray-600 mb-4 leading-relaxed">
+                                                {capability.description}
+                                            </p>
+                                            <div className="space-y-2">
+                                                {capability.highlights.map((highlight, i) => (
+                                                    <div key={i} className="flex items-center gap-2 text-sm text-gray-700">
+                                                        <CheckCircle className="w-4 h-4 text-green-600" />
+                                                        <span>{highlight}</span>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </CardContent>
+                                    </Card>
+                                </motion.div>
+                            );
+                        })}
+                    </div>
+                </div>
+
+                {/* Competitive Advantages */}
+                <div className="mb-20">
+                    <motion.h2
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.4 }}
+                        className="text-3xl font-bold text-gray-900 mb-8 text-center"
+                    >
+                        竞争优势
+                    </motion.h2>
+                    <div className="grid md:grid-cols-4 gap-6">
+                        {advantages.map((advantage, index) => {
+                            const Icon = advantage.icon;
+                            return (
+                                <motion.div
+                                    key={index}
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: 0.5 + index * 0.1 }}
+                                    className="bg-white rounded-2xl p-6 text-center hover:shadow-lg transition-all"
+                                >
+                                    <Icon className="w-10 h-10 text-indigo-500 mx-auto mb-4" />
+                                    <h3 className="font-semibold text-gray-900 mb-2">{advantage.title}</h3>
+                                    <p className="text-sm text-gray-600 leading-relaxed">{advantage.description}</p>
+                                </motion.div>
+                            );
+                        })}
+                    </div>
+                </div>
+
+                {/* Technical Stack */}
+                <div className="mb-20">
+                    <motion.h2
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.6 }}
+                        className="text-3xl font-bold text-gray-900 mb-8 text-center"
+                    >
+                        技术栈
+                    </motion.h2>
+                    <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        {technicalStack.map((stack, index) => (
                             <motion.div
-                                key={catIndex}
+                                key={index}
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.1 + catIndex * 0.1 }}
+                                transition={{ delay: 0.7 + index * 0.1 }}
+                                className="bg-white rounded-2xl p-6 hover:shadow-lg transition-all"
                             >
-                                <div className="flex items-center gap-3 mb-6">
-                                    <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${category.color} flex items-center justify-center`}>
-                                        <CategoryIcon className="w-6 h-6 text-white" />
-                                    </div>
-                                    <h2 className="text-3xl font-bold text-gray-900">{category.title}</h2>
-                                </div>
-
-                                <div className="grid md:grid-cols-3 gap-6">
-                                    {category.resources.map((resource, resIndex) => {
-                                        const ResourceIcon = resource.icon;
-                                        return (
-                                            <motion.div
-                                                key={resIndex}
-                                                initial={{ opacity: 0, y: 20 }}
-                                                animate={{ opacity: 1, y: 0 }}
-                                                transition={{ delay: 0.2 + catIndex * 0.1 + resIndex * 0.05 }}
-                                            >
-                                                <Card className="hover:shadow-lg transition-all cursor-pointer group">
-                                                    <CardHeader>
-                                                        <div className="flex items-start justify-between">
-                                                            <ResourceIcon className="w-8 h-8 text-indigo-500 mb-3" />
-                                                            <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">
-                                                                {resource.type}
-                                                            </span>
-                                                        </div>
-                                                        <CardTitle className="text-lg group-hover:text-indigo-600 transition-colors">
-                                                            {resource.name}
-                                                        </CardTitle>
-                                                    </CardHeader>
-                                                    <CardContent>
-                                                        <Button variant="ghost" className="w-full group-hover:bg-indigo-50 group-hover:text-indigo-600">
-                                                            查看详情
-                                                        </Button>
-                                                    </CardContent>
-                                                </Card>
-                                            </motion.div>
-                                        );
-                                    })}
-                                </div>
+                                <h3 className="font-semibold text-gray-900 mb-4 text-lg">{stack.category}</h3>
+                                <ul className="space-y-2">
+                                    {stack.items.map((item, i) => (
+                                        <li key={i} className="flex items-center gap-2 text-sm text-gray-600">
+                                            <div className="w-1.5 h-1.5 rounded-full bg-indigo-500" />
+                                            {item}
+                                        </li>
+                                    ))}
+                                </ul>
                             </motion.div>
-                        );
-                    })}
+                        ))}
+                    </div>
                 </div>
+
+                {/* Stats */}
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.8 }}
+                    className="bg-gradient-to-br from-indigo-500 to-purple-600 rounded-3xl p-12 text-white"
+                >
+                    <h2 className="text-3xl font-bold mb-8 text-center">用数据说话</h2>
+                    <div className="grid md:grid-cols-4 gap-8">
+                        {[
+                            { value: '10+', label: 'AI研发经验（年）' },
+                            { value: '500+', label: '服务企业' },
+                            { value: '99.99%', label: '系统可用性' },
+                            { value: '300%', label: '平均ROI提升' }
+                        ].map((stat, i) => (
+                            <div key={i} className="text-center">
+                                <div className="text-4xl font-bold mb-2">{stat.value}</div>
+                                <div className="text-indigo-100 text-sm">{stat.label}</div>
+                            </div>
+                        ))}
+                    </div>
+                </motion.div>
 
                 {/* CTA */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.6 }}
-                    className="mt-16 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-3xl p-12 text-white text-center"
+                    transition={{ delay: 0.9 }}
+                    className="mt-16 text-center"
                 >
-                    <h2 className="text-3xl font-bold mb-4">需要更多帮助？</h2>
-                    <p className="text-indigo-100 mb-8 text-lg">
-                        联系我们的技术支持团队，获取专业指导
+                    <h2 className="text-3xl font-bold text-gray-900 mb-4">准备开始了吗？</h2>
+                    <p className="text-gray-600 mb-8 text-lg">
+                        让我们的专业团队为您提供定制化的AI智能体解决方案
                     </p>
-                    <Button size="lg" className="bg-white text-indigo-600 hover:bg-gray-100">
-                        联系支持
-                    </Button>
+                    <a
+                        href="/Marketplace"
+                        className="inline-block px-8 py-4 bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold rounded-full hover:shadow-2xl hover:scale-105 transition-all duration-300"
+                    >
+                        立即开始
+                    </a>
                 </motion.div>
             </div>
         </div>
