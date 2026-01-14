@@ -140,10 +140,10 @@ export default function Marketplace() {
     const tradeableAgents = filteredAgents.filter(a => a.type === 'tradeable');
 
     return (
-        <div className="min-h-screen bg-gray-50">
+        <div className="min-h-screen bg-gray-50 flex flex-col">
             {/* Custom Navigation Bar */}
             <header className="bg-white border-b border-gray-100 sticky top-0 z-50">
-                <div className="max-w-7xl mx-auto px-6 lg:px-8">
+                <div className="max-w-full mx-auto px-6 lg:px-8">
                     <div className="flex items-center justify-between h-16">
                         {/* Left - Logo & Back */}
                         <div className="flex items-center gap-4">
@@ -212,8 +212,20 @@ export default function Marketplace() {
                 </div>
             </header>
 
-            {/* Main Content */}
-            <div className="max-w-7xl mx-auto px-6 lg:px-8 pt-8 pb-20">
+            {/* Main Content with Sidebar */}
+            <div className="flex flex-1 overflow-hidden">
+                {/* Sidebar */}
+                <MarketplaceSidebar
+                    search={search}
+                    setSearch={setSearch}
+                    viewMode={viewMode}
+                    setViewMode={setViewMode}
+                    filters={filters}
+                    setFilters={setFilters}
+                />
+
+                {/* Right Content */}
+                <div className="flex-1 overflow-y-auto px-8 pt-8 pb-20">
                 {/* Header */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
