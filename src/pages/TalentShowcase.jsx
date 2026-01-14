@@ -65,22 +65,41 @@ export default function TalentShowcase() {
                             ))}
                         </div>
                     ) : agents.length > 0 ? (
-                        <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
-                            {agents.map((agent, i) => (
-                                <motion.div
-                                    key={agent.id}
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ delay: 0.4 + i * 0.05 }}
-                                >
+                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 auto-rows-max">
+                            {/* Left: First agent - large card */}
+                            <motion.div
+                                key={agents[0]?.id}
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.4 }}
+                                className="lg:row-span-2"
+                            >
+                                <div className="h-full">
                                     <AgentCard 
-                                        agent={agent} 
-                                        index={i} 
+                                        agent={agents[0]} 
                                         hidePrice={true}
                                         onWatchDemo={setSelectedAgent}
                                     />
-                                </motion.div>
-                            ))}
+                                </div>
+                            </motion.div>
+
+                            {/* Right: Remaining agents in 2x2 grid */}
+                            <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
+                                {agents.slice(1).map((agent, i) => (
+                                    <motion.div
+                                        key={agent.id}
+                                        initial={{ opacity: 0, y: 20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: 0.4 + (i + 1) * 0.05 }}
+                                    >
+                                        <AgentCard 
+                                            agent={agent} 
+                                            hidePrice={true}
+                                            onWatchDemo={setSelectedAgent}
+                                        />
+                                    </motion.div>
+                                ))}
+                            </div>
                         </div>
                     ) : (
                         <div className="text-center py-20 bg-white rounded-2xl">
