@@ -153,13 +153,9 @@ export default function ShowcaseSection() {
                     viewport={{ once: true }}
                     className="text-center mt-12"
                 >
-                    <Link
-                        to={createPageUrl('Marketplace')}
-                        className="inline-flex items-center gap-2 text-indigo-500 font-medium hover:text-indigo-600 transition-colors"
-                    >
-                        查看更多案例
-                        <ArrowRight className="w-4 h-4" />
-                    </Link>
+                    <p className="text-gray-500 text-sm">
+                        更多AI智能体等你探索，立即登录查看完整市场
+                    </p>
                 </motion.div>
             </div>
         </section>
