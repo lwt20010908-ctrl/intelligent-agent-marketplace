@@ -175,15 +175,17 @@ export default function Layout({ children, currentPageName }) {
 
                             <button
                                 onClick={() => setShowIdentitySelector(true)}
-                                className="px-6 py-3 bg-gray-700/80 hover:bg-gray-600 text-white text-base font-semibold rounded-full transition-all duration-300"
+                                className={`text-sm font-medium transition-colors ${
+                                    scrolled || !isHomePage ? 'text-gray-600 hover:text-gray-900' : 'text-white/80 hover:text-white'
+                                }`}
                             >
-                                进入控制台
+                                登录
                             </button>
                             <Link
                                 to={createPageUrl('Marketplace')}
                                 className="px-6 py-3 bg-gradient-to-r from-indigo-500 to-purple-600 text-white text-base font-semibold rounded-full hover:shadow-lg hover:shadow-indigo-500/30 transition-all duration-300"
                             >
-                                浏览市场
+                                注册
                             </Link>
                         </div>
 
