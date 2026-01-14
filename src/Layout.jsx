@@ -176,12 +176,22 @@ export default function Layout({ children, currentPageName }) {
                                     )}
                                 </>
                             ) : (
-                                <Link
-                                    to={createPageUrl('Marketplace')}
-                                    className="px-5 py-2.5 bg-gradient-to-r from-indigo-500 to-purple-600 text-white text-sm font-medium rounded-full hover:shadow-lg hover:shadow-indigo-500/30 transition-all duration-300"
-                                >
-                                    开始雇佣
-                                </Link>
+                                <>
+                                    <Link
+                                        to={createPageUrl('Dashboard')}
+                                        className={`text-sm font-medium transition-colors ${
+                                            scrolled || !isHomePage ? 'text-gray-600 hover:text-gray-900' : 'text-white/80 hover:text-white'
+                                        }`}
+                                    >
+                                        登录
+                                    </Link>
+                                    <Link
+                                        to={createPageUrl('Marketplace')}
+                                        className="px-5 py-2.5 bg-gradient-to-r from-indigo-500 to-purple-600 text-white text-sm font-medium rounded-full hover:shadow-lg hover:shadow-indigo-500/30 transition-all duration-300"
+                                    >
+                                        开始雇佣
+                                    </Link>
+                                </>
                             )}
                         </div>
 
