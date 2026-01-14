@@ -244,7 +244,7 @@ export default function Layout({ children, currentPageName }) {
                 onSelectIdentity={(type) => {
                     if (type === 'merchant') {
                         setSimulatedUserType('merchant');
-                        navigate(createPageUrl('Marketplace'));
+                        navigate(createPageUrl('Dashboard'));
                     } else if (type === 'ka') {
                         setSimulatedUserType('ka');
                         navigate(createPageUrl('Dashboard'));
