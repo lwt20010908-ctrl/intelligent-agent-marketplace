@@ -152,26 +152,6 @@ export default function Layout({ children, currentPageName }) {
 
                         {/* CTA Buttons */}
                         <div className="hidden md:flex items-center gap-4">
-                            <DropdownMenu>
-                                <DropdownMenuTrigger className={`text-sm font-medium transition-colors flex items-center gap-1 ${
-                                    scrolled || !isHomePage ? 'text-gray-600 hover:text-gray-900' : 'text-white/80 hover:text-white'
-                                }`}>
-                                    {simulatedUserType === 'merchant' ? '商家模式' : 
-                                     simulatedUserType === 'ka' ? 'KA模式' : '未登录'}
-                                    <ChevronDown className="w-4 h-4" />
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent>
-                                    <DropdownMenuItem onClick={() => setSimulatedUserType(null)}>
-                                        未登录状态
-                                    </DropdownMenuItem>
-                                    <DropdownMenuItem onClick={() => setSimulatedUserType('merchant')}>
-                                        商家登录
-                                    </DropdownMenuItem>
-                                    <DropdownMenuItem onClick={() => setSimulatedUserType('ka')}>
-                                        大B端登录
-                                    </DropdownMenuItem>
-                                </DropdownMenuContent>
-                            </DropdownMenu>
 
                             <button
                                 onClick={() => setShowIdentitySelector(true)}
