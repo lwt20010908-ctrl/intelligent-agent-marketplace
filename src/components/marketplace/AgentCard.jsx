@@ -62,12 +62,22 @@ export default function AgentCard({ agent, index = 0, hidePrice = false, onWatch
                         </div>
                     </div>
                     
-                    {isShowcase && (
-                        <Badge className="bg-gradient-to-r from-amber-400 to-orange-500 text-white border-0">
-                            <Star className="w-3 h-3 mr-1" />
-                            展示
-                        </Badge>
-                    )}
+                    <div className="flex gap-2">
+                        {agent.demo_video_url && (
+                            <Badge 
+                                className="bg-red-500 text-white border-0 cursor-pointer hover:bg-red-600 transition-colors"
+                                onClick={() => onWatchDemo?.(agent)}
+                            >
+                                🎬 视频
+                            </Badge>
+                        )}
+                        {isShowcase && (
+                            <Badge className="bg-gradient-to-r from-amber-400 to-orange-500 text-white border-0">
+                                <Star className="w-3 h-3 mr-1" />
+                                展示
+                            </Badge>
+                        )}
+                    </div>
                 </div>
 
                 {/* Description */}
