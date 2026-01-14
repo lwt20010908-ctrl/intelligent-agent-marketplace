@@ -207,7 +207,7 @@ export default function CoreDataOverview() {
                     whileInView={{ opacity: 1 }}
                     viewport={{ once: true }}
                     transition={{ delay: 0.4 }}
-                    className="mt-16 text-center"
+                    className="mt-10 text-center"
                 >
                     <p className="text-gray-700 max-w-2xl mx-auto leading-relaxed">
                         <span className="font-semibold text-gray-900">每个数字都有故事。</span>这些数据背后是我们与客户一起创造的真实价值——从小企业到行业龙头，都在体验AI赋能的变革。
