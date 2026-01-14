@@ -389,7 +389,7 @@ export default function Marketplace() {
                         </DialogFooter>
                     </DialogContent>
                 </Dialog>
-                </div>
-                </div>
-                );
-                }
+            </div>
+        </div>
+    );
+}
