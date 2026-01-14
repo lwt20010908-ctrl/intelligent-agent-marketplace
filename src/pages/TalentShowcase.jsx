@@ -9,10 +9,12 @@ import React, { useState } from 'react';
       import { Dialog, DialogContent } from "@/components/ui/dialog";
 
 export default function TalentShowcase() {
-    const { data: agents = [], isLoading } = useQuery({
-        queryKey: ['showcase-agents'],
-        queryFn: () => base44.entities.Agent.filter({ featured: true })
-    });
+          const [selectedAgent, setSelectedAgent] = useState(null);
+
+          const { data: agents = [], isLoading } = useQuery({
+              queryKey: ['showcase-agents'],
+              queryFn: () => base44.entities.Agent.filter({ featured: true })
+          });
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 pt-28 pb-20">
