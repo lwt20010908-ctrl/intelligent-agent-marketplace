@@ -298,6 +298,7 @@ export default function Marketplace() {
                             </>
                         )}
                     </div>
+                    </div>
 
                     {/* Hire Modal */}
                     <Dialog open={showHireModal} onOpenChange={setShowHireModal}>
