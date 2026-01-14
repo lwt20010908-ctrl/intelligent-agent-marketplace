@@ -156,43 +156,20 @@ export default function Layout({ children, currentPageName }) {
                                 </DropdownMenuContent>
                             </DropdownMenu>
 
-                            {user ? (
-                                <>
-                                    <Link
-                                        to={createPageUrl('Dashboard')}
-                                        className={`text-sm font-medium transition-colors ${
-                                            scrolled || !isHomePage ? 'text-gray-600 hover:text-gray-900' : 'text-white/80 hover:text-white'
-                                        }`}
-                                    >
-                                        {isKA ? '运营看板' : '控制台'}
-                                    </Link>
-                                    {isMerchant && (
-                                        <Link
-                                            to={createPageUrl('Marketplace')}
-                                            className="px-5 py-2.5 bg-gradient-to-r from-indigo-500 to-purple-600 text-white text-sm font-medium rounded-full hover:shadow-lg hover:shadow-indigo-500/30 transition-all duration-300"
-                                        >
-                                            发现AI员工
-                                        </Link>
-                                    )}
-                                </>
-                            ) : (
-                                <>
-                                    <Link
-                                        to={createPageUrl('Dashboard')}
-                                        className={`text-sm font-medium transition-colors ${
-                                            scrolled || !isHomePage ? 'text-gray-600 hover:text-gray-900' : 'text-white/80 hover:text-white'
-                                        }`}
-                                    >
-                                        登录
-                                    </Link>
-                                    <Link
-                                        to={createPageUrl('Marketplace')}
-                                        className="px-5 py-2.5 bg-gradient-to-r from-indigo-500 to-purple-600 text-white text-sm font-medium rounded-full hover:shadow-lg hover:shadow-indigo-500/30 transition-all duration-300"
-                                    >
-                                        开始雇佣
-                                    </Link>
-                                </>
-                            )}
+                            <Link
+                                to={createPageUrl('Dashboard')}
+                                className={`text-sm font-medium transition-colors ${
+                                    scrolled || !isHomePage ? 'text-gray-600 hover:text-gray-900' : 'text-white/80 hover:text-white'
+                                }`}
+                            >
+                                登录
+                            </Link>
+                            <Link
+                                to={createPageUrl('Marketplace')}
+                                className="px-6 py-3 bg-gradient-to-r from-indigo-500 to-purple-600 text-white text-base font-semibold rounded-full hover:shadow-lg hover:shadow-indigo-500/30 transition-all duration-300"
+                            >
+                                注册
+                            </Link>
                         </div>
 
                         {/* Mobile Menu Button */}
