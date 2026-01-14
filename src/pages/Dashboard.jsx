@@ -39,13 +39,23 @@ export default function Dashboard() {
 
     const clientInfo = { name: user?.company_name || user?.full_name, type: user?.client_type };
 
-    const menuItems = [
-        { icon: LayoutDashboard, label: '总览', tab: 'overview' },
-        { icon: ShoppingBag, label: 'AI人才市场', tab: 'marketplace' },
-        { icon: Bot, label: '我的智能体', tab: 'agents' },
-        { icon: BarChart3, label: '数据报表', tab: 'analytics' },
-        { icon: Settings, label: '设置', tab: 'settings' }
-    ];
+    const getMenuItems = () => {
+        const baseItems = [
+            { icon: LayoutDashboard, label: '总览', tab: 'overview' },
+            { icon: Bot, label: '我的智能体', tab: 'agents' },
+            { icon: BarChart3, label: '数据报表', tab: 'analytics' },
+            { icon: Settings, label: '设置', tab: 'settings' }
+        ];
+        if (!isKA) {
+            return [
+                { icon: LayoutDashboard, label: '总览', tab: 'overview' },
+                { icon: ShoppingBag, label: 'AI人才市场', tab: 'marketplace' },
+                ...baseItems.slice(1)
+            ];
+        }
+        return baseItems;
+    };
+    const menuItems = getMenuItems();
 
     // KA authentication check
     if (isKA && !isKaAuthenticated) {
