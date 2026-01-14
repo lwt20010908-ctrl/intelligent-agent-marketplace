@@ -70,7 +70,7 @@ export default function TalentShowcase() {
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ delay: 0.4 + i * 0.05 }}
                                 >
-                                    <AgentCard agent={agent} index={i} />
+                                    <AgentCard agent={agent} index={i} hidePrice={true} />
                                 </motion.div>
                             ))}
                         </div>
