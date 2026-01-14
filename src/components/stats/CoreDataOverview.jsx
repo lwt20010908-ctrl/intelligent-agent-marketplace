@@ -119,10 +119,10 @@ export default function CoreDataOverview() {
     ];
 
     return (
-        <div className="py-20 bg-gradient-to-b from-gray-50 via-white to-gray-50">
+        <div className="py-12 bg-gradient-to-b from-gray-50 via-white to-gray-50">
             <div className="max-w-7xl mx-auto px-6 lg:px-8">
                 {/* Stats Grid */}
-                <div className="grid lg:grid-cols-3 gap-8">
+                <div className="grid lg:grid-cols-3 gap-6">
                     {stats.map((stat, index) => {
                         const Icon = stat.icon;
 
