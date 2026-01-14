@@ -34,36 +34,8 @@ export default function TalentShowcase() {
                     </p>
                 </motion.div>
 
-                {/* Stats */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.1 }}
-                    className="grid md:grid-cols-3 gap-6 mb-16"
-                >
-                    {[
-                        { icon: Users, label: '服务企业', value: '500+', color: 'from-blue-500 to-cyan-500' },
-                        { icon: TrendingUp, label: '效率提升', value: '300%', color: 'from-purple-500 to-pink-500' },
-                        { icon: Award, label: '满意度', value: '98%', color: 'from-indigo-500 to-purple-600' }
-                    ].map((stat, i) => {
-                        const Icon = stat.icon;
-                        return (
-                            <motion.div
-                                key={i}
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.2 + i * 0.1 }}
-                                className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all"
-                            >
-                                <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${stat.color} flex items-center justify-center mb-4`}>
-                                    <Icon className="w-6 h-6 text-white" />
-                                </div>
-                                <div className="text-3xl font-bold text-gray-900 mb-1">{stat.value}</div>
-                                <div className="text-gray-500 text-sm">{stat.label}</div>
-                            </motion.div>
-                        );
-                    })}
-                </motion.div>
+                {/* Core Data Overview */}
+                <CoreDataOverview />
 
                 {/* Featured Agents */}
                 <div>
