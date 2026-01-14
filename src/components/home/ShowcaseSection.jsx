@@ -153,9 +153,12 @@ export default function ShowcaseSection() {
                     viewport={{ once: true }}
                     className="text-center mt-12"
                 >
-                    <p className="text-gray-500 text-sm">
-                        更多AI智能体等你探索，立即登录查看完整市场
-                    </p>
+                    <Link
+                        to={createPageUrl('CaseStudies')}
+                        className="inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-indigo-500 to-purple-600 text-white text-lg font-semibold rounded-full hover:shadow-lg hover:shadow-indigo-500/30 transition-all duration-300 group"
+                    >
+                        查看更多企业案例 <ArrowRight className="ml-2 w-5 h-5 transition-transform group-hover:translate-x-1" />
+                    </Link>
                 </motion.div>
             </div>
         </section>
