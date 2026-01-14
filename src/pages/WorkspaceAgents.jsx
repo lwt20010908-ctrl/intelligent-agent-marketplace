@@ -56,19 +56,18 @@ export default function WorkspaceAgents() {
             {/* Header */}
             <div className="bg-white border-b border-gray-100">
                 <div className="max-w-7xl mx-auto px-6 lg:px-8 py-8">
-                    <div className="flex items-center justify-between mb-6">
-                        <Link
-                            to={createPageUrl('Dashboard')}
-                            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-                        >
-                            <ArrowLeft className="w-5 h-5 text-gray-600" />
-                        </Link>
-                    </div>
-
                     <motion.div
                         initial={{ opacity: 0, y: -20 }}
                         animate={{ opacity: 1, y: 0 }}
                     >
+                        <Link
+                            to={createPageUrl('Dashboard')}
+                            className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-6 transition-colors"
+                        >
+                            <ArrowLeft className="w-5 h-5" />
+                            <span className="font-medium">返回控制台</span>
+                        </Link>
+
                         <div className="mb-2">
                             <h1 className="text-3xl font-bold text-gray-900">
                                 {workspace?.name || '工作台'}
