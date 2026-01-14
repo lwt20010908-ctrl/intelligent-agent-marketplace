@@ -119,24 +119,23 @@ export default function CoreDataOverview() {
     ];
 
     return (
-        <div className="py-20 bg-gradient-to-b from-transparent to-indigo-50/30">
+        <div className="py-20 bg-gradient-to-b from-gray-50 via-white to-gray-50">
             <div className="max-w-7xl mx-auto px-6 lg:px-8">
-                {/* Header */}
+                {/* Compact Header */}
                 <motion.div
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: -20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    className="text-center mb-16"
+                    className="text-center mb-12"
                 >
-                    <div className="flex items-center justify-center gap-2 mb-4">
-                        <Zap className="w-5 h-5 text-indigo-500" />
-                        <span className="text-indigo-600 font-semibold text-sm tracking-wide uppercase">核心数据</span>
-                    </div>
-                    <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
+                    <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-50 border border-indigo-200 mb-6">
+                        <span className="text-sm font-semibold text-indigo-600">💡 核心数据</span>
+                    </span>
+                    <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-3">
                         用数据说话的力量
                     </h2>
-                    <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                        真实的规模、可量化的成果，这就是AI智能体市场的承诺
+                    <p className="text-gray-600 max-w-2xl mx-auto">
+                        真实规模、可量化成果，这是我们对客户的承诺
                     </p>
                 </motion.div>
 
@@ -144,59 +143,75 @@ export default function CoreDataOverview() {
                 <div className="grid lg:grid-cols-3 gap-8">
                     {stats.map((stat, index) => {
                         const Icon = stat.icon;
-                        const counterValue = <AnimatedCounter target={stat.target} duration={2.5} />;
 
                         return (
                             <motion.div
                                 key={stat.id}
-                                initial={{ opacity: 0, y: 20 }}
+                                initial={{ opacity: 0, y: 30 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
-                                transition={{ delay: index * 0.15 }}
-                                className="relative group"
+                                transition={{ delay: index * 0.1 }}
+                                className="group"
                             >
-                                {/* Glow effect */}
-                                <div className={`absolute inset-0 bg-gradient-to-br ${stat.color} rounded-3xl opacity-0 group-hover:opacity-10 transition-opacity duration-500 blur-xl`} />
+                                <div className="relative h-full">
+                                    {/* Gradient border effect */}
+                                    <div 
+                                        className="absolute inset-0 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                                        style={{ background: `linear-gradient(135deg, ${stat.color}20, ${stat.color}10)` }}
+                                    />
 
-                                {/* Card */}
-                                <div className="relative bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 h-full flex flex-col">
-                                    {/* Top section with icon */}
-                                    <div className="mb-6">
-                                        <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${stat.color} flex items-center justify-center mb-4 shadow-lg`}>
-                                            <Icon className="w-8 h-8 text-white" />
+                                    {/* Main Card */}
+                                    <div className="relative bg-white rounded-2xl p-8 shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 group-hover:border-gray-200 h-full flex flex-col">
+                                        {/* Icon badge */}
+                                        <div 
+                                            className="w-14 h-14 rounded-xl flex items-center justify-center mb-6 shadow-md"
+                                            style={{ backgroundColor: `${stat.color}20` }}
+                                        >
+                                            <Icon className="w-7 h-7" style={{ color: stat.color }} />
                                         </div>
-                                        <h3 className="text-lg font-semibold text-gray-900">{stat.label}</h3>
-                                    </div>
 
-                                    {/* Big number */}
-                                    <div className="mb-6">
-                                        <div className="text-5xl lg:text-6xl font-bold bg-gradient-to-br from-gray-900 to-gray-700 bg-clip-text text-transparent">
-                                            {formatNumber(counterValue, stat.id)}
-                                            <span className="text-3xl ml-1">{stat.suffix}</span>
+                                        {/* Label */}
+                                        <h3 className="text-lg font-bold text-gray-900 mb-2">{stat.label}</h3>
+
+                                        {/* Big Number */}
+                                        <div className="mb-6 pt-2">
+                                            <div 
+                                                className="text-5xl font-bold"
+                                                style={{ color: stat.color }}
+                                            >
+                                                <AnimatedCounter value={stat.value} format={stat.formatFn} />
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    {/* Mini chart */}
-                                    <div className={`mb-6 text-gradient-to-r ${stat.color} text-transparent bg-clip-text opacity-80`}>
-                                        <MiniChart type={stat.chartType} />
-                                    </div>
+                                        {/* Chart */}
+                                        <div className="mb-6 -mx-2 flex-grow flex items-center">
+                                            {stat.chart === 'growth' && <GrowthChart color={stat.color} />}
+                                            {stat.chart === 'savings' && <SavingsChart />}
+                                        </div>
 
-                                    {/* Description and highlight */}
-                                    <div className="flex-grow">
-                                        <p className="text-sm text-gray-600 mb-4 leading-relaxed">
+                                        {/* Description */}
+                                        <p className="text-sm text-gray-600 mb-4">
                                             {stat.description}
                                         </p>
-                                        <div className={`px-3 py-2 bg-gradient-to-br ${stat.color} bg-opacity-10 rounded-lg border border-opacity-20`}>
-                                            <p className={`text-sm font-medium bg-gradient-to-r ${stat.color} bg-clip-text text-transparent`}>
+
+                                        {/* Highlight Badge */}
+                                        <div 
+                                            className="px-3 py-2 rounded-lg border"
+                                            style={{ 
+                                                backgroundColor: `${stat.color}10`,
+                                                borderColor: `${stat.color}30`
+                                            }}
+                                        >
+                                            <p className="text-xs font-medium" style={{ color: stat.color }}>
                                                 ✨ {stat.highlight}
                                             </p>
                                         </div>
-                                    </div>
 
-                                    {/* Trending indicator */}
-                                    <div className="mt-6 pt-6 border-t border-gray-100 flex items-center gap-2">
-                                        <TrendingUp className={`w-4 h-4 text-green-500`} />
-                                        <span className="text-xs text-gray-500">持续增长中</span>
+                                        {/* Footer */}
+                                        <div className="mt-5 pt-5 border-t border-gray-100 flex items-center gap-2">
+                                            <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: stat.color }} />
+                                            <span className="text-xs text-gray-500">持续增长中</span>
+                                        </div>
                                     </div>
                                 </div>
                             </motion.div>
@@ -204,16 +219,16 @@ export default function CoreDataOverview() {
                     })}
                 </div>
 
-                {/* Bottom insight */}
+                {/* Bottom CTA Insight */}
                 <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
                     viewport={{ once: true }}
-                    transition={{ delay: 0.5 }}
-                    className="mt-12 text-center"
+                    transition={{ delay: 0.4 }}
+                    className="mt-16 text-center"
                 >
-                    <p className="text-gray-600 max-w-2xl mx-auto">
-                        <span className="font-semibold text-gray-900">为什么选择我们？</span> 这些数据不仅代表我们的规模，更代表着我们为客户创造的实实在在的价值。每一个数字背后，都是一个成功的合作故事。
+                    <p className="text-gray-700 max-w-2xl mx-auto leading-relaxed">
+                        <span className="font-semibold text-gray-900">每个数字都有故事。</span>这些数据背后是我们与客户一起创造的真实价值——从小企业到行业龙头，都在体验AI赋能的变革。
                     </p>
                 </motion.div>
             </div>
