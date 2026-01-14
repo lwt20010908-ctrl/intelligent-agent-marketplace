@@ -298,10 +298,10 @@ export default function Marketplace() {
                             </>
                         )}
                     </div>
-                    </div>
+                </div>
 
-                    {/* Hire Modal */}
-                    <Dialog open={showHireModal} onOpenChange={setShowHireModal}>
+                {/* Hire Modal */}
+                <Dialog open={showHireModal} onOpenChange={setShowHireModal}>
                         <DialogContent className="sm:max-w-md">
                                 <DialogHeader>
                                     <DialogTitle>雇佣 {selectedAgent?.name}</DialogTitle>
