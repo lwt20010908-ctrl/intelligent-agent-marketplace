@@ -2,19 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
-import { Bell, Search, User, Calendar, ArrowLeft, Lock } from 'lucide-react';
+import { Bell, Search, User, Calendar, ArrowLeft, Lock, LayoutDashboard, Bot, BarChart3, Settings, ShoppingBag } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../utils';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import DashboardSidebar from '../components/dashboard/DashboardSidebar';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 import StatsOverview from '../components/dashboard/StatsOverview';
 import WorkspaceList from '../components/dashboard/WorkspaceList';
 import MarketplaceContent from '../components/marketplace/MarketplaceContent';
 
 export default function Dashboard() {
-    const [collapsed, setCollapsed] = useState(false);
     const [currentTab, setCurrentTab] = useState('overview');
     const [user, setUser] = useState(null);
     const [kaPassword, setKaPassword] = useState('');
@@ -39,6 +38,14 @@ export default function Dashboard() {
     });
 
     const clientInfo = { name: user?.company_name || user?.full_name, type: user?.client_type };
+
+    const menuItems = [
+        { icon: LayoutDashboard, label: '总览', tab: 'overview' },
+        { icon: ShoppingBag, label: 'AI人才市场', tab: 'marketplace' },
+        { icon: Bot, label: '我的智能体', tab: 'agents' },
+        { icon: BarChart3, label: '数据报表', tab: 'analytics' },
+        { icon: Settings, label: '设置', tab: 'settings' }
+    ];
 
     // KA authentication check
     if (isKA && !isKaAuthenticated) {
@@ -104,18 +111,9 @@ export default function Dashboard() {
     }
 
     return (
-        <div className="min-h-screen bg-gray-50 flex">
-            {/* Sidebar */}
-            <DashboardSidebar
-                collapsed={collapsed}
-                setCollapsed={setCollapsed}
-                currentTab={currentTab}
-                setCurrentTab={setCurrentTab}
-                clientInfo={clientInfo}
-            />
-
+        <div className="min-h-screen bg-gray-50">
             {/* Main Content */}
-            <div className="flex-grow lg:ml-0 pt-16 lg:pt-0">
+            <div className="flex-grow">
                 {/* Top Bar */}
                 <header className="bg-white border-b border-gray-100 p-4 lg:p-6">
                     <div className="flex items-center justify-between">
@@ -150,11 +148,34 @@ export default function Dashboard() {
                                 <Bell className="w-5 h-5 text-gray-500" />
                                 <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full" />
                             </Button>
-                            <Avatar>
-                                <AvatarFallback className="bg-indigo-100 text-indigo-600">
-                                    {user?.full_name?.[0] || 'U'}
-                                </AvatarFallback>
-                            </Avatar>
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                    <button className="focus:outline-none">
+                                        <Avatar className="cursor-pointer">
+                                            <AvatarFallback className="bg-indigo-100 text-indigo-600">
+                                                {user?.full_name?.[0] || 'U'}
+                                            </AvatarFallback>
+                                        </Avatar>
+                                    </button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="end" className="w-56">
+                                    <div className="px-2 py-2 text-sm">
+                                        <div className="font-medium text-gray-900">{user?.full_name || '用户'}</div>
+                                        <div className="text-xs text-gray-500">{user?.email}</div>
+                                    </div>
+                                    <DropdownMenuSeparator />
+                                    {menuItems.map((item) => (
+                                        <DropdownMenuItem
+                                            key={item.tab}
+                                            onClick={() => setCurrentTab(item.tab)}
+                                            className={currentTab === item.tab ? 'bg-indigo-50 text-indigo-600' : ''}
+                                        >
+                                            <item.icon className="w-4 h-4 mr-2" />
+                                            {item.label}
+                                        </DropdownMenuItem>
+                                    ))}
+                                </DropdownMenuContent>
+                            </DropdownMenu>
                         </div>
                     </div>
                 </header>
