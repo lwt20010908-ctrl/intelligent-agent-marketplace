@@ -143,7 +143,7 @@ export default function CoreDataOverview() {
                                     />
 
                                     {/* Main Card */}
-                                    <div className="relative bg-white rounded-2xl p-8 shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 group-hover:border-gray-200 h-full flex flex-col">
+                                    <div className="relative bg-white rounded-2xl p-6 shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 group-hover:border-gray-200 h-full flex flex-col">
                                         {/* Icon badge */}
                                         <div 
                                             className="w-14 h-14 rounded-xl flex items-center justify-center mb-6 shadow-md"
