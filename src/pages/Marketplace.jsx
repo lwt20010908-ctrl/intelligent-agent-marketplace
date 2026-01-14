@@ -16,7 +16,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 import { toast } from "sonner";
 import AgentCard from '../components/marketplace/AgentCard';
-import HorizontalFilter from '../components/marketplace/HorizontalFilter';
+import MarketplaceSidebar from '../components/marketplace/MarketplaceSidebar';
 
 export default function Marketplace() {
     const navigate = useNavigate();
