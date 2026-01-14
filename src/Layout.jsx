@@ -175,17 +175,17 @@ export default function Layout({ children, currentPageName }) {
 
                             <button
                                 onClick={() => setShowIdentitySelector(true)}
-                                className="px-6 py-3 bg-slate-700 hover:bg-slate-600 text-white text-base font-semibold rounded-full transition-all duration-300 flex items-center gap-2"
+                                className={`text-sm font-medium transition-colors ${
+                                    scrolled || !isHomePage ? 'text-gray-600 hover:text-gray-900' : 'text-white/80 hover:text-white'
+                                }`}
                             >
-                                进入控制台
-                                <span>→</span>
+                                登录
                             </button>
                             <Link
-                                to={createPageUrl('TalentShowcase')}
-                                className="px-6 py-3 bg-gradient-to-r from-indigo-500 to-purple-600 text-white text-base font-semibold rounded-full hover:shadow-lg hover:shadow-indigo-500/30 transition-all duration-300 flex items-center gap-2"
+                                to={createPageUrl('Marketplace')}
+                                className="px-6 py-3 bg-gradient-to-r from-indigo-500 to-purple-600 text-white text-base font-semibold rounded-full hover:shadow-lg hover:shadow-indigo-500/30 transition-all duration-300"
                             >
-                                <span>✨</span>
-                                浏览市场
+                                注册
                             </Link>
                         </div>
 
