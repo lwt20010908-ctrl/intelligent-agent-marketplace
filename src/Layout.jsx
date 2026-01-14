@@ -52,6 +52,9 @@ export default function Layout({ children, currentPageName }) {
         // Default for non-logged-in users
         return [
             { name: '首页', page: 'Home' },
+            { name: '人才展示', page: 'TalentShowcase' },
+            { name: '资源', page: 'Resources' },
+            { name: '客户案例', page: 'CaseStudies' },
             { name: '开发者社区', page: 'Developer' },
             { name: '关于我们', page: 'About' }
         ];

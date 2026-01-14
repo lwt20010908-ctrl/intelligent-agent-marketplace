@@ -7,6 +7,9 @@ import Home from './pages/Home';
 import Marketplace from './pages/Marketplace';
 import MerchantWorkspace from './pages/MerchantWorkspace';
 import WorkspaceAgents from './pages/WorkspaceAgents';
+import TalentShowcase from './pages/TalentShowcase';
+import Resources from './pages/Resources';
+import CaseStudies from './pages/CaseStudies';
 import __Layout from './Layout.jsx';
 
 
@@ -20,6 +23,9 @@ export const PAGES = {
     "Marketplace": Marketplace,
     "MerchantWorkspace": MerchantWorkspace,
     "WorkspaceAgents": WorkspaceAgents,
+    "TalentShowcase": TalentShowcase,
+    "Resources": Resources,
+    "CaseStudies": CaseStudies,
 }
 
 export const pagesConfig = {
