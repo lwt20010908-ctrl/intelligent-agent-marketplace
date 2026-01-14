@@ -43,7 +43,7 @@ export default function Layout({ children, currentPageName }) {
             currentPageName === 'CaseStudies' || currentPageName === 'About' || currentPageName === 'Developer') {
             return [
                 { name: '首页', page: 'Home' },
-                { name: 'AI人才市场', page: 'TalentShowcase' },
+                { name: 'AI员工市场', page: 'TalentShowcase' },
                 { name: '资源', page: 'Resources' },
                 { name: '客户案例', page: 'CaseStudies' },
                 { name: '开发者社区', page: 'Developer' },
