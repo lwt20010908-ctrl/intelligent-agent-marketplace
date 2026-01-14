@@ -40,7 +40,7 @@ export default function Layout({ children, currentPageName }) {
     const getNavItems = () => {
         // Always show full navigation on public pages
         if (isHomePage || currentPageName === 'TalentShowcase' || currentPageName === 'Resources' || 
-            currentPageName === 'CaseStudies' || currentPageName === 'About') {
+            currentPageName === 'CaseStudies' || currentPageName === 'About' || currentPageName === 'Developer') {
             return [
                 { name: '首页', page: 'Home' },
                 { name: '人才展示', page: 'TalentShowcase' },
