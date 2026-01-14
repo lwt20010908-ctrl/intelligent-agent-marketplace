@@ -87,46 +87,36 @@ export default function CoreDataOverview() {
             id: 'companies',
             icon: Building2,
             label: '服务企业',
-            target: 500,
-            suffix: '+',
+            value: 500,
+            formatFn: (n) => n + '+',
             description: '已覆盖全球头部企业',
-            color: 'from-blue-500 to-cyan-500',
-            chartType: 'growth',
+            color: '#3b82f6',
+            chart: 'growth',
             highlight: '市场领导地位的证明'
         },
         {
             id: 'tasks',
             icon: CheckCircle2,
             label: '累计完成任务量',
-            target: 5000000,
-            suffix: '+',
+            value: 5000000,
+            formatFn: (n) => (n / 1000000).toFixed(1) + 'M+',
             description: '每日处理海量工作',
-            color: 'from-purple-500 to-pink-500',
-            chartType: 'growth',
+            color: '#a855f7',
+            chart: 'growth',
             highlight: '真实的效率和价值输出'
         },
         {
             id: 'savings',
             icon: PiggyBank,
             label: '成本节约',
-            target: 100000000,
-            suffix: '+',
+            value: 100000000,
+            formatFn: (n) => '¥' + (n / 100000000).toFixed(0) + '亿+',
             description: '帮助客户节约真实成本',
-            color: 'from-indigo-500 to-purple-600',
-            chartType: 'comparison',
+            color: '#6366f1',
+            chart: 'savings',
             highlight: '可量化的经济效益'
         }
     ];
-
-    const formatNumber = (num, id) => {
-        if (id === 'tasks') {
-            return (num / 1000000).toFixed(1) + 'M';
-        }
-        if (id === 'savings') {
-            return '¥' + (num / 100000000).toFixed(0) + '亿';
-        }
-        return num;
-    };
 
     return (
         <div className="py-20 bg-gradient-to-b from-transparent to-indigo-50/30">
