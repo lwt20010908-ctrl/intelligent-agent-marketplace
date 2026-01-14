@@ -1,11 +1,12 @@
-import React from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { base44 } from '@/api/base44Client';
-import { motion } from 'framer-motion';
-import { Sparkles } from 'lucide-react';
-import AgentCard from '../components/marketplace/AgentCard';
-import CoreDataOverview from '../components/stats/CoreDataOverview';
-import { Skeleton } from "@/components/ui/skeleton";
+import React, { useState } from 'react';
+      import { useQuery } from '@tanstack/react-query';
+      import { base44 } from '@/api/base44Client';
+      import { motion } from 'framer-motion';
+      import { Sparkles, X } from 'lucide-react';
+      import AgentCard from '../components/marketplace/AgentCard';
+      import CoreDataOverview from '../components/stats/CoreDataOverview';
+      import { Skeleton } from "@/components/ui/skeleton";
+      import { Dialog, DialogContent } from "@/components/ui/dialog";
 
 export default function TalentShowcase() {
     const { data: agents = [], isLoading } = useQuery({
