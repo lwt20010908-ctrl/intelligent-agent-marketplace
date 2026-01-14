@@ -4,11 +4,13 @@ import { createPageUrl } from './utils';
 import { Menu, X, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { base44 } from '@/api/base44Client';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 
 export default function Layout({ children, currentPageName }) {
     const [scrolled, setScrolled] = useState(false);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [user, setUser] = useState(null);
+    const [simulatedUserType, setSimulatedUserType] = useState(null); // null, 'merchant', 'ka'
 
     useEffect(() => {
         const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -17,8 +19,14 @@ export default function Layout({ children, currentPageName }) {
     }, []);
 
     useEffect(() => {
-        base44.auth.me().then(setUser).catch(() => {});
-    }, []);
+        if (simulatedUserType === 'merchant') {
+            setUser({ client_type: 'merchant', full_name: '模拟商家用户', email: 'merchant@demo.com', company_name: '示例商家' });
+        } else if (simulatedUserType === 'ka') {
+            setUser({ client_type: 'ka', full_name: '模拟KA用户', email: 'ka@demo.com', company_name: '大B客户' });
+        } else if (simulatedUserType === null) {
+            base44.auth.me().then(setUser).catch(() => setUser(null));
+        }
+    }, [simulatedUserType]);
 
     const isHomePage = currentPageName === 'Home';
     const isDashboard = currentPageName === 'Dashboard' || currentPageName === 'MerchantWorkspace';
@@ -127,6 +135,27 @@ export default function Layout({ children, currentPageName }) {
 
                         {/* CTA Buttons */}
                         <div className="hidden md:flex items-center gap-4">
+                            <DropdownMenu>
+                                <DropdownMenuTrigger className={`text-sm font-medium transition-colors flex items-center gap-1 ${
+                                    scrolled || !isHomePage ? 'text-gray-600 hover:text-gray-900' : 'text-white/80 hover:text-white'
+                                }`}>
+                                    {simulatedUserType === 'merchant' ? '商家模式' : 
+                                     simulatedUserType === 'ka' ? 'KA模式' : '未登录'}
+                                    <ChevronDown className="w-4 h-4" />
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent>
+                                    <DropdownMenuItem onClick={() => setSimulatedUserType(null)}>
+                                        未登录状态
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem onClick={() => setSimulatedUserType('merchant')}>
+                                        商家登录
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem onClick={() => setSimulatedUserType('ka')}>
+                                        大B端登录
+                                    </DropdownMenuItem>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+
                             {user ? (
                                 <>
                                     <Link
@@ -147,22 +176,12 @@ export default function Layout({ children, currentPageName }) {
                                     )}
                                 </>
                             ) : (
-                                <>
-                                    <Link
-                                        to={createPageUrl('Dashboard')}
-                                        className={`text-sm font-medium transition-colors ${
-                                            scrolled || !isHomePage ? 'text-gray-600 hover:text-gray-900' : 'text-white/80 hover:text-white'
-                                        }`}
-                                    >
-                                        登录
-                                    </Link>
-                                    <Link
-                                        to={createPageUrl('Marketplace')}
-                                        className="px-5 py-2.5 bg-gradient-to-r from-indigo-500 to-purple-600 text-white text-sm font-medium rounded-full hover:shadow-lg hover:shadow-indigo-500/30 transition-all duration-300"
-                                    >
-                                        开始雇佣
-                                    </Link>
-                                </>
+                                <Link
+                                    to={createPageUrl('Marketplace')}
+                                    className="px-5 py-2.5 bg-gradient-to-r from-indigo-500 to-purple-600 text-white text-sm font-medium rounded-full hover:shadow-lg hover:shadow-indigo-500/30 transition-all duration-300"
+                                >
+                                    开始雇佣
+                                </Link>
                             )}
                         </div>
 
