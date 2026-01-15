@@ -11,6 +11,7 @@ import StatsOverview from '../components/dashboard/StatsOverview';
 import WorkspaceList from '../components/dashboard/WorkspaceList';
 import MarketplaceContent from '../components/marketplace/MarketplaceContent';
 import DashboardLayout from '../components/dashboard/DashboardLayout';
+import MerchantOverview from '../components/dashboard/MerchantOverview';
 
 export default function Dashboard() {
     const navigate = useNavigate();
@@ -145,97 +146,51 @@ export default function Dashboard() {
                         <motion.div
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
-                            className="space-y-8"
+                            className="h-full"
                         >
-                            {/* Stats */}
-                            <StatsOverview workspaces={workspaces} />
-
-                            {/* Workspaces */}
-                            <div>
-                                <div className="flex items-center justify-between mb-6">
-                                    <h2 className="text-xl font-bold text-gray-900">
-                                        {isKA ? '工作台总览' : '我的工作台'}
-                                    </h2>
-                                    {isKA && (
-                                        <div className="flex items-center gap-2 text-sm text-gray-500">
-                                            <Calendar className="w-4 h-4" />
-                                            最近30天数据
-                                        </div>
-                                    )}
-                                </div>
-                                <WorkspaceList 
-                                    workspaces={workspaces} 
-                                    isLoading={workspacesLoading}
-                                />
-                            </div>
-
-                            {/* Recently Hired Agents */}
-                            {!isKA && hires.length > 0 && (
-                                <div>
-                                    <h2 className="text-xl font-bold text-gray-900 mb-6">最近雇佣的智能体</h2>
-                                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                        {hires.slice(0, 3).map((hire, i) => (
-                                            <motion.div
-                                                key={hire.id}
-                                                initial={{ opacity: 0, y: 20 }}
-                                                animate={{ opacity: 1, y: 0 }}
-                                                transition={{ delay: i * 0.05 }}
-                                                className="bg-white rounded-2xl p-6 shadow-md hover:shadow-lg transition-all border border-gray-100"
-                                            >
-                                                <div className="flex items-start justify-between mb-4">
-                                                    <div>
-                                                        <h3 className="font-semibold text-gray-900">{hire.agent_name}</h3>
-                                                        <p className="text-sm text-gray-500 mt-1">{hire.merchant_name}</p>
-                                                    </div>
-                                                    <div className={`px-3 py-1 rounded-full text-xs font-medium ${
-                                                        hire.status === 'active' ? 'bg-green-100 text-green-700' :
-                                                        hire.status === 'pending' ? 'bg-yellow-100 text-yellow-700' :
-                                                        'bg-gray-100 text-gray-700'
-                                                    }`}>
-                                                        {hire.status === 'active' ? '运行中' : 
-                                                         hire.status === 'pending' ? '待审核' : hire.status}
-                                                    </div>
-                                                </div>
-                                                <div className="space-y-3 pt-4 border-t border-gray-100">
-                                                    <div className="flex justify-between text-sm">
-                                                        <span className="text-gray-500">套餐</span>
-                                                        <span className="font-medium text-gray-900">
-                                                            {hire.plan_type === 'monthly' ? '月度' : '年度'}
-                                                        </span>
-                                                    </div>
-                                                    <div className="flex justify-between text-sm">
-                                                        <span className="text-gray-500">费用</span>
-                                                        <span className="font-medium text-indigo-600">¥{hire.amount}</span>
-                                                    </div>
-                                                </div>
-                                            </motion.div>
-                                        ))}
-                                    </div>
-                                </div>
+                            {/* 商家使用新的总览布局 */}
+                            {isMerchant && (
+                                <MerchantOverview hires={hires} />
                             )}
 
-                            {/* KA-specific: Activity Log */}
+                            {/* KA使用原有布局 */}
                             {isKA && (
-                                <div>
-                                    <h2 className="text-xl font-bold text-gray-900 mb-6">
-                                        最近动态
-                                    </h2>
-                                    <div className="bg-white rounded-2xl p-6 shadow-md">
-                                        <div className="space-y-4">
-                                            {[
-                                                { time: '10分钟前', action: '华为客服智能体处理了一次复杂投诉', type: 'success' },
-                                                { time: '1小时前', action: '销售助手成功转化3个潜在客户', type: 'success' },
-                                                { time: '2小时前', action: '系统自动更新了知识库', type: 'info' },
-                                                { time: '今天 09:00', action: '日报已生成并发送给运营团队', type: 'info' }
-                                            ].map((item, i) => (
-                                                <div key={i} className="flex items-center gap-4 py-3 border-b border-gray-50 last:border-0">
-                                                    <div className={`w-2 h-2 rounded-full ${
-                                                        item.type === 'success' ? 'bg-green-500' : 'bg-blue-500'
-                                                    }`} />
-                                                    <span className="text-sm text-gray-500 w-24">{item.time}</span>
-                                                    <span className="text-sm text-gray-700">{item.action}</span>
-                                                </div>
-                                            ))}
+                                <div className="space-y-8">
+                                    <StatsOverview workspaces={workspaces} />
+
+                                    <div>
+                                        <div className="flex items-center justify-between mb-6">
+                                            <h2 className="text-xl font-bold text-gray-900">工作台总览</h2>
+                                            <div className="flex items-center gap-2 text-sm text-gray-500">
+                                                <Calendar className="w-4 h-4" />
+                                                最近30天数据
+                                            </div>
+                                        </div>
+                                        <WorkspaceList 
+                                            workspaces={workspaces} 
+                                            isLoading={workspacesLoading}
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <h2 className="text-xl font-bold text-gray-900 mb-6">最近动态</h2>
+                                        <div className="bg-white rounded-2xl p-6 shadow-md">
+                                            <div className="space-y-4">
+                                                {[
+                                                    { time: '10分钟前', action: '华为客服智能体处理了一次复杂投诉', type: 'success' },
+                                                    { time: '1小时前', action: '销售助手成功转化3个潜在客户', type: 'success' },
+                                                    { time: '2小时前', action: '系统自动更新了知识库', type: 'info' },
+                                                    { time: '今天 09:00', action: '日报已生成并发送给运营团队', type: 'info' }
+                                                ].map((item, i) => (
+                                                    <div key={i} className="flex items-center gap-4 py-3 border-b border-gray-50 last:border-0">
+                                                        <div className={`w-2 h-2 rounded-full ${
+                                                            item.type === 'success' ? 'bg-green-500' : 'bg-blue-500'
+                                                        }`} />
+                                                        <span className="text-sm text-gray-500 w-24">{item.time}</span>
+                                                        <span className="text-sm text-gray-700">{item.action}</span>
+                                                    </div>
+                                                ))}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
