@@ -68,7 +68,7 @@ export default function HeroSection() {
                                 to={createPageUrl('Marketplace')}
                                 className="group relative inline-flex items-center gap-3 px-10 py-5 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white text-lg font-semibold rounded-2xl overflow-hidden hover:shadow-2xl hover:shadow-indigo-500/40 transition-all duration-300 hover:scale-105"
                             >
-                                <span className="relative z-10">浏览市场</span>
+                                <span className="relative z-10">浏览AI员工市场</span>
                                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform relative z-10" />
                                 <div className="absolute inset-0 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 opacity-0 group-hover:opacity-100 transition-opacity" />
                             </Link>

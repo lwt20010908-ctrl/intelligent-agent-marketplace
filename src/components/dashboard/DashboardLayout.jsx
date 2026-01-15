@@ -6,11 +6,16 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 export default function DashboardLayout({ children, currentTab, setCurrentTab, user, isKA }) {
     const merchantMenuItems = [
-        { icon: LayoutDashboard, label: '总览', tab: 'overview' },
         { icon: ShoppingBag, label: 'AI人才市场', tab: 'marketplace' },
-        { icon: Bot, label: '我的智能体', tab: 'agents' },
-        { icon: BarChart3, label: '数据报表', tab: 'analytics' },
-        { icon: Settings, label: '设置', tab: 'settings' }
+        {
+            label: '我的',
+            items: [
+                { icon: LayoutDashboard, label: '总览', tab: 'overview' },
+                { icon: Bot, label: '我的智能体', tab: 'agents' },
+                { icon: Settings, label: '设置', tab: 'settings' }
+            ]
+        },
+        { icon: BarChart3, label: '数据报表', tab: 'analytics' }
     ];
 
     const kaMenuItems = [
@@ -57,19 +62,39 @@ export default function DashboardLayout({ children, currentTab, setCurrentTab, u
 
                 {/* Navigation */}
                 <nav className="flex-1 p-4 space-y-2">
-                    {menuItems.map((item) => (
-                        <button
-                            key={item.tab}
-                            onClick={() => setCurrentTab(item.tab)}
-                            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
-                                currentTab === item.tab
-                                    ? 'bg-indigo-50 text-indigo-600 border-l-4 border-indigo-600'
-                                    : 'text-gray-600 hover:bg-gray-50'
-                            }`}
-                        >
-                            <item.icon className="w-5 h-5" />
-                            <span className="font-medium">{item.label}</span>
-                        </button>
+                    {menuItems.map((item, idx) => (
+                        item.items ? (
+                            <div key={idx} className="space-y-2">
+                                <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider pl-4 pt-4 pb-2">{item.label}</h3>
+                                {item.items.map((subItem) => (
+                                    <button
+                                        key={subItem.tab}
+                                        onClick={() => setCurrentTab(subItem.tab)}
+                                        className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
+                                            currentTab === subItem.tab
+                                                ? 'bg-indigo-50 text-indigo-600 border-l-4 border-indigo-600'
+                                                : 'text-gray-600 hover:bg-gray-50'
+                                        }`}
+                                    >
+                                        <subItem.icon className="w-5 h-5" />
+                                        <span className="font-medium">{subItem.label}</span>
+                                    </button>
+                                ))}
+                            </div>
+                        ) : (
+                            <button
+                                key={item.tab}
+                                onClick={() => setCurrentTab(item.tab)}
+                                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
+                                    currentTab === item.tab
+                                        ? 'bg-indigo-50 text-indigo-600 border-l-4 border-indigo-600'
+                                        : 'text-gray-600 hover:bg-gray-50'
+                                }`}
+                            >
+                                <item.icon className="w-5 h-5" />
+                                <span className="font-medium">{item.label}</span>
+                            </button>
+                        )
                     ))}
                 </nav>
 
@@ -91,13 +116,20 @@ export default function DashboardLayout({ children, currentTab, setCurrentTab, u
                 <header className="bg-white border-b border-gray-100 h-20 flex items-center px-8">
                     <div>
                         <h1 className="text-2xl font-bold text-gray-900">
-                            {isKA ? '运营看板' : '我的工作台'}
+                            {currentTab === 'marketplace' ? 'AI人才市场' : 
+                             currentTab === 'overview' ? '总览' : 
+                             currentTab === 'agents' ? '我的智能体' :
+                             currentTab === 'analytics' ? '数据报表' :
+                             currentTab === 'settings' ? '设置' :
+                             isKA ? '运营看板' : '我的工作台'}
                         </h1>
                         <p className="text-sm text-gray-500 mt-1">
-                            {isKA 
-                                ? '查看所有工作台的运营数据和AI工作成果' 
-                                : '管理您的智能体和市场'
-                            }
+                            {currentTab === 'marketplace' ? '探索并雇佣最适合您业务的AI员工' : 
+                             currentTab === 'overview' ? '查看所有关键指标和工作台数据' : 
+                             currentTab === 'agents' ? '管理您已雇佣的AI员工' :
+                             currentTab === 'analytics' ? '深度数据分析和洞察' :
+                             currentTab === 'settings' ? '账户和偏好设置' :
+                             isKA ? '查看所有工作台的运营数据和AI工作成果' : '管理您的智能体和市场'}
                         </p>
                     </div>
                 </header>

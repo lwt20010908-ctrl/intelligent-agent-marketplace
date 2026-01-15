@@ -5,11 +5,11 @@ import CaseStudies from './pages/CaseStudies';
 import Dashboard from './pages/Dashboard';
 import Developer from './pages/Developer';
 import Home from './pages/Home';
+import Marketplace from './pages/Marketplace';
 import MerchantWorkspace from './pages/MerchantWorkspace';
 import Resources from './pages/Resources';
 import TalentShowcase from './pages/TalentShowcase';
 import WorkspaceAgents from './pages/WorkspaceAgents';
-import Marketplace from './pages/Marketplace';
 import __Layout from './Layout.jsx';
 
 
@@ -21,11 +21,11 @@ export const PAGES = {
     "Dashboard": Dashboard,
     "Developer": Developer,
     "Home": Home,
+    "Marketplace": Marketplace,
     "MerchantWorkspace": MerchantWorkspace,
     "Resources": Resources,
     "TalentShowcase": TalentShowcase,
     "WorkspaceAgents": WorkspaceAgents,
-    "Marketplace": Marketplace,
 }
 
 export const pagesConfig = {

@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, CheckCircle2 } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { createPageUrl } from '../../utils';
+import { base44 } from '@/api/base44Client';
 
 const showcaseAgents = [
     {
@@ -50,6 +51,23 @@ const showcaseAgents = [
 ];
 
 export default function ShowcaseSection() {
+    const navigate = useNavigate();
+    const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        base44.auth.me().then(setUser).catch(() => {});
+    }, []);
+
+    const handleViewMore = () => {
+        if (!user) {
+            // 未登录用户，引导登录后跳转到TalentShowcase
+            base44.auth.redirectToLogin(createPageUrl('TalentShowcase'));
+        } else {
+            // 已登录用户，直接跳转
+            navigate(createPageUrl('TalentShowcase'));
+        }
+    };
+
     return (
         <section className="py-32 bg-gradient-to-b from-gray-50 to-white">
             <div className="max-w-7xl mx-auto px-6 lg:px-8">
@@ -59,12 +77,12 @@ export default function ShowcaseSection() {
                     viewport={{ once: true }}
                     className="text-center mb-20"
                 >
-                    <span className="text-indigo-500 font-medium mb-4 block">成功案例 · 最佳实践</span>
+                    <span className="text-indigo-500 font-medium mb-4 block">AI员工市场 · 精选员工</span>
                     <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
-                        我们帮助头部企业创造的价值
+                        头部企业都在用的AI员工
                     </h2>
                     <p className="text-xl text-gray-500 max-w-2xl mx-auto">
-                        真实案例，可量化的收入增长，可复制的成功经验
+                        华为、淘宝、小米都在用，现在商家也可以直接雇佣
                     </p>
                 </motion.div>
 
@@ -151,13 +169,19 @@ export default function ShowcaseSection() {
                     initial={{ opacity: 0 }}
                     whileInView={{ opacity: 1 }}
                     viewport={{ once: true }}
-                    className="text-center mt-12"
+                    className="text-center mt-12 flex flex-col sm:flex-row gap-4 justify-center"
                 >
-                    <Link
-                        to={createPageUrl('CaseStudies')}
+                    <button
+                        onClick={handleViewMore}
                         className="inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-indigo-500 to-purple-600 text-white text-lg font-semibold rounded-full hover:shadow-lg hover:shadow-indigo-500/30 transition-all duration-300 group"
                     >
-                        查看更多企业案例 <ArrowRight className="ml-2 w-5 h-5 transition-transform group-hover:translate-x-1" />
+                        查看更多员工 <ArrowRight className="ml-2 w-5 h-5 transition-transform group-hover:translate-x-1" />
+                    </button>
+                    <Link
+                        to={createPageUrl('CaseStudies')}
+                        className="inline-flex items-center justify-center px-8 py-4 bg-white border-2 border-indigo-200 text-indigo-600 text-lg font-semibold rounded-full hover:bg-indigo-50 transition-all duration-300 group"
+                    >
+                        查看企业案例 <ArrowRight className="ml-2 w-5 h-5 transition-transform group-hover:translate-x-1" />
                     </Link>
                 </motion.div>
             </div>
