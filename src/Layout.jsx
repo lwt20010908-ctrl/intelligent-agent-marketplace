@@ -157,7 +157,7 @@ export default function Layout({ children, currentPageName }) {
                                     scrolled || !isHomePage ? 'text-gray-600 hover:text-gray-900' : 'text-white/80 hover:text-white'
                                 }`}>
                                     {simulatedUserType === 'merchant' ? '商家模式' : 
-                                     simulatedUserType === 'ka' ? 'KA模式' : '未登录'}
+                                     simulatedUserType === 'ka' ? '服务商模式' : '未登录'}
                                     <ChevronDown className="w-4 h-4" />
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent>
@@ -168,7 +168,7 @@ export default function Layout({ children, currentPageName }) {
                                         商家登录
                                     </DropdownMenuItem>
                                     <DropdownMenuItem onClick={() => setSimulatedUserType('ka')}>
-                                        大B端登录
+                                        服务商登录
                                     </DropdownMenuItem>
                                 </DropdownMenuContent>
                             </DropdownMenu>
