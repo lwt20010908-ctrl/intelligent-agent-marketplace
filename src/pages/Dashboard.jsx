@@ -239,17 +239,6 @@ export default function Dashboard() {
                         </motion.div>
                     )}
 
-                    {currentTab === 'analytics' && (
-                        <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            className="bg-white rounded-2xl p-12 text-center shadow-md"
-                        >
-                            <h2 className="text-xl font-bold text-gray-900 mb-4">数据报表</h2>
-                            <p className="text-gray-500">详细的数据分析报表即将上线</p>
-                        </motion.div>
-                    )}
-
                     {currentTab === 'settings' && (
                         <motion.div
                             initial={{ opacity: 0 }}

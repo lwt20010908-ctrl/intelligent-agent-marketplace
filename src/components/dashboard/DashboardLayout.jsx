@@ -14,14 +14,12 @@ export default function DashboardLayout({ children, currentTab, setCurrentTab, u
                 { icon: Bot, label: '我的AI员工', tab: 'agents' },
                 { icon: Settings, label: '设置', tab: 'settings' }
             ]
-        },
-        { icon: BarChart3, label: '数据报表', tab: 'analytics' }
+        }
     ];
 
     const kaMenuItems = [
         { icon: LayoutDashboard, label: '总览', tab: 'overview' },
         { icon: Bot, label: '我的智能体', tab: 'agents' },
-        { icon: BarChart3, label: '数据报表', tab: 'analytics' },
         { icon: Settings, label: '设置', tab: 'settings' }
     ];
 
@@ -119,7 +117,6 @@ export default function DashboardLayout({ children, currentTab, setCurrentTab, u
                             {currentTab === 'marketplace' ? 'AI员工市场' : 
                              currentTab === 'overview' ? '总览' : 
                              currentTab === 'agents' ? '我的AI员工' :
-                             currentTab === 'analytics' ? '数据报表' :
                              currentTab === 'settings' ? '设置' :
                              isKA ? '服务商看板' : '我的工作台'}
                         </h1>
@@ -127,7 +124,6 @@ export default function DashboardLayout({ children, currentTab, setCurrentTab, u
                             {currentTab === 'marketplace' ? '探索并雇佣最适合您业务的AI员工' : 
                              currentTab === 'overview' ? '查看所有关键指标和工作台数据' : 
                              currentTab === 'agents' ? '管理您已雇佣的AI员工' :
-                             currentTab === 'analytics' ? '深度数据分析和洞察' :
                              currentTab === 'settings' ? '账户和偏好设置' :
                              isKA ? '查看所有客户工作台的运营数据和AI服务成果' : '管理您的智能体和市场'}
                         </p>
