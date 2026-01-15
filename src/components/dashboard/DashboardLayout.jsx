@@ -121,7 +121,7 @@ export default function DashboardLayout({ children, currentTab, setCurrentTab, u
                              currentTab === 'agents' ? '我的AI员工' :
                              currentTab === 'analytics' ? '数据报表' :
                              currentTab === 'settings' ? '设置' :
-                             isKA ? '运营看板' : '我的工作台'}
+                             isKA ? '服务商看板' : '我的工作台'}
                         </h1>
                         <p className="text-sm text-gray-500 mt-1">
                             {currentTab === 'marketplace' ? '探索并雇佣最适合您业务的AI员工' : 
@@ -129,7 +129,7 @@ export default function DashboardLayout({ children, currentTab, setCurrentTab, u
                              currentTab === 'agents' ? '管理您已雇佣的AI员工' :
                              currentTab === 'analytics' ? '深度数据分析和洞察' :
                              currentTab === 'settings' ? '账户和偏好设置' :
-                             isKA ? '查看所有工作台的运营数据和AI工作成果' : '管理您的智能体和市场'}
+                             isKA ? '查看所有客户工作台的运营数据和AI服务成果' : '管理您的智能体和市场'}
                         </p>
                     </div>
                 </header>

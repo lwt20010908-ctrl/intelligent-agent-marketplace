@@ -22,7 +22,7 @@ export default function IdentitySelectorModal({ open, onClose, onSelectIdentity 
         },
         {
             type: 'ka',
-            title: 'B端客户',
+            title: '服务商',
             description: '查看运营看板，掌控全局数据',
             icon: Users,
             color: 'from-indigo-500 to-purple-600'

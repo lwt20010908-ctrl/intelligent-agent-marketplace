@@ -81,7 +81,7 @@ export default function Dashboard() {
                         </div>
                     </div>
                     <h2 className="text-2xl font-bold text-gray-900 text-center mb-2">
-                        KA客户验证
+                        服务商验证
                     </h2>
                     <p className="text-gray-500 text-center mb-8">
                         请输入访问密码以继续
