@@ -6,12 +6,12 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 export default function DashboardLayout({ children, currentTab, setCurrentTab, user, isKA }) {
     const merchantMenuItems = [
-        { icon: ShoppingBag, label: 'AI人才市场', tab: 'marketplace' },
+        { icon: ShoppingBag, label: 'AI员工市场', tab: 'marketplace' },
         {
             label: '我的',
             items: [
                 { icon: LayoutDashboard, label: '总览', tab: 'overview' },
-                { icon: Bot, label: '我的智能体', tab: 'agents' },
+                { icon: Bot, label: '我的AI员工', tab: 'agents' },
                 { icon: Settings, label: '设置', tab: 'settings' }
             ]
         },
@@ -116,9 +116,9 @@ export default function DashboardLayout({ children, currentTab, setCurrentTab, u
                 <header className="bg-white border-b border-gray-100 h-20 flex items-center px-8">
                     <div>
                         <h1 className="text-2xl font-bold text-gray-900">
-                            {currentTab === 'marketplace' ? 'AI人才市场' : 
+                            {currentTab === 'marketplace' ? 'AI员工市场' : 
                              currentTab === 'overview' ? '总览' : 
-                             currentTab === 'agents' ? '我的智能体' :
+                             currentTab === 'agents' ? '我的AI员工' :
                              currentTab === 'analytics' ? '数据报表' :
                              currentTab === 'settings' ? '设置' :
                              isKA ? '运营看板' : '我的工作台'}
