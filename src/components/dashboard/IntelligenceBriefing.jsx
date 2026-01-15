@@ -95,32 +95,38 @@ export default function IntelligenceBriefing() {
             {/* 轮播内容 */}
             <div className="relative h-48 overflow-hidden">
                 <AnimatePresence mode="wait">
-                    <motion.div
-                        key={currentIndex}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -20 }}
-                        transition={{ duration: 0.3 }}
-                        className={`absolute inset-0 p-6 rounded-xl border-2 ${briefings[currentIndex].bg} ${briefings[currentIndex].border}`}
-                    >
-                        <div className="flex items-start gap-4 h-full">
-                            <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${briefings[currentIndex].color} flex items-center justify-center flex-shrink-0`}>
-                                <briefings[currentIndex].icon className="w-6 h-6 text-white" />
-                            </div>
-                            <div className="flex-1">
-                                <h4 className="font-bold text-gray-900 mb-2 text-lg">
-                                    {briefings[currentIndex].title}
-                                </h4>
-                                <p className="text-gray-600 leading-relaxed mb-3">
-                                    {briefings[currentIndex].content}
-                                </p>
-                                <div className="flex items-center gap-2 text-xs text-gray-500">
-                                    <Clock className="w-3 h-3" />
-                                    {briefings[currentIndex].time}
+                    {(() => {
+                        const currentBriefing = briefings[currentIndex];
+                        const IconComponent = currentBriefing.icon;
+                        return (
+                            <motion.div
+                                key={currentIndex}
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -20 }}
+                                transition={{ duration: 0.3 }}
+                                className={`absolute inset-0 p-6 rounded-xl border-2 ${currentBriefing.bg} ${currentBriefing.border}`}
+                            >
+                                <div className="flex items-start gap-4 h-full">
+                                    <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${currentBriefing.color} flex items-center justify-center flex-shrink-0`}>
+                                        <IconComponent className="w-6 h-6 text-white" />
+                                    </div>
+                                    <div className="flex-1">
+                                        <h4 className="font-bold text-gray-900 mb-2 text-lg">
+                                            {currentBriefing.title}
+                                        </h4>
+                                        <p className="text-gray-600 leading-relaxed mb-3">
+                                            {currentBriefing.content}
+                                        </p>
+                                        <div className="flex items-center gap-2 text-xs text-gray-500">
+                                            <Clock className="w-3 h-3" />
+                                            {currentBriefing.time}
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                    </motion.div>
+                            </motion.div>
+                        );
+                    })()}
                 </AnimatePresence>
             </div>
 
@@ -128,23 +134,26 @@ export default function IntelligenceBriefing() {
             <div className="mt-6 pt-6 border-t border-gray-100">
                 <h4 className="text-sm font-semibold text-gray-700 mb-3">历史简报</h4>
                 <div className="space-y-2 max-h-64 overflow-y-auto">
-                    {briefings.filter((_, i) => i !== currentIndex).map((item, i) => (
-                        <button
-                            key={i}
-                            onClick={() => setCurrentIndex(briefings.indexOf(item))}
-                            className="w-full text-left p-3 rounded-lg hover:bg-gray-50 transition-colors flex items-center gap-3 group"
-                        >
-                            <div className={`w-8 h-8 rounded-lg bg-gradient-to-br ${item.color} flex items-center justify-center flex-shrink-0`}>
-                                <item.icon className="w-4 h-4 text-white" />
-                            </div>
-                            <div className="flex-1 min-w-0">
-                                <div className="text-sm font-medium text-gray-900 truncate group-hover:text-indigo-600 transition-colors">
-                                    {item.title}
+                    {briefings.filter((_, i) => i !== currentIndex).map((item, i) => {
+                        const ItemIcon = item.icon;
+                        return (
+                            <button
+                                key={i}
+                                onClick={() => setCurrentIndex(briefings.indexOf(item))}
+                                className="w-full text-left p-3 rounded-lg hover:bg-gray-50 transition-colors flex items-center gap-3 group"
+                            >
+                                <div className={`w-8 h-8 rounded-lg bg-gradient-to-br ${item.color} flex items-center justify-center flex-shrink-0`}>
+                                    <ItemIcon className="w-4 h-4 text-white" />
                                 </div>
-                                <div className="text-xs text-gray-500">{item.time}</div>
-                            </div>
-                        </button>
-                    ))}
+                                <div className="flex-1 min-w-0">
+                                    <div className="text-sm font-medium text-gray-900 truncate group-hover:text-indigo-600 transition-colors">
+                                        {item.title}
+                                    </div>
+                                    <div className="text-xs text-gray-500">{item.time}</div>
+                                </div>
+                            </button>
+                        );
+                    })}
                 </div>
             </div>
         </motion.div>
