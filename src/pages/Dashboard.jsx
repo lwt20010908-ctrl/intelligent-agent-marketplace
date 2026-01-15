@@ -33,10 +33,10 @@ export default function Dashboard() {
     const searchParams = new URLSearchParams(window.location.search);
     const defaultTabFromUrl = searchParams.get('defaultTab');
     
-    // 根据用户类型设置默认tab：商家->marketplace，B端->overview
+    // 根据用户类型设置默认tab：商家->overview，服务商->overview
     const getDefaultTab = () => {
         if (defaultTabFromUrl) return defaultTabFromUrl;
-        if (isMerchant) return 'marketplace';
+        if (isMerchant) return 'overview';
         if (isKA) return 'overview';
         return 'marketplace';
     };
