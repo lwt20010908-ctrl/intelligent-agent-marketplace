@@ -25,18 +25,23 @@ export default function Dashboard() {
     const isKA = user?.client_type === 'ka';
     const isMerchant = user?.client_type === 'merchant';
     
+    // 从URL参数读取默认tab
+    const searchParams = new URLSearchParams(window.location.search);
+    const defaultTabFromUrl = searchParams.get('defaultTab');
+    
     // 根据用户类型设置默认tab：商家->marketplace，B端->overview
     const getDefaultTab = () => {
+        if (defaultTabFromUrl) return defaultTabFromUrl;
         if (isMerchant) return 'marketplace';
         if (isKA) return 'overview';
-        return 'marketplace'; // 默认为marketplace
+        return 'marketplace';
     };
     
     const [currentTab, setCurrentTab] = useState(getDefaultTab());
     
-    // 当用户信息加载后，更新默认tab
+    // 当用户信息加载后，更新默认tab（仅在没有URL参数时）
     useEffect(() => {
-        if (user) {
+        if (user && !defaultTabFromUrl) {
             setCurrentTab(getDefaultTab());
         }
     }, [user?.client_type]);
