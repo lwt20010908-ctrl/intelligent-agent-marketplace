@@ -24,8 +24,7 @@ export default function AgentDetail() {
     const [hireForm, setHireForm] = useState({
         merchant_name: '',
         merchant_contact: '',
-        plan_type: 'monthly',
-        workspace_id: ''
+        plan_type: 'monthly'
     });
     const [timeRange, setTimeRange] = useState('30d');
 
@@ -43,11 +42,7 @@ export default function AgentDetail() {
         queryFn: () => base44.auth.me().catch(() => null)
     });
 
-    const { data: workspaces = [] } = useQuery({
-        queryKey: ['userWorkspaces'],
-        queryFn: () => base44.entities.Workspace.list(),
-        enabled: !!currentUser
-    });
+
 
     React.useEffect(() => {
         if (currentUser && !hireForm.merchant_name) {
@@ -62,33 +57,18 @@ export default function AgentDetail() {
     const hireMutation = useMutation({
         mutationFn: async (data) => {
             const hire = await base44.entities.Hire.create(data);
-            const workspace = workspaces.find(w => w.id === data.workspace_id);
-            if (workspace) {
-                const updatedAgents = workspace.agents_deployed || [];
-                if (!updatedAgents.includes(data.agent_id)) {
-                    updatedAgents.push(data.agent_id);
-                    await base44.entities.Workspace.update(data.workspace_id, {
-                        agents_deployed: updatedAgents
-                    });
-                }
-            }
             return hire;
         },
         onSuccess: () => {
-            toast.success('✨ AI员工已成功添加到您的工作台！');
+            toast.success('✨ AI员工雇佣成功！');
             setShowHireModal(false);
             queryClient.invalidateQueries({ queryKey: ['hires'] });
-            queryClient.invalidateQueries({ queryKey: ['workspaces'] });
         }
     });
 
     const handleHire = () => {
         if (!hireForm.merchant_name || !hireForm.merchant_contact) {
             toast.error('请填写完整信息');
-            return;
-        }
-        if (!hireForm.workspace_id) {
-            toast.error('请选择部署的工作台');
             return;
         }
         hireMutation.mutate({
@@ -99,7 +79,6 @@ export default function AgentDetail() {
             plan_type: hireForm.plan_type,
             amount: hireForm.plan_type === 'monthly' ? agent.price_monthly : agent.price_yearly,
             status: 'pending',
-            workspace_id: hireForm.workspace_id,
             start_date: new Date().toISOString().split('T')[0]
         });
     };
@@ -537,31 +516,6 @@ export default function AgentDetail() {
                                     </div>
                                 )}
                             </RadioGroup>
-                        </div>
-                        <div className="space-y-2">
-                            <Label>部署到工作台</Label>
-                            {workspaces.length > 0 ? (
-                                <RadioGroup 
-                                    value={hireForm.workspace_id}
-                                    onValueChange={(value) => setHireForm({ ...hireForm, workspace_id: value })}
-                                >
-                                    {workspaces.map((workspace) => (
-                                        <div key={workspace.id} className="flex items-center space-x-2 p-3 border rounded-lg hover:border-indigo-300 transition-colors">
-                                            <RadioGroupItem value={workspace.id} id={workspace.id} />
-                                            <Label htmlFor={workspace.id} className="flex-grow cursor-pointer">
-                                                <div>
-                                                    <div className="font-medium text-gray-900">{workspace.name}</div>
-                                                    <div className="text-xs text-gray-500">{workspace.client_name}</div>
-                                                </div>
-                                            </Label>
-                                        </div>
-                                    ))}
-                                </RadioGroup>
-                            ) : (
-                                <div className="p-3 border border-dashed border-gray-300 rounded-lg text-center">
-                                    <p className="text-sm text-gray-500">您还没有工作台，请先创建</p>
-                                </div>
-                            )}
                         </div>
                     </div>
                     <DialogFooter>

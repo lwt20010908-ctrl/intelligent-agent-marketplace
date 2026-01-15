@@ -32,8 +32,7 @@ export default function MarketplaceContent() {
     const [hireForm, setHireForm] = useState({
         merchant_name: '',
         merchant_contact: '',
-        plan_type: 'monthly',
-        workspace_id: ''
+        plan_type: 'monthly'
     });
     const queryClient = useQueryClient();
 
