@@ -19,6 +19,9 @@ export default function MarketplaceContent() {
     const [filters, setFilters] = useState({
         type: 'all',
         categories: [],
+        functions: [],
+        positions: [],
+        skills: [],
         maxPrice: 10000
     });
     const [viewMode, setViewMode] = useState('grid');
@@ -118,6 +121,15 @@ export default function MarketplaceContent() {
             return false;
         }
         if (filters.categories.length > 0 && !filters.categories.includes(agent.category)) {
+            return false;
+        }
+        if (filters.functions?.length > 0 && !filters.functions.includes(agent.function)) {
+            return false;
+        }
+        if (filters.positions?.length > 0 && !filters.positions.includes(agent.position)) {
+            return false;
+        }
+        if (filters.skills?.length > 0 && !filters.skills.some(skill => agent.skills?.includes(skill))) {
             return false;
         }
         if (agent.price_monthly && agent.price_monthly > filters.maxPrice) {

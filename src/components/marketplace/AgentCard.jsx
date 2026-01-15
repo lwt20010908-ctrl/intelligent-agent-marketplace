@@ -81,24 +81,41 @@ export default function AgentCard({ agent, index = 0, hidePrice = false, onWatch
                     </div>
                 </div>
 
+                {/* Function & Position */}
+                <div className="flex items-center gap-2 mb-3">
+                    {agent.function && (
+                        <Badge variant="outline" className="text-xs">
+                            职能: {agent.function}
+                        </Badge>
+                    )}
+                    {agent.position && (
+                        <Badge variant="outline" className="text-xs">
+                            岗位: {agent.position}
+                        </Badge>
+                    )}
+                </div>
+
                 {/* Description */}
                 <p className="text-gray-500 text-sm leading-relaxed mb-4 flex-grow line-clamp-2">
                     {agent.description}
                 </p>
 
-                {/* Capabilities */}
-                {agent.capabilities?.length > 0 && (
-                    <div className="flex flex-wrap gap-2 mb-4">
-                        {agent.capabilities.slice(0, 3).map((cap, i) => (
-                            <span key={i} className="px-2 py-1 bg-gray-50 text-gray-600 text-xs rounded-lg">
-                                {cap}
-                            </span>
-                        ))}
-                        {agent.capabilities.length > 3 && (
-                            <span className="px-2 py-1 text-gray-400 text-xs">
-                                +{agent.capabilities.length - 3}
-                            </span>
-                        )}
+                {/* Skills */}
+                {agent.skills?.length > 0 && (
+                    <div className="mb-4">
+                        <div className="text-xs text-gray-500 mb-2">核心技能:</div>
+                        <div className="flex flex-wrap gap-2">
+                            {agent.skills.slice(0, 4).map((skill, i) => (
+                                <span key={i} className="px-2 py-1 bg-indigo-50 text-indigo-600 text-xs rounded-lg">
+                                    {skill}
+                                </span>
+                            ))}
+                            {agent.skills.length > 4 && (
+                                <span className="px-2 py-1 text-gray-400 text-xs">
+                                    +{agent.skills.length - 4}
+                                </span>
+                            )}
+                        </div>
                     </div>
                 )}
 
@@ -143,16 +160,27 @@ export default function AgentCard({ agent, index = 0, hidePrice = false, onWatch
                         <span className="text-gray-400 text-sm">定制方案</span>
                     )}
                     
-                    <Link to={createPageUrl(`AgentDetail?id=${agent.id}`)}>
-                        <Button 
-                            className={isShowcase 
-                                ? "bg-gray-100 text-gray-700 hover:bg-gray-200" 
-                                : "bg-gradient-to-r from-indigo-500 to-purple-600 hover:shadow-lg hover:shadow-indigo-500/30"
-                            }
-                        >
-                            {isShowcase ? '查看详情' : '立即雇佣'}
-                        </Button>
-                    </Link>
+                    <div className="flex gap-2">
+                        <Link to={createPageUrl(`AgentDetail?id=${agent.id}`)} onClick={(e) => e.stopPropagation()}>
+                            <Button 
+                                variant="outline"
+                                className="border-indigo-200 text-indigo-600 hover:bg-indigo-50"
+                            >
+                                查看详情
+                            </Button>
+                        </Link>
+                        {!isShowcase && (
+                            <Button 
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    onClick?.();
+                                }}
+                                className="bg-gradient-to-r from-indigo-500 to-purple-600 hover:shadow-lg hover:shadow-indigo-500/30"
+                            >
+                                立即雇佣
+                            </Button>
+                        )}
+                    </div>
                 </div>
             </div>
         </motion.div>

@@ -1,38 +1,25 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { base44 } from '@/api/base44Client';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Link } from 'react-router-dom';
-import { createPageUrl } from '../utils';
 import { motion } from 'framer-motion';
-import { 
-    ArrowLeft, Star, CheckCircle2, Zap, MessageSquare, 
-    BarChart3, Clock, Shield, Users, Play, ChevronRight
-} from 'lucide-react';
+import { ArrowLeft, Star, TrendingUp, Calendar, Award, Briefcase, Users, BarChart3, Clock } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { toast } from "sonner";
-
-const categoryLabels = {
-    customer_service: '智能客服',
-    sales: '销售助手',
-    marketing: '营销专家',
-    operations: '运营管理',
-    analytics: '数据分析',
-    content: '内容创作'
-};
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, Legend, ResponsiveContainer } from 'recharts';
 
 export default function AgentDetail() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const agentId = urlParams.get('id');
+    const navigate = useNavigate();
     const queryClient = useQueryClient();
-
+    const searchParams = new URLSearchParams(window.location.search);
+    const agentId = searchParams.get('id');
+    
     const [showHireModal, setShowHireModal] = useState(false);
     const [hireForm, setHireForm] = useState({
         merchant_name: '',
@@ -40,31 +27,28 @@ export default function AgentDetail() {
         plan_type: 'monthly',
         workspace_id: ''
     });
-    const [user, setUser] = useState(null);
+    const [timeRange, setTimeRange] = useState('30d');
 
-    // Fetch current user
+    const { data: agent, isLoading: agentLoading } = useQuery({
+        queryKey: ['agent', agentId],
+        queryFn: async () => {
+            const agents = await base44.entities.Agent.list();
+            return agents.find(a => a.id === agentId);
+        },
+        enabled: !!agentId
+    });
+
     const { data: currentUser } = useQuery({
         queryKey: ['currentUser'],
         queryFn: () => base44.auth.me().catch(() => null)
     });
 
-    // Fetch workspaces
     const { data: workspaces = [] } = useQuery({
         queryKey: ['userWorkspaces'],
         queryFn: () => base44.entities.Workspace.list(),
         enabled: !!currentUser
     });
 
-    const { data: agent, isLoading } = useQuery({
-        queryKey: ['agent', agentId],
-        queryFn: async () => {
-            const agents = await base44.entities.Agent.filter({ id: agentId });
-            return agents[0];
-        },
-        enabled: !!agentId
-    });
-
-    // Auto-fill form with user info
     React.useEffect(() => {
         if (currentUser && !hireForm.merchant_name) {
             setHireForm(prev => ({
@@ -76,11 +60,25 @@ export default function AgentDetail() {
     }, [currentUser]);
 
     const hireMutation = useMutation({
-        mutationFn: (data) => base44.entities.Hire.create(data),
+        mutationFn: async (data) => {
+            const hire = await base44.entities.Hire.create(data);
+            const workspace = workspaces.find(w => w.id === data.workspace_id);
+            if (workspace) {
+                const updatedAgents = workspace.agents_deployed || [];
+                if (!updatedAgents.includes(data.agent_id)) {
+                    updatedAgents.push(data.agent_id);
+                    await base44.entities.Workspace.update(data.workspace_id, {
+                        agents_deployed: updatedAgents
+                    });
+                }
+            }
+            return hire;
+        },
         onSuccess: () => {
-            toast.success('雇佣申请已提交，我们会尽快与您联系！');
+            toast.success('✨ AI员工已成功添加到您的工作台！');
             setShowHireModal(false);
-            queryClient.invalidateQueries(['hires']);
+            queryClient.invalidateQueries({ queryKey: ['hires'] });
+            queryClient.invalidateQueries({ queryKey: ['workspaces'] });
         }
     });
 
@@ -94,7 +92,7 @@ export default function AgentDetail() {
             return;
         }
         hireMutation.mutate({
-            agent_id: agentId,
+            agent_id: agent.id,
             agent_name: agent.name,
             merchant_name: hireForm.merchant_name,
             merchant_contact: hireForm.merchant_contact,
@@ -106,18 +104,12 @@ export default function AgentDetail() {
         });
     };
 
-    if (isLoading) {
+    if (agentLoading) {
         return (
-            <div className="min-h-screen bg-gray-50 pt-28 pb-20">
-                <div className="max-w-6xl mx-auto px-6">
-                    <Skeleton className="h-8 w-32 mb-8" />
-                    <div className="grid lg:grid-cols-3 gap-8">
-                        <div className="lg:col-span-2 space-y-6">
-                            <Skeleton className="h-64 rounded-3xl" />
-                            <Skeleton className="h-48 rounded-3xl" />
-                        </div>
-                        <Skeleton className="h-96 rounded-3xl" />
-                    </div>
+            <div className="min-h-screen bg-gray-50 p-8">
+                <div className="max-w-6xl mx-auto space-y-6">
+                    <Skeleton className="h-12 w-64" />
+                    <Skeleton className="h-96 w-full" />
                 </div>
             </div>
         );
@@ -125,257 +117,403 @@ export default function AgentDetail() {
 
     if (!agent) {
         return (
-            <div className="min-h-screen bg-gray-50 pt-28 pb-20 flex items-center justify-center">
+            <div className="min-h-screen bg-gray-50 flex items-center justify-center">
                 <div className="text-center">
-                    <h2 className="text-2xl font-bold text-gray-900 mb-4">智能体不存在</h2>
-                    <Link to={createPageUrl('Marketplace')}>
-                        <Button>返回市场</Button>
-                    </Link>
+                    <h2 className="text-2xl font-bold text-gray-900 mb-4">AI员工未找到</h2>
+                    <Button onClick={() => navigate(-1)}>返回市场</Button>
                 </div>
             </div>
         );
     }
 
-    const isShowcase = agent.type === 'showcase';
+    const avgRating = agent.employer_reviews?.length > 0
+        ? (agent.employer_reviews.reduce((sum, r) => sum + r.rating, 0) / agent.employer_reviews.length).toFixed(1)
+        : 0;
 
     return (
-        <div className="min-h-screen bg-gray-50 pt-28 pb-20">
-            <div className="max-w-6xl mx-auto px-6 lg:px-8">
-                {/* Breadcrumb */}
-                <Link 
-                    to={createPageUrl('Marketplace')}
-                    className="inline-flex items-center gap-2 text-gray-500 hover:text-gray-900 mb-8 transition-colors"
-                >
-                    <ArrowLeft className="w-4 h-4" />
-                    返回市场
-                </Link>
+        <div className="min-h-screen bg-gray-50">
+            {/* Header */}
+            <div className="bg-white border-b border-gray-200">
+                <div className="max-w-6xl mx-auto px-8 py-6">
+                    <Button variant="ghost" onClick={() => navigate(-1)} className="mb-4">
+                        <ArrowLeft className="w-4 h-4 mr-2" />
+                        返回市场
+                    </Button>
 
-                <div className="grid lg:grid-cols-3 gap-8">
-                    {/* Main Content */}
-                    <div className="lg:col-span-2 space-y-6">
-                        {/* Header Card */}
-                        <motion.div
+                    <div className="flex items-start justify-between">
+                        <div className="flex items-start gap-6">
+                            <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-indigo-100 to-purple-100 flex items-center justify-center text-4xl overflow-hidden">
+                                {agent.avatar ? (
+                                    <img src={agent.avatar} alt={agent.name} className="w-full h-full object-cover" />
+                                ) : (
+                                    '🤖'
+                                )}
+                            </div>
+                            <div>
+                                <h1 className="text-3xl font-bold text-gray-900 mb-2">{agent.name}</h1>
+                                <div className="flex items-center gap-3 mb-4">
+                                    {agent.function && (
+                                        <Badge variant="outline" className="text-sm">
+                                            职能: {agent.function}
+                                        </Badge>
+                                    )}
+                                    {agent.position && (
+                                        <Badge variant="outline" className="text-sm">
+                                            岗位: {agent.position}
+                                        </Badge>
+                                    )}
+                                    {agent.employer_reviews?.length > 0 && (
+                                        <div className="flex items-center gap-1">
+                                            <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
+                                            <span className="font-semibold text-gray-900">{avgRating}</span>
+                                            <span className="text-gray-500">({agent.employer_reviews.length} 评价)</span>
+                                        </div>
+                                    )}
+                                </div>
+                                <p className="text-gray-600 max-w-2xl">{agent.description}</p>
+                            </div>
+                        </div>
+
+                        <div className="text-right">
+                            {agent.price_monthly && (
+                                <div className="mb-4">
+                                    <span className="text-3xl font-bold text-gray-900">¥{agent.price_monthly}</span>
+                                    <span className="text-gray-500">/月</span>
+                                </div>
+                            )}
+                            {agent.type === 'tradeable' && (
+                                <Button 
+                                    onClick={() => setShowHireModal(true)}
+                                    className="bg-gradient-to-r from-indigo-500 to-purple-600"
+                                >
+                                    立即雇佣
+                                </Button>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* Content */}
+            <div className="max-w-6xl mx-auto px-8 py-8">
+                <Tabs defaultValue="overview" className="space-y-6">
+                    <TabsList className="bg-white border border-gray-200">
+                        <TabsTrigger value="overview">总览</TabsTrigger>
+                        <TabsTrigger value="achievements">过往战绩</TabsTrigger>
+                        <TabsTrigger value="cases">实操案例</TabsTrigger>
+                        <TabsTrigger value="reviews">雇主评价</TabsTrigger>
+                        <TabsTrigger value="performance">历史数据</TabsTrigger>
+                    </TabsList>
+
+                    {/* Overview Tab */}
+                    <TabsContent value="overview" className="space-y-6">
+                        {/* Skills */}
+                        {agent.skills?.length > 0 && (
+                            <motion.div 
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                className="bg-white rounded-2xl p-6 border border-gray-200"
+                            >
+                                <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                                    <Briefcase className="w-5 h-5 text-indigo-500" />
+                                    核心技能
+                                </h3>
+                                <div className="flex flex-wrap gap-3">
+                                    {agent.skills.map((skill, i) => (
+                                        <Badge key={i} className="bg-indigo-50 text-indigo-600 border-0 px-4 py-2 text-sm">
+                                            {skill}
+                                        </Badge>
+                                    ))}
+                                </div>
+                            </motion.div>
+                        )}
+
+                        {/* Industries */}
+                        {agent.industries?.length > 0 && (
+                            <motion.div 
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.1 }}
+                                className="bg-white rounded-2xl p-6 border border-gray-200"
+                            >
+                                <h3 className="text-lg font-semibold text-gray-900 mb-4">适用行业</h3>
+                                <div className="flex flex-wrap gap-2">
+                                    {agent.industries.map((industry, i) => (
+                                        <Badge key={i} variant="outline">
+                                            {industry}
+                                        </Badge>
+                                    ))}
+                                </div>
+                            </motion.div>
+                        )}
+
+                        {/* Performance Metrics */}
+                        {agent.performance_metrics && (
+                            <motion.div 
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.2 }}
+                                className="bg-white rounded-2xl p-6 border border-gray-200"
+                            >
+                                <h3 className="text-lg font-semibold text-gray-900 mb-4">关键指标</h3>
+                                <div className="grid grid-cols-3 gap-6">
+                                    {agent.performance_metrics.response_rate && (
+                                        <div className="text-center p-4 bg-gray-50 rounded-xl">
+                                            <div className="text-3xl font-bold text-gray-900 mb-1">
+                                                {agent.performance_metrics.response_rate}%
+                                            </div>
+                                            <div className="text-sm text-gray-500">响应率</div>
+                                        </div>
+                                    )}
+                                    {agent.performance_metrics.satisfaction_score && (
+                                        <div className="text-center p-4 bg-indigo-50 rounded-xl">
+                                            <div className="text-3xl font-bold text-indigo-600 mb-1">
+                                                {agent.performance_metrics.satisfaction_score}%
+                                            </div>
+                                            <div className="text-sm text-gray-500">满意度</div>
+                                        </div>
+                                    )}
+                                    {agent.performance_metrics.tasks_completed && (
+                                        <div className="text-center p-4 bg-gray-50 rounded-xl">
+                                            <div className="text-3xl font-bold text-gray-900 mb-1">
+                                                {agent.performance_metrics.tasks_completed.toLocaleString()}
+                                            </div>
+                                            <div className="text-sm text-gray-500">完成任务</div>
+                                        </div>
+                                    )}
+                                </div>
+                            </motion.div>
+                        )}
+                    </TabsContent>
+
+                    {/* Achievements Tab */}
+                    <TabsContent value="achievements">
+                        <motion.div 
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
-                            className="bg-white rounded-3xl p-8 border border-gray-100"
+                            className="bg-white rounded-2xl p-6 border border-gray-200"
                         >
-                            <div className="flex flex-col sm:flex-row gap-6">
-                                <div className="w-24 h-24 rounded-3xl bg-gradient-to-br from-indigo-100 to-purple-100 flex items-center justify-center text-4xl flex-shrink-0 overflow-hidden">
-                                    {agent.avatar ? (
-                                        <img src={agent.avatar} alt={agent.name} className="w-full h-full object-cover" />
-                                    ) : '🤖'}
+                            <h3 className="text-lg font-semibold text-gray-900 mb-6 flex items-center gap-2">
+                                <Award className="w-5 h-5 text-yellow-500" />
+                                过往战绩
+                            </h3>
+                            {agent.achievements?.length > 0 ? (
+                                <div className="space-y-4">
+                                    {agent.achievements.map((achievement, i) => (
+                                        <div key={i} className="border-l-4 border-indigo-500 pl-4 py-2">
+                                            <div className="flex items-start justify-between mb-2">
+                                                <h4 className="font-semibold text-gray-900">{achievement.title}</h4>
+                                                <span className="text-sm text-gray-500">{achievement.date}</span>
+                                            </div>
+                                            <p className="text-gray-600 mb-2">{achievement.description}</p>
+                                            {achievement.metrics && (
+                                                <div className="flex gap-4 text-sm">
+                                                    {Object.entries(achievement.metrics).map(([key, value]) => (
+                                                        <div key={key} className="bg-gray-50 px-3 py-1 rounded">
+                                                            <span className="text-gray-500">{key}: </span>
+                                                            <span className="font-semibold text-gray-900">{value}</span>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            )}
+                                        </div>
+                                    ))}
                                 </div>
-                                <div className="flex-grow">
-                                    <div className="flex items-start justify-between mb-2">
-                                        <h1 className="text-3xl font-bold text-gray-900">{agent.name}</h1>
-                                        {isShowcase && (
-                                            <Badge className="bg-gradient-to-r from-amber-400 to-orange-500 text-white border-0">
-                                                <Star className="w-3 h-3 mr-1" />
-                                                展示案例
-                                            </Badge>
-                                        )}
-                                    </div>
-                                    <Badge variant="secondary" className="mb-4">
-                                        {categoryLabels[agent.category]}
-                                    </Badge>
-                                    <p className="text-gray-500 leading-relaxed">{agent.description}</p>
-                                </div>
-                            </div>
-
-                            {/* Metrics */}
-                            {agent.performance_metrics && (
-                                <div className="grid grid-cols-3 gap-6 mt-8 pt-8 border-t border-gray-100">
-                                    <div className="text-center">
-                                        <div className="text-3xl font-bold text-gray-900">
-                                            {agent.performance_metrics.response_rate}%
-                                        </div>
-                                        <div className="text-sm text-gray-500 mt-1">响应率</div>
-                                    </div>
-                                    <div className="text-center">
-                                        <div className="text-3xl font-bold text-indigo-500">
-                                            {agent.performance_metrics.satisfaction_score}%
-                                        </div>
-                                        <div className="text-sm text-gray-500 mt-1">客户满意度</div>
-                                    </div>
-                                    <div className="text-center">
-                                        <div className="text-3xl font-bold text-gray-900">
-                                            {agent.performance_metrics.tasks_completed?.toLocaleString()}
-                                        </div>
-                                        <div className="text-sm text-gray-500 mt-1">已完成任务</div>
-                                    </div>
+                            ) : (
+                                <div className="text-center py-12 text-gray-500">
+                                    暂无战绩记录
                                 </div>
                             )}
                         </motion.div>
+                    </TabsContent>
 
-                        {/* Tabs */}
-                        <motion.div
+                    {/* Case Studies Tab */}
+                    <TabsContent value="cases">
+                        <motion.div 
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.1 }}
+                            className="space-y-6"
                         >
-                            <Tabs defaultValue="capabilities" className="bg-white rounded-3xl border border-gray-100">
-                                <TabsList className="w-full justify-start rounded-t-3xl border-b bg-gray-50 p-0 h-auto">
-                                    <TabsTrigger value="capabilities" className="rounded-none rounded-tl-3xl py-4 px-6">
-                                        核心能力
-                                    </TabsTrigger>
-                                    <TabsTrigger value="features" className="rounded-none py-4 px-6">
-                                        功能特性
-                                    </TabsTrigger>
-                                    <TabsTrigger value="cases" className="rounded-none py-4 px-6">
-                                        使用场景
-                                    </TabsTrigger>
-                                </TabsList>
-
-                                <TabsContent value="capabilities" className="p-6">
-                                    <div className="grid sm:grid-cols-2 gap-4">
-                                        {agent.capabilities?.map((cap, i) => (
-                                            <div key={i} className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl">
-                                                <CheckCircle2 className="w-5 h-5 text-green-500 flex-shrink-0" />
-                                                <span className="text-gray-700">{cap}</span>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </TabsContent>
-
-                                <TabsContent value="features" className="p-6">
-                                    <div className="grid sm:grid-cols-2 gap-6">
-                                        {[
-                                            { icon: Zap, title: '毫秒级响应', desc: '极速处理用户请求' },
-                                            { icon: MessageSquare, title: '多轮对话', desc: '上下文理解能力' },
-                                            { icon: BarChart3, title: '数据分析', desc: '实时业务洞察' },
-                                            { icon: Shield, title: '安全保障', desc: '企业级数据安全' }
-                                        ].map((feature, i) => (
-                                            <div key={i} className="flex gap-4">
-                                                <div className="w-12 h-12 rounded-xl bg-indigo-50 flex items-center justify-center flex-shrink-0">
-                                                    <feature.icon className="w-6 h-6 text-indigo-500" />
-                                                </div>
-                                                <div>
-                                                    <h4 className="font-medium text-gray-900">{feature.title}</h4>
-                                                    <p className="text-sm text-gray-500">{feature.desc}</p>
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </TabsContent>
-
-                                <TabsContent value="cases" className="p-6">
-                                    <div className="space-y-4">
-                                        {[
-                                            '电商平台售前咨询与售后服务',
-                                            '品牌官网在线客服',
-                                            '社交媒体互动管理',
-                                            '内部员工服务台'
-                                        ].map((useCase, i) => (
-                                            <div key={i} className="flex items-center gap-3 p-4 border border-gray-100 rounded-xl hover:border-indigo-200 transition-colors">
-                                                <ChevronRight className="w-5 h-5 text-indigo-500" />
-                                                <span className="text-gray-700">{useCase}</span>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </TabsContent>
-                            </Tabs>
-                        </motion.div>
-                    </div>
-
-                    {/* Sidebar - Pricing */}
-                    <div className="lg:col-span-1">
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.2 }}
-                            className="sticky top-28"
-                        >
-                            <Card className="border-0 shadow-xl rounded-3xl overflow-hidden">
-                                <CardHeader className="bg-gradient-to-br from-indigo-500 to-purple-600 text-white p-6">
-                                    <CardTitle className="text-lg font-medium">
-                                        {isShowcase ? '定制方案' : '选择套餐'}
-                                    </CardTitle>
-                                </CardHeader>
-                                <CardContent className="p-6">
-                                    {isShowcase ? (
-                                        <div className="text-center py-8">
-                                            <p className="text-gray-500 mb-6">
-                                                此为展示案例，如需了解定制化解决方案，请联系我们的商务团队
-                                            </p>
-                                            <Button className="w-full" variant="outline">
-                                                联系商务
-                                            </Button>
+                            {agent.case_studies?.length > 0 ? (
+                                agent.case_studies.map((caseStudy, i) => (
+                                    <div key={i} className="bg-white rounded-2xl p-6 border border-gray-200">
+                                        <div className="flex items-start justify-between mb-4">
+                                            <h4 className="text-xl font-semibold text-gray-900">{caseStudy.title}</h4>
+                                            {caseStudy.industry && (
+                                                <Badge variant="outline">{caseStudy.industry}</Badge>
+                                            )}
                                         </div>
-                                    ) : (
-                                        <div className="space-y-6">
-                                            {/* Monthly */}
-                                            <div className="p-4 border border-gray-200 rounded-xl hover:border-indigo-500 transition-colors cursor-pointer">
-                                                <div className="flex justify-between items-center mb-2">
-                                                    <span className="font-medium text-gray-900">月度套餐</span>
-                                                    <Badge variant="secondary">灵活</Badge>
-                                                </div>
-                                                <div className="flex items-baseline gap-1">
-                                                    <span className="text-3xl font-bold text-gray-900">
-                                                        ¥{agent.price_monthly?.toLocaleString()}
-                                                    </span>
-                                                    <span className="text-gray-500">/月</span>
-                                                </div>
+                                        <div className="space-y-4">
+                                            <div>
+                                                <h5 className="text-sm font-semibold text-gray-700 mb-2">挑战</h5>
+                                                <p className="text-gray-600">{caseStudy.challenge}</p>
                                             </div>
-
-                                            {/* Yearly */}
-                                            {agent.price_yearly && (
-                                                <div className="p-4 border-2 border-indigo-500 rounded-xl bg-indigo-50/50 relative">
-                                                    <Badge className="absolute -top-2 right-4 bg-indigo-500">
-                                                        省 {Math.round((1 - agent.price_yearly / (agent.price_monthly * 12)) * 100)}%
-                                                    </Badge>
-                                                    <div className="flex justify-between items-center mb-2">
-                                                        <span className="font-medium text-gray-900">年度套餐</span>
-                                                        <Badge className="bg-indigo-500">推荐</Badge>
-                                                    </div>
-                                                    <div className="flex items-baseline gap-1">
-                                                        <span className="text-3xl font-bold text-indigo-600">
-                                                            ¥{agent.price_yearly?.toLocaleString()}
-                                                        </span>
-                                                        <span className="text-gray-500">/年</span>
-                                                    </div>
+                                            <div>
+                                                <h5 className="text-sm font-semibold text-gray-700 mb-2">解决方案</h5>
+                                                <p className="text-gray-600">{caseStudy.solution}</p>
+                                            </div>
+                                            <div>
+                                                <h5 className="text-sm font-semibold text-gray-700 mb-2">成果</h5>
+                                                <p className="text-gray-600">{caseStudy.results}</p>
+                                            </div>
+                                            {caseStudy.images?.length > 0 && (
+                                                <div className="grid grid-cols-3 gap-4 mt-4">
+                                                    {caseStudy.images.map((img, idx) => (
+                                                        <img key={idx} src={img} alt={`案例图片 ${idx + 1}`} className="rounded-lg w-full h-40 object-cover" />
+                                                    ))}
                                                 </div>
                                             )}
-
-                                            <Button 
-                                                className="w-full bg-gradient-to-r from-indigo-500 to-purple-600 h-12 text-base"
-                                                onClick={() => setShowHireModal(true)}
-                                            >
-                                                立即雇佣
-                                            </Button>
-
-                                            <p className="text-xs text-gray-400 text-center">
-                                                支持7天免费试用，无需信用卡
-                                            </p>
                                         </div>
-                                    )}
-                                </CardContent>
-                            </Card>
+                                    </div>
+                                ))
+                            ) : (
+                                <div className="bg-white rounded-2xl p-12 text-center text-gray-500 border border-gray-200">
+                                    暂无实操案例
+                                </div>
+                            )}
                         </motion.div>
-                    </div>
-                </div>
+                    </TabsContent>
+
+                    {/* Reviews Tab */}
+                    <TabsContent value="reviews">
+                        <motion.div 
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            className="bg-white rounded-2xl p-6 border border-gray-200"
+                        >
+                            <h3 className="text-lg font-semibold text-gray-900 mb-6 flex items-center gap-2">
+                                <Users className="w-5 h-5 text-indigo-500" />
+                                雇主评价
+                            </h3>
+                            {agent.employer_reviews?.length > 0 ? (
+                                <div className="space-y-6">
+                                    {/* Rating Summary */}
+                                    <div className="bg-gray-50 rounded-xl p-6">
+                                        <div className="flex items-center gap-6">
+                                            <div className="text-center">
+                                                <div className="text-4xl font-bold text-gray-900 mb-1">{avgRating}</div>
+                                                <div className="flex items-center gap-1 mb-1">
+                                                    {[...Array(5)].map((_, i) => (
+                                                        <Star key={i} className={`w-4 h-4 ${i < Math.round(avgRating) ? 'text-yellow-500 fill-yellow-500' : 'text-gray-300'}`} />
+                                                    ))}
+                                                </div>
+                                                <div className="text-sm text-gray-500">{agent.employer_reviews.length} 评价</div>
+                                            </div>
+                                            <div className="flex-1 space-y-2">
+                                                {agent.employer_reviews[0]?.dimensions && Object.entries(agent.employer_reviews[0].dimensions).map(([key, value]) => (
+                                                    <div key={key} className="flex items-center gap-3">
+                                                        <span className="text-sm text-gray-600 w-20">{key === 'efficiency' ? '效率' : key === 'accuracy' ? '准确性' : '易用性'}</span>
+                                                        <div className="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
+                                                            <div className="h-full bg-indigo-500" style={{ width: `${value * 20}%` }} />
+                                                        </div>
+                                                        <span className="text-sm font-semibold text-gray-900">{value}/5</span>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Reviews List */}
+                                    <div className="space-y-4">
+                                        {agent.employer_reviews.map((review, i) => (
+                                            <div key={i} className="border-b border-gray-100 pb-4 last:border-0">
+                                                <div className="flex items-start justify-between mb-2">
+                                                    <div>
+                                                        <div className="font-semibold text-gray-900">{review.employer_name}</div>
+                                                        <div className="flex items-center gap-1 mt-1">
+                                                            {[...Array(5)].map((_, idx) => (
+                                                                <Star key={idx} className={`w-3 h-3 ${idx < review.rating ? 'text-yellow-500 fill-yellow-500' : 'text-gray-300'}`} />
+                                                            ))}
+                                                        </div>
+                                                    </div>
+                                                    <span className="text-sm text-gray-500">{review.date}</span>
+                                                </div>
+                                                <p className="text-gray-600">{review.comment}</p>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            ) : (
+                                <div className="text-center py-12 text-gray-500">
+                                    暂无雇主评价
+                                </div>
+                            )}
+                        </motion.div>
+                    </TabsContent>
+
+                    {/* Performance Tab */}
+                    <TabsContent value="performance">
+                        <motion.div 
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            className="bg-white rounded-2xl p-6 border border-gray-200"
+                        >
+                            <div className="flex items-center justify-between mb-6">
+                                <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
+                                    <BarChart3 className="w-5 h-5 text-indigo-500" />
+                                    历史性能数据
+                                </h3>
+                                <div className="flex gap-2">
+                                    {['7d', '30d', '90d'].map(range => (
+                                        <Button
+                                            key={range}
+                                            variant={timeRange === range ? 'default' : 'outline'}
+                                            size="sm"
+                                            onClick={() => setTimeRange(range)}
+                                        >
+                                            {range === '7d' ? '近7天' : range === '30d' ? '近30天' : '近90天'}
+                                        </Button>
+                                    ))}
+                                </div>
+                            </div>
+                            {agent.performance_history ? (
+                                <div className="h-80">
+                                    <ResponsiveContainer width="100%" height="100%">
+                                        <LineChart data={agent.performance_history.response_time || []}>
+                                            <CartesianGrid strokeDasharray="3 3" />
+                                            <XAxis dataKey="date" />
+                                            <YAxis />
+                                            <RechartsTooltip />
+                                            <Legend />
+                                            <Line type="monotone" dataKey="value" stroke="#6366F1" name="响应时间(ms)" />
+                                        </LineChart>
+                                    </ResponsiveContainer>
+                                </div>
+                            ) : (
+                                <div className="text-center py-12 text-gray-500">
+                                    暂无历史数据
+                                </div>
+                            )}
+                        </motion.div>
+                    </TabsContent>
+                </Tabs>
             </div>
 
             {/* Hire Modal */}
             <Dialog open={showHireModal} onOpenChange={setShowHireModal}>
                 <DialogContent className="sm:max-w-md">
                     <DialogHeader>
-                        <DialogTitle>雇佣 {agent?.name}</DialogTitle>
+                        <DialogTitle>雇佣 {agent.name}</DialogTitle>
                     </DialogHeader>
                     <div className="space-y-4 py-4">
                         <div className="space-y-2">
                             <Label>商家名称</Label>
-                            <Input
+                            <input
+                                type="text"
                                 placeholder="请输入您的公司/店铺名称"
                                 value={hireForm.merchant_name}
                                 onChange={(e) => setHireForm({ ...hireForm, merchant_name: e.target.value })}
+                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500"
                             />
                         </div>
                         <div className="space-y-2">
                             <Label>联系方式</Label>
-                            <Input
+                            <input
+                                type="text"
                                 placeholder="请输入手机号或邮箱"
                                 value={hireForm.merchant_contact}
                                 onChange={(e) => setHireForm({ ...hireForm, merchant_contact: e.target.value })}
+                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500"
                             />
                         </div>
                         <div className="space-y-2">
@@ -387,14 +525,14 @@ export default function AgentDetail() {
                                 <div className="flex items-center space-x-2 p-3 border rounded-lg">
                                     <RadioGroupItem value="monthly" id="monthly" />
                                     <Label htmlFor="monthly" className="flex-grow cursor-pointer">
-                                        月度套餐 - ¥{agent?.price_monthly}/月
+                                        月度套餐 - ¥{agent.price_monthly}/月
                                     </Label>
                                 </div>
-                                {agent?.price_yearly && (
+                                {agent.price_yearly && (
                                     <div className="flex items-center space-x-2 p-3 border rounded-lg border-indigo-200 bg-indigo-50/50">
                                         <RadioGroupItem value="yearly" id="yearly" />
                                         <Label htmlFor="yearly" className="flex-grow cursor-pointer">
-                                            年度套餐 - ¥{agent?.price_yearly}/年
+                                            年度套餐 - ¥{agent.price_yearly}/年
                                         </Label>
                                     </div>
                                 )}
@@ -421,7 +559,7 @@ export default function AgentDetail() {
                                 </RadioGroup>
                             ) : (
                                 <div className="p-3 border border-dashed border-gray-300 rounded-lg text-center">
-                                    <p className="text-sm text-gray-500">您还没有工作台，<Link to={createPageUrl('Dashboard')} className="text-indigo-500 hover:underline">立即创建</Link></p>
+                                    <p className="text-sm text-gray-500">您还没有工作台，请先创建</p>
                                 </div>
                             )}
                         </div>
