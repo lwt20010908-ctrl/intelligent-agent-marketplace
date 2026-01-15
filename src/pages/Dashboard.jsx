@@ -156,8 +156,8 @@ export default function Dashboard() {
                                     {/* 顶部：4个核心指标卡片 */}
                                     <MerchantStatsCards hires={hires} />
 
-                                    {/* 中部：左侧增长趋势图 + 右侧员工状态 */}
-                                    <div className="grid grid-cols-2 gap-6" style={{ height: '400px' }}>
+                                    {/* 中部：左侧增长趋势图 + 右侧AI员工状态 */}
+                                    <div className="grid lg:grid-cols-2 gap-6">
                                         <GrowthTrendChart />
                                         <AgentStatusSummary hires={hires} />
                                     </div>
