@@ -14,7 +14,6 @@ import DashboardLayout from '../components/dashboard/DashboardLayout';
 
 export default function Dashboard() {
     const navigate = useNavigate();
-    const [currentTab, setCurrentTab] = useState('overview');
     const [user, setUser] = useState(null);
     const [kaPassword, setKaPassword] = useState('');
     const [isKaAuthenticated, setIsKaAuthenticated] = useState(false);
@@ -24,6 +23,23 @@ export default function Dashboard() {
     }, []);
 
     const isKA = user?.client_type === 'ka';
+    const isMerchant = user?.client_type === 'merchant';
+    
+    // 根据用户类型设置默认tab：商家->marketplace，B端->overview
+    const getDefaultTab = () => {
+        if (isMerchant) return 'marketplace';
+        if (isKA) return 'overview';
+        return 'marketplace'; // 默认为marketplace
+    };
+    
+    const [currentTab, setCurrentTab] = useState(getDefaultTab());
+    
+    // 当用户信息加载后，更新默认tab
+    useEffect(() => {
+        if (user) {
+            setCurrentTab(getDefaultTab());
+        }
+    }, [user?.client_type]);
 
     const { data: workspaces = [], isLoading: workspacesLoading } = useQuery({
         queryKey: ['workspaces'],
