@@ -138,28 +138,58 @@ export default function HowItWorksSection() {
     );
 }
 
-// Simple animation components
+// 3D Style animation components
 function BrowseAnimation() {
     return (
-        <div className="relative w-24 h-24">
-            {/* Cards */}
-            {[0, 1, 2].map((i) => (
-                <motion.div
-                    key={i}
-                    initial={{ opacity: 0, scale: 0.8, x: 0 }}
-                    whileInView={{ opacity: 1, scale: 1, x: i * 8 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: i * 0.1, repeat: Infinity, duration: 2, repeatDelay: 1 }}
-                    className="absolute inset-0 w-16 h-20 bg-gradient-to-br from-indigo-100 to-purple-100 rounded-xl border-2 border-indigo-200"
-                    style={{ left: `${i * 4}px` }}
-                />
-            ))}
+        <div className="relative w-32 h-32">
+            {/* 3D Magnifying Glass */}
             <motion.div
-                animate={{ scale: [1, 1.1, 1] }}
-                transition={{ duration: 2, repeat: Infinity }}
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+                animate={{ 
+                    rotate: [0, 10, -10, 0],
+                    scale: [1, 1.05, 1]
+                }}
+                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                className="relative"
             >
-                <Store className="w-8 h-8 text-indigo-500" />
+                {/* Glass circle */}
+                <div className="w-20 h-20 rounded-full bg-gradient-to-br from-white/40 to-white/10 backdrop-blur-xl border-4 border-indigo-400/50 shadow-2xl shadow-indigo-500/30 mx-auto" />
+                
+                {/* Handle */}
+                <div className="absolute -bottom-8 right-2 w-3 h-12 bg-gradient-to-b from-indigo-500 to-purple-600 rounded-full shadow-lg transform rotate-45" />
+                
+                {/* Resume cards inside glass */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 space-y-1">
+                    {[0, 1, 2].map((i) => (
+                        <motion.div
+                            key={i}
+                            initial={{ opacity: 0.3 }}
+                            animate={{ opacity: [0.3, 1, 0.3] }}
+                            transition={{ duration: 2, repeat: Infinity, delay: i * 0.3 }}
+                            className="h-2 bg-gradient-to-r from-indigo-400 to-purple-400 rounded-full"
+                            style={{ width: `${100 - i * 20}%` }}
+                        />
+                    ))}
+                </div>
+
+                {/* Sparkles */}
+                {[0, 1, 2].map((i) => (
+                    <motion.div
+                        key={`sparkle-${i}`}
+                        initial={{ scale: 0, opacity: 0 }}
+                        animate={{ 
+                            scale: [0, 1, 0],
+                            opacity: [0, 1, 0],
+                            x: [0, (i - 1) * 20],
+                            y: [0, -20]
+                        }}
+                        transition={{ 
+                            duration: 2,
+                            repeat: Infinity,
+                            delay: i * 0.4
+                        }}
+                        className="absolute top-2 left-1/2 w-2 h-2 bg-yellow-400 rounded-full"
+                    />
+                ))}
             </motion.div>
         </div>
     );
