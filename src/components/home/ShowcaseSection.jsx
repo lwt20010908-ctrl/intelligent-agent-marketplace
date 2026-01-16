@@ -21,30 +21,28 @@ const showcaseAgents = [
     {
         name: '淘宝流量智能分发',
         partner: '淘宝平台',
-        logo: 'https://images.unsplash.com/photo-1557821552-17105176677c?w=100&h=100&fit=crop',
-        story: '淘宝大促期间的AI流量调度实战',
-        achievement: 'AI实时监控100万+商家流量，自动分配最优曝光位，大促GMV提升45%，商家满意度创新高',
+        position: '流量调度策略官 · 淘宝专享',
+        daysActive: 365,
+        revenueIncrease: '1,500 万',
         metrics: {
-            merchants: '100万+',
-            gmvGrowth: '+45%',
-            satisfaction: '97.8%',
-            revenue: '归因收入可量化'
+            workHoursSaved: '8,600 h',
+            costSaved: '320k',
+            efficiencyGrowth: '+250%'
         },
-        features: ['实时流量调度', 'GMV归因', '商家画像', 'A/B策略优化']
+        skills: ['实时流量调度', 'GMV归因', 'A/B策略优化']
     },
     {
         name: '小米IoT场景助手',
         partner: '小米集团',
-        logo: 'https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=100&h=100&fit=crop',
-        story: '小米智能家居的AI中枢大脑',
-        achievement: '串联200+IoT设备，自动生成个性化场景，用户设备使用率提升180%，智能家居套装销量增长220%',
+        position: 'IoT场景优化官 · 小米专享',
+        daysActive: 298,
+        revenueIncrease: '980 万',
         metrics: {
-            devices: '200+',
-            usage: '+180%',
-            sales: '+220%',
-            satisfaction: '96.5%'
+            workHoursSaved: '6,200 h',
+            costSaved: '280k',
+            efficiencyGrowth: '+220%'
         },
-        features: ['场景自动生成', '设备联动', '故障预测', '销售转化']
+        skills: ['场景自动生成', '设备联动', '销售转化']
     }
 ];
 
