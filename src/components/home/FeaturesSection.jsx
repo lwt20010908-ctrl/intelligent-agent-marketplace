@@ -1,42 +1,42 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Bot, Zap, Shield, BarChart3, Clock, Users } from 'lucide-react';
+import { Brain, Zap, Shield, BarChart3, Rocket, Users } from 'lucide-react';
 
 const features = [
     {
-        icon: Bot,
-        title: '智能对话',
-        description: '基于大语言模型，理解用户意图，自然流畅地完成多轮对话',
+        icon: Brain,
+        title: 'L4级业务自主',
+        description: '超越简单的问答，具备复杂逻辑推理与主动营销能力',
         gradient: 'from-blue-500 to-cyan-500'
     },
     {
         icon: Zap,
-        title: '极速响应',
-        description: '毫秒级响应，7×24小时在线，永不疲倦的智能员工',
+        title: '无限并发算力',
+        description: '7×24小时无休，支持百万级用户同时接待，零等待',
         gradient: 'from-amber-500 to-orange-500'
     },
     {
         icon: Shield,
-        title: '安全可靠',
-        description: '企业级数据安全保障，符合等保三级要求',
+        title: '企业级风控',
+        description: '内置敏感词拦截与情绪熔断机制，确保品牌安全零风险',
         gradient: 'from-green-500 to-emerald-500'
     },
     {
         icon: BarChart3,
-        title: '数据洞察',
-        description: '实时数据分析，深度业务洞察，助力决策优化',
+        title: 'GMV 归因分析',
+        description: '全链路数据追踪，清晰计算每一位数字员工的投入产出比(ROI)',
         gradient: 'from-purple-500 to-pink-500'
     },
     {
-        icon: Clock,
-        title: '快速部署',
-        description: '开箱即用，无需开发，一键雇佣立即上岗',
+        icon: Rocket,
+        title: '分钟级入职',
+        description: '开箱即用，无需漫长的私有化部署',
         gradient: 'from-indigo-500 to-blue-500'
     },
     {
         icon: Users,
-        title: '无缝协作',
-        description: '人机协同，智能分流，提升团队整体效率',
+        title: '人机协同增强',
+        description: 'AI 处理标准流程，无缝流转至人工专家，效率最大化',
         gradient: 'from-rose-500 to-red-500'
     }
 ];
