@@ -94,7 +94,7 @@ export default function HeroSection() {
                         </div>
                     </motion.div>
 
-                    {/* Right Visual */}
+                    {/* Right Visual - 3D AI Assistant */}
                     <motion.div
                         initial={{ opacity: 0, scale: 0.9 }}
                         animate={{ opacity: 1, scale: 1 }}
@@ -102,33 +102,189 @@ export default function HeroSection() {
                         className="relative"
                     >
                         <div className="relative aspect-square max-w-lg mx-auto">
-                            {/* Main Circle */}
-                            <div className="absolute inset-0 rounded-full bg-gradient-to-br from-indigo-500/20 to-purple-600/20 animate-pulse" />
-                            <div className="absolute inset-8 rounded-full bg-gradient-to-br from-indigo-500/30 to-purple-600/30" />
-                            <div className="absolute inset-16 rounded-full bg-gradient-to-br from-indigo-500/40 to-purple-600/40 flex items-center justify-center">
-                                <div className="w-32 h-32 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-2xl shadow-indigo-500/50">
-                                    <span className="text-4xl font-bold text-white">AI</span>
-                                </div>
+                            {/* Background - Stock Market Curves */}
+                            <svg className="absolute inset-0 w-full h-full opacity-10" viewBox="0 0 400 400">
+                                <motion.path
+                                    d="M 50 300 Q 100 250, 150 280 T 250 200 T 350 150"
+                                    stroke="url(#gradient1)"
+                                    strokeWidth="2"
+                                    fill="none"
+                                    initial={{ pathLength: 0 }}
+                                    animate={{ pathLength: 1 }}
+                                    transition={{ duration: 2, repeat: Infinity, repeatType: "loop" }}
+                                />
+                                <motion.path
+                                    d="M 50 320 Q 120 270, 180 300 T 280 220 T 370 180"
+                                    stroke="url(#gradient2)"
+                                    strokeWidth="1.5"
+                                    fill="none"
+                                    initial={{ pathLength: 0 }}
+                                    animate={{ pathLength: 1 }}
+                                    transition={{ duration: 2.5, delay: 0.3, repeat: Infinity, repeatType: "loop" }}
+                                />
+                                <defs>
+                                    <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="0%">
+                                        <stop offset="0%" stopColor="#6366f1" stopOpacity="0.5" />
+                                        <stop offset="100%" stopColor="#a855f7" stopOpacity="0.8" />
+                                    </linearGradient>
+                                    <linearGradient id="gradient2" x1="0%" y1="0%" x2="100%" y2="0%">
+                                        <stop offset="0%" stopColor="#8b5cf6" stopOpacity="0.5" />
+                                        <stop offset="100%" stopColor="#ec4899" stopOpacity="0.8" />
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+
+                            {/* Glass Humanoid Figure */}
+                            <div className="absolute inset-0 flex items-center justify-center">
+                                <motion.div
+                                    animate={{
+                                        y: [0, -10, 0],
+                                    }}
+                                    transition={{
+                                        duration: 4,
+                                        repeat: Infinity,
+                                        ease: "easeInOut"
+                                    }}
+                                    className="relative"
+                                >
+                                    {/* Head */}
+                                    <div className="relative mx-auto w-24 h-28 rounded-full bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-2xl border border-white/20 shadow-2xl shadow-purple-500/30">
+                                        <div className="absolute inset-2 rounded-full bg-purple-500/20 animate-pulse" />
+                                        
+                                        {/* Brain Neural Network */}
+                                        <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100">
+                                            {[...Array(8)].map((_, i) => (
+                                                <motion.circle
+                                                    key={i}
+                                                    cx={30 + (i % 3) * 20}
+                                                    cy={35 + Math.floor(i / 3) * 15}
+                                                    r="3"
+                                                    fill="#a78bfa"
+                                                    initial={{ opacity: 0.3 }}
+                                                    animate={{ opacity: [0.3, 1, 0.3] }}
+                                                    transition={{
+                                                        duration: 2,
+                                                        repeat: Infinity,
+                                                        delay: i * 0.2
+                                                    }}
+                                                />
+                                            ))}
+                                            {[...Array(6)].map((_, i) => (
+                                                <motion.line
+                                                    key={`line-${i}`}
+                                                    x1={30 + (i % 3) * 20}
+                                                    y1={35 + Math.floor(i / 3) * 15}
+                                                    x2={30 + ((i + 1) % 3) * 20}
+                                                    y2={35 + Math.floor((i + 1) / 3) * 15}
+                                                    stroke="#a78bfa"
+                                                    strokeWidth="0.5"
+                                                    initial={{ opacity: 0.2 }}
+                                                    animate={{ opacity: [0.2, 0.6, 0.2] }}
+                                                    transition={{
+                                                        duration: 2,
+                                                        repeat: Infinity,
+                                                        delay: i * 0.3
+                                                    }}
+                                                />
+                                            ))}
+                                        </svg>
+                                    </div>
+
+                                    {/* Body */}
+                                    <div className="relative mt-2 w-32 h-40 mx-auto rounded-3xl bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-2xl border border-white/20 shadow-2xl shadow-purple-500/20">
+                                        {/* Inner Glow */}
+                                        <div className="absolute inset-3 rounded-2xl bg-gradient-to-br from-purple-500/30 via-indigo-500/20 to-transparent" />
+                                        
+                                        {/* Neural Network Nodes */}
+                                        <svg className="absolute inset-0 w-full h-full" viewBox="0 0 130 160">
+                                            {/* Central Core */}
+                                            <motion.circle
+                                                cx="65"
+                                                cy="80"
+                                                r="15"
+                                                fill="url(#coreGradient)"
+                                                initial={{ scale: 0.8 }}
+                                                animate={{ scale: [0.8, 1.1, 0.8] }}
+                                                transition={{
+                                                    duration: 3,
+                                                    repeat: Infinity,
+                                                    ease: "easeInOut"
+                                                }}
+                                            />
+                                            
+                                            {/* Surrounding Nodes */}
+                                            {[...Array(12)].map((_, i) => {
+                                                const angle = (i * 30) * (Math.PI / 180);
+                                                const radius = 35;
+                                                const cx = 65 + radius * Math.cos(angle);
+                                                const cy = 80 + radius * Math.sin(angle);
+                                                
+                                                return (
+                                                    <g key={i}>
+                                                        <motion.line
+                                                            x1="65"
+                                                            y1="80"
+                                                            x2={cx}
+                                                            y2={cy}
+                                                            stroke="#a78bfa"
+                                                            strokeWidth="1"
+                                                            initial={{ opacity: 0.2 }}
+                                                            animate={{ opacity: [0.2, 0.8, 0.2] }}
+                                                            transition={{
+                                                                duration: 2,
+                                                                repeat: Infinity,
+                                                                delay: i * 0.15
+                                                            }}
+                                                        />
+                                                        <motion.circle
+                                                            cx={cx}
+                                                            cy={cy}
+                                                            r="4"
+                                                            fill="#c084fc"
+                                                            initial={{ scale: 0.5 }}
+                                                            animate={{ scale: [0.5, 1.2, 0.5] }}
+                                                            transition={{
+                                                                duration: 2,
+                                                                repeat: Infinity,
+                                                                delay: i * 0.15
+                                                            }}
+                                                        />
+                                                    </g>
+                                                );
+                                            })}
+                                            
+                                            <defs>
+                                                <radialGradient id="coreGradient">
+                                                    <stop offset="0%" stopColor="#c084fc" />
+                                                    <stop offset="100%" stopColor="#a855f7" />
+                                                </radialGradient>
+                                            </defs>
+                                        </svg>
+                                    </div>
+
+                                    {/* Glow Effect */}
+                                    <div className="absolute -inset-4 bg-gradient-to-br from-purple-500/20 via-indigo-500/20 to-transparent blur-2xl -z-10 rounded-full" />
+                                </motion.div>
                             </div>
 
-                            {/* Floating Cards */}
+                            {/* Floating Metric Cards */}
                             {[
-                                { Icon: Bot, title: '智能客服', pos: 'top-0 left-0', gradient: 'from-blue-400 to-cyan-400' },
-                                { Icon: TrendingUp, title: '数据分析', pos: 'top-0 right-0', gradient: 'from-indigo-400 to-purple-400' },
-                                { Icon: Zap, title: '销售助手', pos: 'bottom-0 left-0', gradient: 'from-purple-400 to-pink-400' },
-                                { Icon: Sparkle, title: '内容创作', pos: 'bottom-0 right-0', gradient: 'from-pink-400 to-rose-400' },
-                            ].map((card, i) => (
+                                { label: 'ROI', value: '1:12.5', pos: 'top-0 left-0', color: 'from-emerald-400 to-teal-400' },
+                                { label: '响应时间', value: '<0.5s', pos: 'top-0 right-0', color: 'from-blue-400 to-cyan-400' },
+                                { label: '成本节省', value: '73%', pos: 'bottom-0 left-0', color: 'from-violet-400 to-purple-400' },
+                                { label: '满意度', value: '98%', pos: 'bottom-0 right-0', color: 'from-pink-400 to-rose-400' },
+                            ].map((metric, i) => (
                                 <motion.div
                                     key={i}
                                     initial={{ opacity: 0, scale: 0 }}
                                     animate={{ opacity: 1, scale: 1 }}
-                                    transition={{ delay: 0.8 + i * 0.1 }}
-                                    className={`absolute ${card.pos} p-5 bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 hover:bg-white/10 transition-all duration-300 group cursor-pointer`}
+                                    transition={{ delay: 1 + i * 0.1 }}
+                                    className={`absolute ${metric.pos} px-4 py-3 bg-white/5 backdrop-blur-xl rounded-xl border border-white/10 hover:bg-white/10 transition-all duration-300 group cursor-pointer`}
                                 >
-                                    <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${card.gradient} flex items-center justify-center mb-3 group-hover:scale-110 transition-transform`}>
-                                        <card.Icon className="w-6 h-6 text-white" />
+                                    <div className="text-xs text-white/60 mb-1">{metric.label}</div>
+                                    <div className={`text-lg font-bold bg-gradient-to-r ${metric.color} bg-clip-text text-transparent`}>
+                                        {metric.value}
                                     </div>
-                                    <div className="text-sm text-white/90 font-medium">{card.title}</div>
                                 </motion.div>
                             ))}
                         </div>
