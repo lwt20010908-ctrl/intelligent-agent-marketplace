@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import MarketTicker from '../components/home/MarketTicker';
 
 const team = [
     {
@@ -53,11 +54,13 @@ export default function About() {
                         <span className="gradient-text">智能员工</span>
                     </h1>
                     <p className="text-xl text-gray-500 max-w-3xl mx-auto leading-relaxed">
-                        我们致力于构建企业级AI智能体平台，帮助企业实现智能化转型，
-                        让每个商家都能享受到AI技术带来的效率提升
+                        告别繁琐重复，让智慧涌动。在AI人才市场，找到与您业务完美契合的智能解决方案
                     </p>
                 </motion.div>
             </section>
+
+            {/* Market Ticker */}
+            <MarketTicker />
 
             {/* Mission & Values */}
             <section className="bg-gray-50 py-24">
