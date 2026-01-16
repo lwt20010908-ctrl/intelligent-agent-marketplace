@@ -59,12 +59,21 @@ export default function ShowcaseSection() {
                     viewport={{ once: true }}
                     className="text-center mb-20"
                 >
-                    <span className="text-indigo-500 font-medium mb-4 block">成功案例 · 最佳实践</span>
-                    <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
-                        我们帮助头部企业创造的价值
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: true }}
+                        className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 mb-6"
+                    >
+                        <span className="text-sm font-semibold bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">成功案例 · 最佳实践</span>
+                    </motion.div>
+                    <h2 className="text-4xl lg:text-6xl font-bold mb-6">
+                        <span className="bg-gradient-to-r from-gray-900 via-indigo-900 to-purple-900 bg-clip-text text-transparent">
+                            Multiverse 名人堂
+                        </span>
                     </h2>
-                    <p className="text-xl text-gray-500 max-w-2xl mx-auto">
-                        真实案例，可量化的收入增长，可复制的成功经验
+                    <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                        顶尖员工精锐。真实数据验证，可立即复制的增长引擎
                     </p>
                 </motion.div>
 
