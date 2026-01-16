@@ -8,16 +8,15 @@ const showcaseAgents = [
     {
         name: '华为Push智能分发',
         partner: '华为消费者业务',
-        logo: 'https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=100&h=100&fit=crop',
-        story: '如何帮助华为提升300%的Push转化率',
-        achievement: '通过AI智能削峰填谷策略，在竞品大促期间自动调整推送时机，避开流量高峰，实现收入增量¥2800万/月',
+        position: '智能推送优化官 · 华为专享',
+        daysActive: 482,
+        revenueIncrease: '2,800 万',
         metrics: {
-            conversations: '100万+',
-            satisfaction: '98.5%',
-            responseTime: '<1秒',
-            revenue: '+¥2800万/月'
+            workHoursSaved: '12,400 h',
+            costSaved: '450k',
+            efficiencyGrowth: '+300%'
         },
-        features: ['智能削峰填谷', '竞品监测', '动态时机优化', '收入归因分析']
+        skills: ['商品属性分析', '用户触达', '投放人群计算']
     },
     {
         name: '淘宝流量智能分发',
