@@ -21,26 +21,26 @@ const showcaseAgents = [
     {
         name: '淘宝流量智能分发',
         partner: '淘宝平台',
-        position: '流量调度策略官 · 淘宝专享',
-        daysActive: 365,
-        revenueIncrease: '1,500 万',
+        position: 'GMV归因分析师 · 淘宝专享',
+        daysActive: 628,
+        revenueIncrease: '4,200 万',
         metrics: {
-            workHoursSaved: '8,600 h',
-            costSaved: '320k',
-            efficiencyGrowth: '+250%'
+            workHoursSaved: '18,900 h',
+            costSaved: '680k',
+            efficiencyGrowth: '+420%'
         },
         skills: ['实时流量调度', 'GMV归因', 'A/B策略优化']
     },
     {
         name: '小米IoT场景助手',
         partner: '小米集团',
-        position: 'IoT场景优化官 · 小米专享',
-        daysActive: 298,
-        revenueIncrease: '980 万',
+        position: '智能场景设计师 · 小米专享',
+        daysActive: 365,
+        revenueIncrease: '1,850 万',
         metrics: {
-            workHoursSaved: '6,200 h',
-            costSaved: '280k',
-            efficiencyGrowth: '+220%'
+            workHoursSaved: '9,200 h',
+            costSaved: '320k',
+            efficiencyGrowth: '+180%'
         },
         skills: ['场景自动生成', '设备联动', '销售转化']
     }
@@ -84,87 +84,95 @@ export default function ShowcaseSection() {
                             transition={{ delay: i * 0.15, duration: 0.6 }}
                             className="relative group"
                         >
-                            {/* Glow effect on hover */}
-                            <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/20 to-teal-500/20 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-2xl" />
+                            {/* Glow effect */}
+                            <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/20 to-green-600/20 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-2xl" />
                             
                             <div className="relative bg-gradient-to-br from-gray-900 to-gray-800 rounded-3xl p-8 border border-gray-700 hover:border-emerald-500/50 transition-all duration-500 h-full overflow-hidden">
                                 {/* A. 身份栏 */}
-                                <div className="flex items-start justify-between mb-6">
+                                <div className="flex items-start justify-between mb-8">
                                     <div>
-                                        <h3 className="text-lg font-bold text-white mb-1">
+                                        <h3 className="text-white font-bold text-lg mb-1">
                                             {agent.position}
                                         </h3>
                                     </div>
-                                    <div className="flex items-center gap-2 text-xs text-gray-400">
+                                    {/* 状态：呼吸动画绿点 + 运行时长 */}
+                                    <div className="flex items-center gap-2 text-sm">
                                         <motion.div
                                             animate={{ 
-                                                scale: [1, 1.3, 1],
-                                                opacity: [0.5, 1, 0.5]
+                                                opacity: [0.4, 1, 0.4],
+                                                scale: [1, 1.2, 1]
                                             }}
                                             transition={{ 
                                                 duration: 2,
                                                 repeat: Infinity,
                                                 ease: "easeInOut"
                                             }}
-                                            className="w-2 h-2 bg-emerald-400 rounded-full shadow-lg shadow-emerald-400/50"
+                                            className="w-2.5 h-2.5 rounded-full bg-emerald-400 shadow-lg shadow-emerald-400/50"
                                         />
-                                        <span>运行时长: {agent.daysActive}天</span>
+                                        <span className="text-emerald-400 font-medium">
+                                            运行时长: {agent.daysActive}天
+                                        </span>
                                     </div>
                                 </div>
 
-                                {/* B. 核心数据区 */}
-                                <div className="mb-8">
-                                    <div className="grid grid-cols-2 gap-6 items-center">
-                                        {/* 左侧：大数字 */}
-                                        <div>
-                                            <div className="text-4xl font-bold bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent mb-1">
-                                                + ¥{agent.revenueIncrease}
-                                            </div>
-                                            <div className="text-xs text-gray-500">累计GMV贡献</div>
+                                {/* B. 核心数据区 - 左右分栏 */}
+                                <div className="grid grid-cols-2 gap-6 mb-8">
+                                    {/* 左侧：大数字 */}
+                                    <div className="flex flex-col justify-center">
+                                        <div className="text-sm text-gray-400 mb-2">累计GMV增长</div>
+                                        <div className="text-4xl font-bold bg-gradient-to-r from-emerald-400 to-green-400 bg-clip-text text-transparent">
+                                            + ¥{agent.revenueIncrease}
                                         </div>
-
-                                        {/* 右侧：发光折线图 */}
-                                        <div className="h-20">
-                                            <svg className="w-full h-full" viewBox="0 0 100 60" preserveAspectRatio="none">
-                                                <defs>
-                                                    <linearGradient id={`gradient-${i}`} x1="0%" y1="0%" x2="0%" y2="100%">
-                                                        <stop offset="0%" stopColor="#10b981" stopOpacity="0.3" />
-                                                        <stop offset="100%" stopColor="#10b981" stopOpacity="0" />
-                                                    </linearGradient>
-                                                    <filter id={`glow-${i}`}>
-                                                        <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
-                                                        <feMerge>
-                                                            <feMergeNode in="coloredBlur"/>
-                                                            <feMergeNode in="SourceGraphic"/>
-                                                        </feMerge>
-                                                    </filter>
-                                                </defs>
-                                                {/* 面积填充 */}
-                                                <path
-                                                    d="M 0 50 Q 20 45, 35 40 T 65 25 T 100 15 L 100 60 L 0 60 Z"
-                                                    fill={`url(#gradient-${i})`}
-                                                />
-                                                {/* 发光线条 */}
-                                                <motion.path
-                                                    d="M 0 50 Q 20 45, 35 40 T 65 25 T 100 15"
-                                                    stroke="#10b981"
-                                                    strokeWidth="2"
-                                                    fill="none"
-                                                    filter={`url(#glow-${i})`}
-                                                    initial={{ pathLength: 0 }}
-                                                    whileInView={{ pathLength: 1 }}
-                                                    viewport={{ once: true }}
-                                                    transition={{ duration: 1.5, delay: i * 0.2 }}
-                                                />
-                                            </svg>
-                                        </div>
+                                    </div>
+                                    
+                                    {/* 右侧：纯绿色发光折线图 */}
+                                    <div className="flex items-center">
+                                        <svg className="w-full h-24" viewBox="0 0 120 80" preserveAspectRatio="none">
+                                            {/* 面积填充 */}
+                                            <defs>
+                                                <linearGradient id={`gradient-${i}`} x1="0%" y1="0%" x2="0%" y2="100%">
+                                                    <stop offset="0%" stopColor="#10b981" stopOpacity="0.3" />
+                                                    <stop offset="100%" stopColor="#10b981" stopOpacity="0.05" />
+                                                </linearGradient>
+                                                <filter id={`glow-${i}`}>
+                                                    <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                                                    <feMerge>
+                                                        <feMergeNode in="coloredBlur"/>
+                                                        <feMergeNode in="SourceGraphic"/>
+                                                    </feMerge>
+                                                </filter>
+                                            </defs>
+                                            
+                                            {/* 填充区域 */}
+                                            <motion.path
+                                                initial={{ pathLength: 0 }}
+                                                whileInView={{ pathLength: 1 }}
+                                                viewport={{ once: true }}
+                                                transition={{ duration: 1.5, delay: i * 0.15 + 0.3 }}
+                                                d="M 0 70 Q 20 50, 40 45 T 80 25 T 120 15 L 120 80 L 0 80 Z"
+                                                fill={`url(#gradient-${i})`}
+                                            />
+                                            
+                                            {/* 发光线条 */}
+                                            <motion.path
+                                                initial={{ pathLength: 0 }}
+                                                whileInView={{ pathLength: 1 }}
+                                                viewport={{ once: true }}
+                                                transition={{ duration: 1.5, delay: i * 0.15 + 0.3 }}
+                                                d="M 0 70 Q 20 50, 40 45 T 80 25 T 120 15"
+                                                stroke="#10b981"
+                                                strokeWidth="3"
+                                                fill="none"
+                                                filter={`url(#glow-${i})`}
+                                            />
+                                        </svg>
                                     </div>
                                 </div>
 
-                                {/* C. 对比数据网格 */}
-                                <div className="grid grid-cols-3 gap-4 mb-6 pb-6 border-b border-gray-700">
+                                {/* C. 对比数据网格 - 3列 */}
+                                <div className="grid grid-cols-3 gap-4 mb-6 p-5 bg-black/20 rounded-2xl border border-gray-700/50">
                                     <div className="text-center">
-                                        <div className="text-xl font-bold text-white mb-1">
+                                        <div className="text-2xl font-bold text-white mb-1">
                                             {agent.metrics.workHoursSaved}
                                         </div>
                                         <div className="text-xs text-gray-400">
@@ -172,7 +180,7 @@ export default function ShowcaseSection() {
                                         </div>
                                     </div>
                                     <div className="text-center">
-                                        <div className="text-xl font-bold text-white mb-1">
+                                        <div className="text-2xl font-bold text-white mb-1">
                                             ¥ {agent.metrics.costSaved}
                                         </div>
                                         <div className="text-xs text-gray-400">
@@ -180,7 +188,7 @@ export default function ShowcaseSection() {
                                         </div>
                                     </div>
                                     <div className="text-center">
-                                        <div className="text-xl font-bold text-emerald-400 mb-1">
+                                        <div className="text-2xl font-bold text-emerald-400 mb-1">
                                             {agent.metrics.efficiencyGrowth}
                                         </div>
                                         <div className="text-xs text-gray-400">
@@ -194,16 +202,15 @@ export default function ShowcaseSection() {
                                     {agent.skills.map((skill, j) => (
                                         <span 
                                             key={j} 
-                                            className="px-3 py-1.5 bg-white/5 backdrop-blur-sm border border-white/10 text-xs text-gray-300 rounded-full hover:bg-white/10 hover:border-white/20 transition-all"
+                                            className="px-3 py-1.5 bg-gray-800/60 backdrop-blur-sm border border-gray-600/30 text-xs text-gray-300 rounded-full"
                                         >
                                             {skill}
                                         </span>
                                     ))}
                                 </div>
 
-                                {/* 背景装饰 */}
-                                <div className="absolute -top-20 -right-20 w-40 h-40 bg-emerald-500/10 rounded-full blur-3xl" />
-                                <div className="absolute -bottom-20 -left-20 w-40 h-40 bg-teal-500/10 rounded-full blur-3xl" />
+                                {/* 装饰性背景纹理 */}
+                                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-emerald-500/10 to-transparent rounded-full blur-3xl pointer-events-none" />
                             </div>
                         </motion.div>
                     ))}
