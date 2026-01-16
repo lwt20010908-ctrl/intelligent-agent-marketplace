@@ -4,7 +4,6 @@ import React, { useState } from 'react';
       import { motion } from 'framer-motion';
       import { Sparkles, X } from 'lucide-react';
       import AgentCard from '../components/marketplace/AgentCard';
-      import CoreDataOverview from '../components/stats/CoreDataOverview';
       import { Skeleton } from "@/components/ui/skeleton";
       import { Dialog, DialogContent } from "@/components/ui/dialog";
 
@@ -36,9 +35,6 @@ export default function TalentShowcase() {
                         告别繁琐重复，让智慧涌动。在AI人才市场，找到与您业务完美契合的智能解决方案
                     </p>
                 </motion.div>
-
-                {/* Core Data Overview */}
-                <CoreDataOverview />
 
                 {/* Featured Agents */}
                 <div className="mt-12">
