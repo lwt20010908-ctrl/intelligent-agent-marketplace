@@ -123,11 +123,18 @@ export default function Layout({ children, currentPageName }) {
                     <div className="flex items-center justify-between h-20">
                         {/* Logo */}
                         <Link to={createPageUrl('Home')} className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
-                                <span className="text-white font-bold text-lg">AI</span>
+                            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center relative">
+                                {/* Neural Network Icon */}
+                                <svg className="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none">
+                                    <circle cx="12" cy="5" r="2" fill="currentColor" />
+                                    <circle cx="6" cy="12" r="2" fill="currentColor" />
+                                    <circle cx="18" cy="12" r="2" fill="currentColor" />
+                                    <circle cx="12" cy="19" r="2" fill="currentColor" />
+                                    <path d="M12 7 L6 10 M12 7 L18 10 M6 14 L12 17 M18 14 L12 17" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                                </svg>
                             </div>
-                            <span className={`text-xl font-semibold ${scrolled || !isHomePage ? 'text-gray-900' : 'text-white'}`}>
-                                智能体市场
+                            <span className={`text-xl ${scrolled || !isHomePage ? 'text-gray-900' : 'text-white'}`}>
+                                <span className="font-bold">瞬知</span> <span className="font-medium">Multiverse</span>
                             </span>
                         </Link>
 
@@ -265,9 +272,18 @@ export default function Layout({ children, currentPageName }) {
                             <div className="col-span-1 md:col-span-2">
                                 <div className="flex items-center gap-3 mb-6">
                                     <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
-                                        <span className="text-white font-bold text-lg">AI</span>
+                                        {/* Neural Network Icon */}
+                                        <svg className="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none">
+                                            <circle cx="12" cy="5" r="2" fill="currentColor" />
+                                            <circle cx="6" cy="12" r="2" fill="currentColor" />
+                                            <circle cx="18" cy="12" r="2" fill="currentColor" />
+                                            <circle cx="12" cy="19" r="2" fill="currentColor" />
+                                            <path d="M12 7 L6 10 M12 7 L18 10 M6 14 L12 17 M18 14 L12 17" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                                        </svg>
                                     </div>
-                                    <span className="text-xl font-semibold">智能体市场</span>
+                                    <span className="text-xl">
+                                        <span className="font-bold">瞬知</span> <span className="font-medium">Multiverse</span>
+                                    </span>
                                 </div>
                                 <p className="text-gray-400 max-w-sm leading-relaxed">
                                     企业级AI智能体解决方案，让每个商家都能拥有专属的智能员工
@@ -289,7 +305,7 @@ export default function Layout({ children, currentPageName }) {
                             </div>
                         </div>
                         <div className="mt-12 pt-8 border-t border-white/10 text-center text-gray-500 text-sm">
-                            © 2024 AI智能体市场. All rights reserved.
+                            © 2024 瞬知 Multiverse. All rights reserved.
                         </div>
                     </div>
                 </footer>
