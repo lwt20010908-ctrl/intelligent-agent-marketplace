@@ -273,34 +273,94 @@ function DeployAnimation() {
 
 function OptimizeAnimation() {
     return (
-        <div className="relative w-24 h-24">
-            {/* Rising bars */}
-            <div className="flex items-end justify-center gap-2 h-full">
-                {[0.4, 0.6, 0.8, 1].map((height, i) => (
-                    <motion.div
-                        key={i}
-                        initial={{ scaleY: 0.3 }}
-                        animate={{ scaleY: [0.3, height, 0.3] }}
-                        transition={{ 
-                            duration: 2,
-                            repeat: Infinity,
-                            delay: i * 0.2
-                        }}
-                        className="w-4 bg-gradient-to-t from-indigo-500 to-purple-500 rounded-t-lg origin-bottom"
-                        style={{ height: `${height * 100}%` }}
+        <div className="relative w-32 h-32">
+            {/* 3D Growth Curve Chart */}
+            <div className="relative h-full flex items-center justify-center">
+                {/* Chart base */}
+                <div className="absolute bottom-8 left-0 right-0 h-20 bg-gradient-to-t from-gray-100 to-transparent rounded-2xl" />
+                
+                {/* 3D Bars */}
+                <div className="flex items-end justify-center gap-2 h-24 relative z-10">
+                    {[0.3, 0.5, 0.7, 0.9].map((height, i) => (
+                        <motion.div
+                            key={i}
+                            initial={{ scaleY: 0 }}
+                            animate={{ scaleY: [0, height, height * 1.1, height] }}
+                            transition={{ 
+                                duration: 3,
+                                repeat: Infinity,
+                                delay: i * 0.3,
+                                ease: "easeInOut"
+                            }}
+                            className="relative origin-bottom"
+                        >
+                            {/* Front face */}
+                            <div 
+                                className="w-6 bg-gradient-to-t from-indigo-600 to-purple-500 rounded-t-lg shadow-lg"
+                                style={{ height: `${height * 80}px` }}
+                            />
+                            {/* Top face */}
+                            <div className="absolute -top-1 left-0 right-0 h-2 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full transform -skew-y-12" />
+                            {/* Side face */}
+                            <div 
+                                className="absolute top-0 -right-1 w-2 bg-gradient-to-b from-purple-700 to-indigo-800 rounded-r-lg"
+                                style={{ height: `${height * 80}px` }}
+                            />
+                        </motion.div>
+                    ))}
+                </div>
+
+                {/* Trend line */}
+                <svg className="absolute inset-0 w-full h-full" viewBox="0 0 130 130">
+                    <motion.path
+                        d="M 20 100 Q 40 80, 55 70 T 85 50 T 110 30"
+                        stroke="url(#trendGradient)"
+                        strokeWidth="3"
+                        fill="none"
+                        initial={{ pathLength: 0 }}
+                        animate={{ pathLength: 1 }}
+                        transition={{ duration: 2, repeat: Infinity, repeatDelay: 1 }}
                     />
-                ))}
+                    <defs>
+                        <linearGradient id="trendGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stopColor="#10b981" />
+                            <stop offset="100%" stopColor="#34d399" />
+                        </linearGradient>
+                    </defs>
+                </svg>
+
+                {/* Upward arrow */}
+                <motion.div
+                    initial={{ y: 10, opacity: 0, scale: 0.5 }}
+                    animate={{ 
+                        y: [-10, -15, -10],
+                        opacity: 1,
+                        scale: [0.8, 1.2, 0.8]
+                    }}
+                    transition={{ 
+                        duration: 2,
+                        repeat: Infinity,
+                        ease: "easeInOut"
+                    }}
+                    className="absolute top-2 right-4 bg-gradient-to-br from-green-400 to-emerald-500 p-2 rounded-xl shadow-lg"
+                >
+                    <TrendingUp className="w-5 h-5 text-white" />
+                </motion.div>
+
+                {/* GMV tag */}
+                <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: [0, 1, 1, 0] }}
+                    transition={{ 
+                        duration: 4,
+                        repeat: Infinity,
+                        times: [0, 0.2, 0.8, 1]
+                    }}
+                    className="absolute -top-2 left-4 bg-gradient-to-r from-yellow-400 to-orange-400 text-white text-xs font-bold px-2 py-1 rounded-full shadow-lg"
+                >
+                    GMV ↑
+                </motion.div>
             </div>
-            
-            {/* Trend arrow */}
-            <motion.div
-                initial={{ y: 10, opacity: 0 }}
-                animate={{ y: -10, opacity: [0, 1, 0] }}
-                transition={{ duration: 2, repeat: Infinity }}
-                className="absolute -top-2 right-0"
-            >
-                <TrendingUp className="w-6 h-6 text-green-500" />
-            </motion.div>
         </div>
     );
 }
