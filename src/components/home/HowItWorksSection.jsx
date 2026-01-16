@@ -60,27 +60,42 @@ export default function HowItWorksSection() {
                 {/* Steps */}
                 <div className="relative">
                     {/* Connection Lines */}
-                    <div className="hidden lg:block absolute top-1/2 left-0 right-0 h-0.5 bg-gradient-to-r from-indigo-200 via-indigo-300 to-indigo-200 -translate-y-1/2" />
+                    <div className="hidden lg:block absolute top-[140px] left-[15%] right-[15%] h-1">
+                        <div className="h-full bg-gradient-to-r from-transparent via-indigo-200 to-transparent" />
+                        <motion.div
+                            initial={{ scaleX: 0 }}
+                            whileInView={{ scaleX: 1 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 1.5, delay: 0.5 }}
+                            className="h-full bg-gradient-to-r from-indigo-400 to-purple-400 origin-left"
+                        />
+                    </div>
 
-                    <div className="grid md:grid-cols-3 gap-8 lg:gap-12 relative z-10">
+                    <div className="grid md:grid-cols-3 gap-8 lg:gap-16 relative z-10">
                         {steps.map((step, index) => (
                             <motion.div
                                 key={index}
-                                initial={{ opacity: 0, y: 30 }}
+                                initial={{ opacity: 0, y: 40 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
-                                transition={{ delay: index * 0.2 }}
-                                className="relative"
+                                transition={{ delay: index * 0.2, duration: 0.6 }}
+                                className="relative group"
                             >
                                 {/* Card */}
-                                <div className="bg-white rounded-3xl p-8 shadow-lg border border-gray-100 hover:shadow-xl transition-shadow">
-                                    {/* Step Number */}
-                                    <div className="absolute -top-4 -left-4 w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg">
-                                        <span className="text-white font-bold text-lg">{index + 1}</span>
-                                    </div>
+                                <div className="relative bg-white rounded-3xl p-10 shadow-xl border border-gray-100 hover:shadow-2xl hover:border-indigo-100 transition-all duration-500 hover:-translate-y-2">
+                                    {/* Step Number Badge */}
+                                    <motion.div
+                                        initial={{ scale: 0, rotate: -180 }}
+                                        whileInView={{ scale: 1, rotate: 0 }}
+                                        viewport={{ once: true }}
+                                        transition={{ delay: index * 0.2 + 0.3, type: "spring" }}
+                                        className="absolute -top-5 -left-5 w-14 h-14 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg shadow-indigo-500/30"
+                                    >
+                                        <span className="text-white font-bold text-2xl">{index + 1}</span>
+                                    </motion.div>
 
-                                    {/* Animation Area */}
-                                    <div className="mb-6 h-32 flex items-center justify-center">
+                                    {/* 3D Animation Area */}
+                                    <div className="mb-8 h-40 flex items-center justify-center">
                                         {step.animation === 'browse' && <BrowseAnimation />}
                                         {step.animation === 'deploy' && <DeployAnimation />}
                                         {step.animation === 'optimize' && <OptimizeAnimation />}
@@ -88,13 +103,16 @@ export default function HowItWorksSection() {
 
                                     {/* Content */}
                                     <div className="text-center">
-                                        <h3 className="text-xl font-bold text-gray-900 mb-3">
+                                        <h3 className="text-2xl font-bold text-gray-900 mb-4 group-hover:text-indigo-600 transition-colors">
                                             {step.title}
                                         </h3>
-                                        <p className="text-gray-600 leading-relaxed">
+                                        <p className="text-gray-600 leading-relaxed text-base">
                                             {step.description}
                                         </p>
                                     </div>
+
+                                    {/* Hover gradient border effect */}
+                                    <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-indigo-500/0 to-purple-500/0 group-hover:from-indigo-500/10 group-hover:to-purple-500/10 transition-all duration-500 pointer-events-none" />
                                 </div>
 
                                 {/* Arrow for desktop */}
@@ -103,10 +121,12 @@ export default function HowItWorksSection() {
                                         initial={{ opacity: 0, x: -20 }}
                                         whileInView={{ opacity: 1, x: 0 }}
                                         viewport={{ once: true }}
-                                        transition={{ delay: index * 0.2 + 0.3 }}
-                                        className="hidden lg:block absolute top-1/2 -right-6 -translate-y-1/2 z-20"
+                                        transition={{ delay: index * 0.2 + 0.5 }}
+                                        className="hidden lg:flex absolute top-[140px] -right-8 z-20 items-center justify-center"
                                     >
-                                        <ArrowRight className="w-8 h-8 text-indigo-400" />
+                                        <div className="w-6 h-6 rounded-full bg-gradient-to-r from-indigo-400 to-purple-400 flex items-center justify-center">
+                                            <ArrowRight className="w-4 h-4 text-white" />
+                                        </div>
                                     </motion.div>
                                 )}
                             </motion.div>
