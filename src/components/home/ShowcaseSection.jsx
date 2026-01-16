@@ -85,13 +85,13 @@ export default function ShowcaseSection() {
                             className="relative group"
                         >
                             {/* Glow effect */}
-                            <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/20 to-green-600/20 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-2xl" />
+                            <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/20 to-purple-500/20 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-2xl" />
                             
-                            <div className="relative bg-gradient-to-br from-gray-900 to-gray-800 rounded-3xl p-8 border border-gray-700 hover:border-emerald-500/50 transition-all duration-500 h-full overflow-hidden">
+                            <div className="relative bg-white rounded-3xl p-8 border border-gray-200 hover:border-indigo-300 transition-all duration-500 h-full overflow-hidden shadow-lg hover:shadow-xl">
                                 {/* A. 身份栏 */}
                                 <div className="flex items-start justify-between mb-8">
                                     <div>
-                                        <h3 className="text-white font-bold text-lg mb-1">
+                                        <h3 className="text-gray-900 font-bold text-lg mb-1">
                                             {agent.position}
                                         </h3>
                                     </div>
@@ -107,9 +107,9 @@ export default function ShowcaseSection() {
                                                 repeat: Infinity,
                                                 ease: "easeInOut"
                                             }}
-                                            className="w-2.5 h-2.5 rounded-full bg-emerald-400 shadow-lg shadow-emerald-400/50"
+                                            className="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-lg shadow-emerald-500/50"
                                         />
-                                        <span className="text-emerald-400 font-medium">
+                                        <span className="text-emerald-600 font-medium">
                                             运行时长: {agent.daysActive}天
                                         </span>
                                     </div>
@@ -119,8 +119,8 @@ export default function ShowcaseSection() {
                                 <div className="grid grid-cols-2 gap-6 mb-8">
                                     {/* 左侧：大数字 */}
                                     <div className="flex flex-col justify-center">
-                                        <div className="text-sm text-gray-400 mb-2">累计GMV增长</div>
-                                        <div className="text-4xl font-bold bg-gradient-to-r from-emerald-400 to-green-400 bg-clip-text text-transparent">
+                                        <div className="text-sm text-gray-500 mb-2">累计GMV增长</div>
+                                        <div className="text-4xl font-bold bg-gradient-to-r from-emerald-600 to-green-600 bg-clip-text text-transparent">
                                             + ¥{agent.revenueIncrease}
                                         </div>
                                     </div>
@@ -131,11 +131,11 @@ export default function ShowcaseSection() {
                                             {/* 面积填充 */}
                                             <defs>
                                                 <linearGradient id={`gradient-${i}`} x1="0%" y1="0%" x2="0%" y2="100%">
-                                                    <stop offset="0%" stopColor="#10b981" stopOpacity="0.3" />
+                                                    <stop offset="0%" stopColor="#10b981" stopOpacity="0.2" />
                                                     <stop offset="100%" stopColor="#10b981" stopOpacity="0.05" />
                                                 </linearGradient>
                                                 <filter id={`glow-${i}`}>
-                                                    <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                                                    <feGaussianBlur stdDeviation="1.5" result="coloredBlur"/>
                                                     <feMerge>
                                                         <feMergeNode in="coloredBlur"/>
                                                         <feMergeNode in="SourceGraphic"/>
@@ -161,7 +161,7 @@ export default function ShowcaseSection() {
                                                 transition={{ duration: 1.5, delay: i * 0.15 + 0.3 }}
                                                 d="M 0 70 Q 20 50, 40 45 T 80 25 T 120 15"
                                                 stroke="#10b981"
-                                                strokeWidth="3"
+                                                strokeWidth="2.5"
                                                 fill="none"
                                                 filter={`url(#glow-${i})`}
                                             />
@@ -170,28 +170,28 @@ export default function ShowcaseSection() {
                                 </div>
 
                                 {/* C. 对比数据网格 - 3列 */}
-                                <div className="grid grid-cols-3 gap-4 mb-6 p-5 bg-black/20 rounded-2xl border border-gray-700/50">
+                                <div className="grid grid-cols-3 gap-4 mb-6 p-5 bg-gradient-to-br from-indigo-50 to-purple-50 rounded-2xl border border-indigo-100">
                                     <div className="text-center">
-                                        <div className="text-2xl font-bold text-white mb-1">
+                                        <div className="text-2xl font-bold text-gray-900 mb-1">
                                             {agent.metrics.workHoursSaved}
                                         </div>
-                                        <div className="text-xs text-gray-400">
+                                        <div className="text-xs text-gray-600">
                                             节省人工工时
                                         </div>
                                     </div>
                                     <div className="text-center">
-                                        <div className="text-2xl font-bold text-white mb-1">
+                                        <div className="text-2xl font-bold text-gray-900 mb-1">
                                             ¥ {agent.metrics.costSaved}
                                         </div>
-                                        <div className="text-xs text-gray-400">
+                                        <div className="text-xs text-gray-600">
                                             节省运营成本
                                         </div>
                                     </div>
                                     <div className="text-center">
-                                        <div className="text-2xl font-bold text-emerald-400 mb-1">
+                                        <div className="text-2xl font-bold text-emerald-600 mb-1">
                                             {agent.metrics.efficiencyGrowth}
                                         </div>
-                                        <div className="text-xs text-gray-400">
+                                        <div className="text-xs text-gray-600">
                                             人效提升
                                         </div>
                                     </div>
@@ -202,7 +202,7 @@ export default function ShowcaseSection() {
                                     {agent.skills.map((skill, j) => (
                                         <span 
                                             key={j} 
-                                            className="px-3 py-1.5 bg-gray-800/60 backdrop-blur-sm border border-gray-600/30 text-xs text-gray-300 rounded-full"
+                                            className="px-3 py-1.5 bg-indigo-50 backdrop-blur-sm border border-indigo-200 text-xs text-indigo-700 rounded-full hover:bg-indigo-100 transition-colors"
                                         >
                                             {skill}
                                         </span>
@@ -210,7 +210,7 @@ export default function ShowcaseSection() {
                                 </div>
 
                                 {/* 装饰性背景纹理 */}
-                                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-emerald-500/10 to-transparent rounded-full blur-3xl pointer-events-none" />
+                                <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-indigo-100/50 to-transparent rounded-full blur-3xl pointer-events-none" />
                             </div>
                         </motion.div>
                     ))}
