@@ -197,31 +197,74 @@ function BrowseAnimation() {
 
 function DeployAnimation() {
     return (
-        <div className="relative w-24 h-24">
-            {/* Lightning bolt with pulse */}
-            <motion.div
-                animate={{ 
-                    scale: [1, 1.2, 1],
-                    rotate: [0, 5, -5, 0]
-                }}
-                transition={{ duration: 1.5, repeat: Infinity }}
-                className="absolute inset-0 flex items-center justify-center"
-            >
-                <Zap className="w-12 h-12 text-indigo-500 fill-indigo-500" />
-            </motion.div>
-            
-            {/* Expanding circles */}
-            {[0, 1, 2].map((i) => (
+        <div className="relative w-32 h-32">
+            {/* 3D Handshake */}
+            <div className="relative flex items-center justify-center h-full">
+                {/* Left hand */}
                 <motion.div
-                    key={i}
-                    initial={{ scale: 0.5, opacity: 0.8 }}
-                    animate={{ scale: 2, opacity: 0 }}
+                    animate={{ 
+                        x: [-20, -15, -20],
+                    }}
+                    transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                    className="relative"
+                >
+                    <div className="w-12 h-16 bg-gradient-to-br from-indigo-400 to-indigo-600 rounded-2xl shadow-xl relative overflow-hidden">
+                        <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-indigo-700/50 to-transparent" />
+                        {/* Fingers */}
+                        <div className="absolute -top-2 left-2 w-2 h-4 bg-indigo-500 rounded-full" />
+                        <div className="absolute -top-3 left-5 w-2 h-5 bg-indigo-500 rounded-full" />
+                    </div>
+                </motion.div>
+
+                {/* Right hand */}
+                <motion.div
+                    animate={{ 
+                        x: [20, 15, 20],
+                    }}
+                    transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                    className="relative"
+                >
+                    <div className="w-12 h-16 bg-gradient-to-br from-purple-400 to-purple-600 rounded-2xl shadow-xl relative overflow-hidden">
+                        <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-purple-700/50 to-transparent" />
+                        {/* Fingers */}
+                        <div className="absolute -top-2 right-2 w-2 h-4 bg-purple-500 rounded-full" />
+                        <div className="absolute -top-3 right-5 w-2 h-5 bg-purple-500 rounded-full" />
+                    </div>
+                </motion.div>
+
+                {/* Connection spark */}
+                <motion.div
+                    initial={{ scale: 0, opacity: 0 }}
+                    animate={{ 
+                        scale: [0, 1.5, 0],
+                        opacity: [0, 1, 0]
+                    }}
                     transition={{ 
                         duration: 2,
                         repeat: Infinity,
-                        delay: i * 0.4
+                        ease: "easeInOut"
                     }}
-                    className="absolute inset-0 rounded-full border-2 border-indigo-300"
+                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-gradient-to-r from-yellow-400 to-orange-400 rounded-full blur-sm"
+                />
+            </div>
+
+            {/* Success particles */}
+            {[0, 1, 2, 3].map((i) => (
+                <motion.div
+                    key={`particle-${i}`}
+                    initial={{ scale: 0, opacity: 0 }}
+                    animate={{ 
+                        scale: [0, 1, 0],
+                        opacity: [0, 1, 0],
+                        x: [0, (i - 1.5) * 30],
+                        y: [0, -30]
+                    }}
+                    transition={{ 
+                        duration: 2,
+                        repeat: Infinity,
+                        delay: i * 0.2
+                    }}
+                    className="absolute top-1/2 left-1/2 w-2 h-2 bg-green-400 rounded-full"
                 />
             ))}
         </div>
