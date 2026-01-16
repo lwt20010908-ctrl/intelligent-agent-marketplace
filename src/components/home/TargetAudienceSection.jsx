@@ -7,21 +7,21 @@ const audiences = [
         icon: Building2,
         title: '企业',
         subtitle: 'THE VISIONARIES',
-        description: '驾驭AI创新，即刻雇佣智能体，驱动业务转型，实现效率与增长的双重飞跃。',
+        description: '驾驭AI创新，即刻雇佣 AI 员工，驱动业务转型，实现效率与增长的双重飞跃。',
         gradient: 'from-blue-500 to-cyan-500'
     },
     {
         icon: Code2,
         title: '开发者',
         subtitle: 'THE CREATORS',
-        description: '您的智能体，世界的机遇。构建、部署并商业化AI，让创新直接变现，成就持续收益。',
+        description: '您的AI员工，世界的机遇。构建、培养并商业化硅基人才，让创新直接变现，成就持续收益。',
         gradient: 'from-indigo-500 to-purple-500'
     },
     {
         icon: Users,
         title: '消费者',
         subtitle: 'THE EXPLORERS',
-        description: '轻松解锁AI潜力，发现并连接专属智能体。享受便捷、高效、个性化的数字生活新体验。',
+        description: '发现并连接专属 AI 员工助手。享受便捷、高效、个性化的数字生活新体验。',
         gradient: 'from-purple-500 to-pink-500'
     }
 ];
