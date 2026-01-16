@@ -1,4 +1,3 @@
-import About from './pages/About';
 import AgentDetail from './pages/AgentDetail';
 import AgentManagement from './pages/AgentManagement';
 import CaseStudies from './pages/CaseStudies';
@@ -10,11 +9,11 @@ import MerchantWorkspace from './pages/MerchantWorkspace';
 import Resources from './pages/Resources';
 import TalentShowcase from './pages/TalentShowcase';
 import WorkspaceAgents from './pages/WorkspaceAgents';
+import About from './pages/About';
 import __Layout from './Layout.jsx';
 
 
 export const PAGES = {
-    "About": About,
     "AgentDetail": AgentDetail,
     "AgentManagement": AgentManagement,
     "CaseStudies": CaseStudies,
@@ -26,6 +25,7 @@ export const PAGES = {
     "Resources": Resources,
     "TalentShowcase": TalentShowcase,
     "WorkspaceAgents": WorkspaceAgents,
+    "About": About,
 }
 
 export const pagesConfig = {

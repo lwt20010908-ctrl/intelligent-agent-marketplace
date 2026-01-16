@@ -10,7 +10,6 @@ export default function Home() {
     return (
         <div>
             <HeroSection />
-            <FeaturesSection />
             <HowItWorksSection />
             <ShowcaseSection />
             <TargetAudienceSection />
