@@ -1,25 +1,25 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Store, Zap, TrendingUp, ArrowRight } from 'lucide-react';
+import { Search, Handshake, TrendingUp, ArrowRight } from 'lucide-react';
 
 export default function HowItWorksSection() {
     const steps = [
         {
-            icon: Store,
-            title: '浏览并选择',
-            description: '从AI人才市场挑选经过验证的智能体',
+            icon: Search,
+            title: '参观AI员工市场',
+            description: '浏览AI员工简历，查看简历详情、实战数据与员工历史战绩',
             animation: 'browse'
         },
         {
-            icon: Zap,
-            title: '快速部署',
-            description: '一键雇佣，5分钟内完成配置上线',
+            icon: Handshake,
+            title: '签约与入职',
+            description: '一键签署雇佣协议，分配工作渠道（微信/淘宝）',
             animation: 'deploy'
         },
         {
             icon: TrendingUp,
-            title: '持续优化',
-            description: 'AI自动学习优化，实时监控效果数据',
+            title: '绩效与进化',
+            description: '实时监控 GMV 产出，根据业务反馈自动迭代策略，越用越聪明',
             animation: 'optimize'
         }
     ];
@@ -34,39 +34,39 @@ export default function HowItWorksSection() {
                     viewport={{ once: true }}
                     className="text-center mb-20"
                 >
-                    <span className="text-indigo-500 font-medium mb-4 block">简单三步</span>
+                    <span className="text-indigo-500 font-semibold mb-4 block text-sm uppercase tracking-wider">简单三步</span>
                     <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
-                        产品如何工作
+                        雇佣AI员工三步重构您的业务
                     </h2>
-                    <p className="text-xl text-gray-500 max-w-2xl mx-auto">
-                        从选择到上线，只需几分钟，让AI立即为你创造价值
+                    <p className="text-xl text-gray-500 max-w-3xl mx-auto">
+                        像招聘真人一样简单，但更高效、更可控。
                     </p>
                 </motion.div>
 
                 {/* Steps */}
                 <div className="relative">
                     {/* Connection Lines */}
-                    <div className="hidden lg:block absolute top-1/2 left-0 right-0 h-0.5 bg-gradient-to-r from-indigo-200 via-indigo-300 to-indigo-200 -translate-y-1/2" />
+                    <div className="hidden lg:block absolute top-1/2 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-indigo-200 to-transparent -translate-y-1/2" />
 
-                    <div className="grid md:grid-cols-3 gap-8 lg:gap-12 relative z-10">
+                    <div className="grid md:grid-cols-3 gap-8 lg:gap-16 relative z-10">
                         {steps.map((step, index) => (
                             <motion.div
                                 key={index}
                                 initial={{ opacity: 0, y: 30 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
-                                transition={{ delay: index * 0.2 }}
-                                className="relative"
+                                transition={{ delay: index * 0.15 }}
+                                className="relative group"
                             >
                                 {/* Card */}
-                                <div className="bg-white rounded-3xl p-8 shadow-lg border border-gray-100 hover:shadow-xl transition-shadow">
+                                <div className="bg-white rounded-3xl p-10 shadow-xl border border-gray-100 hover:shadow-2xl hover:border-indigo-200 transition-all duration-500 h-full">
                                     {/* Step Number */}
-                                    <div className="absolute -top-4 -left-4 w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg">
-                                        <span className="text-white font-bold text-lg">{index + 1}</span>
+                                    <div className="absolute -top-5 -left-5 w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-xl shadow-indigo-500/30 group-hover:scale-110 transition-transform">
+                                        <span className="text-white font-bold text-xl">{index + 1}</span>
                                     </div>
 
                                     {/* Animation Area */}
-                                    <div className="mb-6 h-32 flex items-center justify-center">
+                                    <div className="mb-8 h-36 flex items-center justify-center">
                                         {step.animation === 'browse' && <BrowseAnimation />}
                                         {step.animation === 'deploy' && <DeployAnimation />}
                                         {step.animation === 'optimize' && <OptimizeAnimation />}
@@ -74,10 +74,10 @@ export default function HowItWorksSection() {
 
                                     {/* Content */}
                                     <div className="text-center">
-                                        <h3 className="text-xl font-bold text-gray-900 mb-3">
+                                        <h3 className="text-2xl font-bold text-gray-900 mb-4 group-hover:text-indigo-600 transition-colors">
                                             {step.title}
                                         </h3>
-                                        <p className="text-gray-600 leading-relaxed">
+                                        <p className="text-gray-600 leading-relaxed text-base">
                                             {step.description}
                                         </p>
                                     </div>
@@ -89,10 +89,12 @@ export default function HowItWorksSection() {
                                         initial={{ opacity: 0, x: -20 }}
                                         whileInView={{ opacity: 1, x: 0 }}
                                         viewport={{ once: true }}
-                                        transition={{ delay: index * 0.2 + 0.3 }}
-                                        className="hidden lg:block absolute top-1/2 -right-6 -translate-y-1/2 z-20"
+                                        transition={{ delay: index * 0.15 + 0.3 }}
+                                        className="hidden lg:block absolute top-1/2 -right-8 -translate-y-1/2 z-20"
                                     >
-                                        <ArrowRight className="w-8 h-8 text-indigo-400" />
+                                        <div className="bg-white rounded-full p-2 shadow-lg">
+                                            <ArrowRight className="w-6 h-6 text-indigo-500" />
+                                        </div>
                                     </motion.div>
                                 )}
                             </motion.div>
@@ -104,28 +106,46 @@ export default function HowItWorksSection() {
     );
 }
 
-// Simple animation components
+// 3D-style animation components
 function BrowseAnimation() {
     return (
-        <div className="relative w-24 h-24">
-            {/* Cards */}
-            {[0, 1, 2].map((i) => (
-                <motion.div
-                    key={i}
-                    initial={{ opacity: 0, scale: 0.8, x: 0 }}
-                    whileInView={{ opacity: 1, scale: 1, x: i * 8 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: i * 0.1, repeat: Infinity, duration: 2, repeatDelay: 1 }}
-                    className="absolute inset-0 w-16 h-20 bg-gradient-to-br from-indigo-100 to-purple-100 rounded-xl border-2 border-indigo-200"
-                    style={{ left: `${i * 4}px` }}
-                />
-            ))}
+        <div className="relative w-32 h-32">
+            {/* 3D Magnifying Glass with Resume */}
             <motion.div
-                animate={{ scale: [1, 1.1, 1] }}
-                transition={{ duration: 2, repeat: Infinity }}
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+                animate={{ 
+                    rotateY: [0, 15, -15, 0],
+                    y: [0, -5, 0]
+                }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                className="relative w-full h-full"
             >
-                <Store className="w-8 h-8 text-indigo-500" />
+                {/* Resume Card */}
+                <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="w-20 h-24 bg-gradient-to-br from-white to-indigo-50 rounded-2xl shadow-2xl border-2 border-indigo-200 transform perspective-1000 rotate-y-12">
+                        {/* Resume Lines */}
+                        <div className="p-3 space-y-2">
+                            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-400 to-purple-500 mx-auto mb-2" />
+                            {[...Array(4)].map((_, i) => (
+                                <div key={i} className="h-1 bg-indigo-200 rounded-full" style={{ width: `${80 - i * 10}%` }} />
+                            ))}
+                        </div>
+                    </div>
+                </div>
+                
+                {/* Magnifying Glass */}
+                <motion.div
+                    animate={{ 
+                        x: [0, 10, 0],
+                        y: [0, -10, 0]
+                    }}
+                    transition={{ duration: 3, repeat: Infinity }}
+                    className="absolute top-0 right-0"
+                >
+                    <Search className="w-12 h-12 text-indigo-500 drop-shadow-lg" strokeWidth={2.5} />
+                </motion.div>
+                
+                {/* Glow Effect */}
+                <div className="absolute inset-0 bg-indigo-400/10 rounded-full blur-2xl" />
             </motion.div>
         </div>
     );
@@ -133,67 +153,141 @@ function BrowseAnimation() {
 
 function DeployAnimation() {
     return (
-        <div className="relative w-24 h-24">
-            {/* Lightning bolt with pulse */}
+        <div className="relative w-32 h-32">
+            {/* 3D Handshake / Connection */}
             <motion.div
                 animate={{ 
-                    scale: [1, 1.2, 1],
-                    rotate: [0, 5, -5, 0]
+                    scale: [1, 1.05, 1],
+                    rotateZ: [0, 5, -5, 0]
                 }}
-                transition={{ duration: 1.5, repeat: Infinity }}
-                className="absolute inset-0 flex items-center justify-center"
+                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                className="relative w-full h-full flex items-center justify-center"
             >
-                <Zap className="w-12 h-12 text-indigo-500 fill-indigo-500" />
-            </motion.div>
-            
-            {/* Expanding circles */}
-            {[0, 1, 2].map((i) => (
+                {/* Left Hand */}
                 <motion.div
-                    key={i}
-                    initial={{ scale: 0.5, opacity: 0.8 }}
-                    animate={{ scale: 2, opacity: 0 }}
-                    transition={{ 
-                        duration: 2,
-                        repeat: Infinity,
-                        delay: i * 0.4
-                    }}
-                    className="absolute inset-0 rounded-full border-2 border-indigo-300"
-                />
-            ))}
+                    animate={{ x: [0, -3, 0] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                    className="absolute left-0"
+                >
+                    <div className="w-12 h-12 bg-gradient-to-br from-indigo-400 to-indigo-600 rounded-lg shadow-xl transform -rotate-12" />
+                </motion.div>
+                
+                {/* Right Hand */}
+                <motion.div
+                    animate={{ x: [0, 3, 0] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                    className="absolute right-0"
+                >
+                    <div className="w-12 h-12 bg-gradient-to-br from-purple-400 to-purple-600 rounded-lg shadow-xl transform rotate-12" />
+                </motion.div>
+                
+                {/* Center Handshake Icon */}
+                <div className="relative z-10">
+                    <Handshake className="w-16 h-16 text-white drop-shadow-2xl" strokeWidth={1.5} />
+                </div>
+                
+                {/* Connection Particles */}
+                {[...Array(3)].map((_, i) => (
+                    <motion.div
+                        key={i}
+                        animate={{ 
+                            scale: [0, 1.5, 0],
+                            opacity: [0, 0.6, 0]
+                        }}
+                        transition={{ 
+                            duration: 2,
+                            repeat: Infinity,
+                            delay: i * 0.6
+                        }}
+                        className="absolute inset-0 rounded-full border-2 border-indigo-300"
+                    />
+                ))}
+                
+                {/* Glow */}
+                <div className="absolute inset-0 bg-gradient-to-r from-indigo-400/20 to-purple-400/20 rounded-full blur-2xl" />
+            </motion.div>
         </div>
     );
 }
 
 function OptimizeAnimation() {
     return (
-        <div className="relative w-24 h-24">
-            {/* Rising bars */}
-            <div className="flex items-end justify-center gap-2 h-full">
-                {[0.4, 0.6, 0.8, 1].map((height, i) => (
-                    <motion.div
-                        key={i}
-                        initial={{ scaleY: 0.3 }}
-                        animate={{ scaleY: [0.3, height, 0.3] }}
+        <div className="relative w-32 h-32">
+            {/* 3D Growth Curve Chart */}
+            <div className="relative w-full h-full">
+                {/* Chart Background */}
+                <div className="absolute inset-0 bg-gradient-to-br from-indigo-50 to-purple-50 rounded-2xl shadow-inner" />
+                
+                {/* Grid Lines */}
+                <svg className="absolute inset-0 w-full h-full opacity-20" viewBox="0 0 100 100">
+                    <line x1="20" y1="20" x2="20" y2="80" stroke="#6366f1" strokeWidth="0.5" />
+                    <line x1="20" y1="80" x2="80" y2="80" stroke="#6366f1" strokeWidth="0.5" />
+                </svg>
+                
+                {/* Rising Curve */}
+                <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100">
+                    <motion.path
+                        d="M 20 80 Q 30 70, 40 60 T 60 40 T 80 20"
+                        stroke="url(#growthGradient)"
+                        strokeWidth="3"
+                        fill="none"
+                        strokeLinecap="round"
+                        initial={{ pathLength: 0 }}
+                        animate={{ pathLength: 1 }}
                         transition={{ 
                             duration: 2,
                             repeat: Infinity,
-                            delay: i * 0.2
+                            repeatDelay: 0.5,
+                            ease: "easeInOut"
                         }}
-                        className="w-4 bg-gradient-to-t from-indigo-500 to-purple-500 rounded-t-lg origin-bottom"
-                        style={{ height: `${height * 100}%` }}
+                    />
+                    <defs>
+                        <linearGradient id="growthGradient" x1="0%" y1="100%" x2="100%" y2="0%">
+                            <stop offset="0%" stopColor="#6366f1" />
+                            <stop offset="50%" stopColor="#8b5cf6" />
+                            <stop offset="100%" stopColor="#10b981" />
+                        </linearGradient>
+                    </defs>
+                </svg>
+                
+                {/* Data Points */}
+                {[30, 50, 70].map((x, i) => (
+                    <motion.div
+                        key={i}
+                        animate={{ 
+                            scale: [0, 1.2, 1],
+                            opacity: [0, 1, 1]
+                        }}
+                        transition={{ 
+                            duration: 0.5,
+                            delay: i * 0.4,
+                            repeat: Infinity,
+                            repeatDelay: 2
+                        }}
+                        className="absolute w-3 h-3 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full shadow-lg"
+                        style={{ 
+                            left: `${x}%`, 
+                            top: `${80 - (i + 1) * 20}%`,
+                            transform: 'translate(-50%, -50%)'
+                        }}
                     />
                 ))}
+                
+                {/* Trending Up Arrow */}
+                <motion.div
+                    animate={{ 
+                        y: [0, -3, 0],
+                        opacity: [0.7, 1, 0.7]
+                    }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                    className="absolute top-2 right-2"
+                >
+                    <TrendingUp className="w-8 h-8 text-green-500 drop-shadow-lg" strokeWidth={2.5} />
+                </motion.div>
+                
+                {/* Glow Effect */}
+                <div className="absolute inset-0 bg-gradient-to-tr from-green-400/20 via-indigo-400/20 to-purple-400/20 rounded-2xl blur-xl" />
             </div>
-            
-            {/* Trend arrow */}
-            <motion.div
-                initial={{ y: 10, opacity: 0 }}
-                animate={{ y: -10, opacity: [0, 1, 0] }}
-                transition={{ duration: 2, repeat: Infinity }}
-                className="absolute -top-2 right-0"
-            >
-                <TrendingUp className="w-6 h-6 text-green-500" />
-            </motion.div>
         </div>
     );
 }
