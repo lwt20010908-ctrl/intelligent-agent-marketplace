@@ -285,9 +285,10 @@ export default function Layout({ children, currentPageName }) {
                                         <span className="font-bold">瞬知</span> <span className="font-medium">Multiverse</span>
                                     </span>
                                 </div>
-                                <p className="text-gray-400 max-w-sm leading-relaxed">
-                                    企业级AI智能体解决方案，让每个商家都能拥有专属的智能员工
-                                </p>
+                                <div className="text-gray-400 max-w-md leading-loose font-light">
+                                    <p className="mb-2">链接商业现实与硅基智慧的多元宇宙。</p>
+                                    <p>让数字员工成为驱动企业增长的无限生产力。</p>
+                                </div>
                             </div>
                             <div>
                                 <h4 className="font-semibold mb-4">产品</h4>
