@@ -2,13 +2,15 @@ import React, { useState } from 'react';
       import { useQuery } from '@tanstack/react-query';
       import { base44 } from '@/api/base44Client';
       import { motion } from 'framer-motion';
-      import { Sparkles, X } from 'lucide-react';
+      import { Sparkles, X, Search } from 'lucide-react';
       import AgentCard from '../components/marketplace/AgentCard';
       import { Skeleton } from "@/components/ui/skeleton";
       import { Dialog, DialogContent } from "@/components/ui/dialog";
+      import { Input } from "@/components/ui/input";
 
 export default function TalentShowcase() {
           const [selectedAgent, setSelectedAgent] = useState(null);
+          const [searchQuery, setSearchQuery] = useState('');
 
           const { data: agents = [], isLoading } = useQuery({
               queryKey: ['showcase-agents'],
@@ -16,89 +18,103 @@ export default function TalentShowcase() {
           });
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 pt-28 pb-20">
+        <div className="min-h-screen bg-white pt-28 pb-20">
             <div className="max-w-7xl mx-auto px-6 lg:px-8">
                 {/* Hero Section */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="text-center mb-16"
+                    className="text-center mb-12"
                 >
                     <div className="flex items-center justify-center gap-2 mb-6">
-                        <Sparkles className="w-6 h-6 text-indigo-500" />
-                        <span className="text-indigo-600 font-semibold text-sm tracking-wide uppercase">优秀AI员工</span>
+                        <Sparkles className="w-5 h-5 text-indigo-500" />
+                        <span className="text-indigo-600 font-medium text-sm">你需要AI员工</span>
                     </div>
-                    <h1 className="text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+                    <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4 leading-tight">
                         发现您的专属AI员工
                     </h1>
-                    <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-                        告别繁琐重复，让智慧涌动。在AI人才市场，找到与您业务完美契合的智能解决方案
+                    <p className="text-base text-gray-500 max-w-3xl mx-auto mb-8">
+                        云端即训即用，让每场景动、忧AI人才用形，找到与您业务完美契合的智能体大方案
                     </p>
+
+                    {/* Search Box */}
+                    <div className="max-w-xl mx-auto mb-12">
+                        <div className="relative">
+                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                            <Input
+                                type="text"
+                                placeholder="市场行情索"
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                                className="pl-12 h-14 text-base border-2 border-gray-200 rounded-xl focus:border-indigo-500"
+                            />
+                        </div>
+                    </div>
                 </motion.div>
 
                 {/* Featured Agents */}
-                <div className="mt-12">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.3 }}
-                        className="mb-8"
-                    >
-                        <h2 className="text-3xl font-bold text-gray-900 mb-2">精选AI员工</h2>
-                        <p className="text-gray-600">经过严格筛选，表现优异的智能体团队</p>
-                    </motion.div>
+                <div className="mt-8">
 
                     {isLoading ? (
-                        <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
-                            {[...Array(6)].map((_, i) => (
-                                <div key={i} className="bg-white rounded-3xl p-6 border border-gray-100">
-                                    <Skeleton className="w-14 h-14 rounded-2xl mb-4" />
-                                    <Skeleton className="h-6 w-3/4 mb-2" />
-                                    <Skeleton className="h-4 w-1/2 mb-4" />
-                                    <Skeleton className="h-16 w-full mb-4" />
-                                    <Skeleton className="h-10 w-full" />
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {[...Array(12)].map((_, i) => (
+                                <div key={i} className="border border-gray-200 rounded-2xl p-6 bg-white">
+                                    <Skeleton className="w-16 h-16 rounded-full mb-4" />
+                                    <Skeleton className="h-5 w-2/3 mb-2" />
+                                    <Skeleton className="h-4 w-1/2 mb-3" />
+                                    <Skeleton className="h-4 w-full mb-2" />
+                                    <Skeleton className="h-20 w-full" />
                                 </div>
                             ))}
                         </div>
                     ) : agents.length > 0 ? (
-                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 auto-rows-max">
-                            {/* Left: First agent - large card */}
-                            <motion.div
-                                key={agents[0]?.id}
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.4 }}
-                                className="lg:row-span-2"
-                            >
-                                <div className="h-full">
-                                    <AgentCard 
-                                        agent={agents[0]} 
-                                        hidePrice={true}
-                                        onWatchDemo={setSelectedAgent}
-                                    />
-                                </div>
-                            </motion.div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {agents.map((agent, i) => (
+                                <motion.div
+                                    key={agent.id}
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: i * 0.03 }}
+                                    className="border border-gray-200 rounded-2xl p-6 bg-white hover:border-indigo-300 hover:shadow-lg transition-all duration-300"
+                                >
+                                    {/* Avatar */}
+                                    <div className="w-16 h-16 rounded-full bg-black mb-4 overflow-hidden flex items-center justify-center">
+                                        {agent.avatar ? (
+                                            <img src={agent.avatar} alt={agent.name} className="w-full h-full object-cover" />
+                                        ) : (
+                                            <span className="text-white text-2xl">👤</span>
+                                        )}
+                                    </div>
 
-                            {/* Right: Remaining agents in 2x2 grid */}
-                            <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
-                                {agents.slice(1).map((agent, i) => (
-                                    <motion.div
-                                        key={agent.id}
-                                        initial={{ opacity: 0, y: 20 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        transition={{ delay: 0.4 + (i + 1) * 0.05 }}
-                                    >
-                                        <AgentCard 
-                                            agent={agent} 
-                                            hidePrice={true}
-                                            onWatchDemo={setSelectedAgent}
-                                        />
-                                    </motion.div>
-                                ))}
-                            </div>
+                                    {/* Name and Category */}
+                                    <h3 className="text-lg font-bold text-gray-900 mb-1">姓名：{agent.name}</h3>
+                                    <p className="text-sm text-gray-600 mb-2">
+                                        职能：{agent.function || agent.category}
+                                    </p>
+                                    <p className="text-sm text-gray-600 mb-3">
+                                        岗位：年薪 ¥{agent.price_monthly || 25}Mpgu/ai每月
+                                    </p>
+
+                                    {/* Description */}
+                                    <p className="text-sm text-gray-700 mb-4 leading-relaxed">
+                                        简介：防范DP ¥{agent.price_monthly || 25}Mpgu/ai每月提供最佳工作任务
+                                    </p>
+
+                                    {/* Core Abilities */}
+                                    <div className="space-y-1">
+                                        <p className="text-xs text-gray-500 mb-2">核心能力：</p>
+                                        {(agent.skills || agent.capabilities || ['客户沟通', '数据分析', '方案优化', '智能推荐', '实时监控', '自动化流程']).slice(0, 6).map((skill, idx) => (
+                                            <div key={idx} className="flex items-center text-xs text-gray-700">
+                                                <span className="mr-2">•</span>
+                                                <span>{skill}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </motion.div>
+                            ))}
                         </div>
                     ) : (
-                        <div className="text-center py-20 bg-white rounded-2xl">
+                        <div className="text-center py-20">
                             <p className="text-gray-500">暂无精选AI员工</p>
                         </div>
                     )}
@@ -109,18 +125,12 @@ export default function TalentShowcase() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.6 }}
-                    className="mt-16 text-center bg-gradient-to-br from-indigo-500 to-purple-600 rounded-3xl p-12 text-white"
+                    className="mt-16 text-center"
                 >
-                    <h2 className="text-3xl font-bold mb-4">准备好雇佣您的AI员工了吗？</h2>
-                    <p className="text-indigo-100 mb-8 text-lg">
-                        立即开始，让AI智能体为您的业务赋能
-                    </p>
-                    <a
-                        href="/Marketplace"
-                        className="inline-block px-8 py-4 bg-white text-indigo-600 font-semibold rounded-full hover:shadow-2xl hover:scale-105 transition-all duration-300"
-                    >
-                        浏览全部AI人才
-                    </a>
+                    <div className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-full font-semibold shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 cursor-pointer">
+                        <span className="text-xl">🔥</span>
+                        <span>登录，浏览全部 500+ 位AI员工</span>
+                    </div>
                 </motion.div>
                 </div>
 
