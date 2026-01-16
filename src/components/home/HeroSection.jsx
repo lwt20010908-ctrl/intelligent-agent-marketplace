@@ -44,22 +44,24 @@ export default function HeroSection() {
                             initial={{ opacity: 0, scale: 0.9 }}
                             animate={{ opacity: 1, scale: 1 }}
                             transition={{ delay: 0.2 }}
-                            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 mb-8"
+                            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-indigo-500/20 to-purple-500/20 border border-indigo-400/30 backdrop-blur-xl mb-8 shadow-lg shadow-indigo-500/10"
                         >
-                            <Sparkles className="w-4 h-4 text-indigo-400" />
-                            <span className="text-sm text-gray-300">新一代企业智能化解决方案</span>
+                            <Sparkles className="w-4 h-4 text-indigo-300" />
+                            <span className="text-sm font-medium bg-gradient-to-r from-indigo-200 to-purple-200 bg-clip-text text-transparent">全球首个硅基劳动力交易所</span>
                         </motion.div>
 
-                        <div className="space-y-6 mb-12">
-                            <h1 className="text-6xl lg:text-8xl font-bold leading-tight">
-                                <span className="block text-white mb-3">构建智能体</span>
-                                <span className="block bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
-                                    经济新生态
+                        <div className="space-y-8 mb-12">
+                            <h1 className="text-5xl lg:text-7xl font-bold leading-tight">
+                                <span className="block bg-gradient-to-r from-white via-indigo-100 to-purple-100 bg-clip-text text-transparent mb-4">
+                                    瞬知 Multiverse
+                                </span>
+                                <span className="block text-3xl lg:text-5xl bg-gradient-to-r from-indigo-300 via-purple-300 to-pink-300 bg-clip-text text-transparent font-semibold">
+                                    让AI员工交付确定的商业增长
                                 </span>
                             </h1>
                             
-                            <p className="text-xl lg:text-2xl text-indigo-200/80 leading-relaxed max-w-2xl">
-                                让数字员工交付确定的商业增长
+                            <p className="text-lg lg:text-xl text-indigo-100/70 leading-relaxed max-w-2xl font-light">
+                                您可以像管理资产一样管理 AI，每一分算力投入都有清晰的回报
                             </p>
                         </div>
 
